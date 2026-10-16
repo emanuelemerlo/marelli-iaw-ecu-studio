@@ -156,6 +156,22 @@ public static class DefinitionLoader
                 if (error is not null)
                     yield return Issue($"{where}: {error}");
             }
+            if (p.Display is { } display)
+            {
+                if (!DisplaySpec.Groups.Contains(display.Group))
+                    yield return Issue($"{where}: unknown display group '{display.Group}'");
+                if (!DisplaySpec.Widgets.Contains(display.Widget))
+                    yield return Issue($"{where}: unknown display widget '{display.Widget}'");
+                if (display.Widget is DisplaySpec.WidgetGauge or DisplaySpec.WidgetBar && display.Min >= display.Max)
+                    yield return Issue($"{where}: display min must be lower than max");
+                if (display.Widget == DisplaySpec.WidgetLed && p.Decode.Raw != "bit")
+                    yield return Issue($"{where}: led needs a bit parameter");
+                if (display.Led is not ("good" or "warning" or "info"))
+                    yield return Issue($"{where}: led colour must be good, warning or info");
+                foreach (var z in display.Zones)
+                    if (z.From >= z.To || z.Level is not ("cold" or "warning" or "danger"))
+                        yield return Issue($"{where}: invalid display zone {z.From}..{z.To} '{z.Level}'");
+            }
             if (p.Format is not null)
             {
                 string? error = null;

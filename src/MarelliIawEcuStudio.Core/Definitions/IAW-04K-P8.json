@@ -8,6 +8,51 @@
   "protocol": {
     "identification": "p8"
   },
+  "family": {
+    "technology": {
+      "en": "High-performance ECU for the turbocharged and multi-valve engines of 1990s sports cars",
+      "it": "Centralina ad alte prestazioni per i motori turbo e plurivalvole delle sportive anni '90"
+    },
+    "period": "1989–1996",
+    "compatibility": [
+      {
+        "brand": "Lancia",
+        "model": "Delta HF Integrale",
+        "engines": "16V, Evoluzione I/II (2.0 Turbo 16V)"
+      },
+      {
+        "brand": "Alfa Romeo",
+        "model": "155 Q4",
+        "engines": "2.0 Turbo 16V 4WD"
+      },
+      {
+        "brand": "Fiat",
+        "model": "Coupé",
+        "engines": "2.0 Turbo 16V"
+      },
+      {
+        "brand": "Ducati",
+        "model": "888 (SP/SPS/Strada, from 1993), 916 (Strada/SP/SPS), 996 SPS",
+        "engines": "P8/IAW module"
+      },
+      {
+        "brand": "Moto Guzzi",
+        "model": "Daytona 1000, California i.e. (early series)",
+        "engines": "P8/IAW module"
+      }
+    ],
+    "notes": {
+      "en": "Motorcycles use the same module family with their own software and connector; not tested with this program.",
+      "it": "Le moto usano la stessa famiglia di moduli con software e connettore propri; non provate con questo programma."
+    },
+    "compatibilityVerified": false
+  },
+  "aliases": [
+    {
+      "name": "IAW 4WF.P8",
+      "note": "Fiat Coupé 2.0 Turbo 16V (software P8)"
+    }
+  ],
   "detection": {
     "autoDetect": true,
     "order": 50,
@@ -399,6 +444,24 @@
       "decode": {
         "raw": "u16",
         "expr": "x == 0 || x == 65535 ? 0 : 30000000 / x"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "gauge",
+        "min": 0,
+        "max": 7000,
+        "zones": [
+          {
+            "from": 6000,
+            "to": 6500,
+            "level": "warning"
+          },
+          {
+            "from": 6500,
+            "to": 7000,
+            "level": "danger"
+          }
+        ]
       }
     },
     {
@@ -413,6 +476,12 @@
       "decode": {
         "raw": "u16",
         "expr": "x / 250"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "bar",
+        "min": 0,
+        "max": 20
       }
     },
     {
@@ -426,6 +495,12 @@
       "decode": {
         "raw": "u8",
         "expr": "x / 4"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "bar",
+        "min": -10,
+        "max": 50
       }
     },
     {
@@ -439,6 +514,12 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 3.8340 + 121.32"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "gauge",
+        "min": 0,
+        "max": 1100
       }
     },
     {
@@ -452,6 +533,24 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 8.5539 + 60.83"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "gauge",
+        "min": 0,
+        "max": 2600,
+        "zones": [
+          {
+            "from": 2100,
+            "to": 2350,
+            "level": "warning"
+          },
+          {
+            "from": 2350,
+            "to": 2600,
+            "level": "danger"
+          }
+        ]
       }
     },
     {
@@ -465,6 +564,19 @@
       "decode": {
         "raw": "u8",
         "table": "temperature"
+      },
+      "display": {
+        "group": "temperatures",
+        "widget": "bar",
+        "min": -20,
+        "max": 80,
+        "zones": [
+          {
+            "from": 60,
+            "to": 80,
+            "level": "warning"
+          }
+        ]
       }
     },
     {
@@ -478,6 +590,29 @@
       "decode": {
         "raw": "u8",
         "table": "temperature"
+      },
+      "display": {
+        "group": "temperatures",
+        "widget": "gauge",
+        "min": 40,
+        "max": 130,
+        "zones": [
+          {
+            "from": 40,
+            "to": 60,
+            "level": "cold"
+          },
+          {
+            "from": 105,
+            "to": 115,
+            "level": "warning"
+          },
+          {
+            "from": 115,
+            "to": 130,
+            "level": "danger"
+          }
+        ]
       }
     },
     {
@@ -491,6 +626,12 @@
       "decode": {
         "raw": "u8",
         "expr": "x < 171 ? x * 0.1848 - 1.41 : x * 0.7058 - 90"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "bar",
+        "min": 0,
+        "max": 90
       }
     },
     {
@@ -504,6 +645,34 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 0.0628"
+      },
+      "display": {
+        "group": "electrical",
+        "widget": "gauge",
+        "min": 8,
+        "max": 16,
+        "zones": [
+          {
+            "from": 8,
+            "to": 10.5,
+            "level": "danger"
+          },
+          {
+            "from": 10.5,
+            "to": 11.8,
+            "level": "warning"
+          },
+          {
+            "from": 14.8,
+            "to": 15.5,
+            "level": "warning"
+          },
+          {
+            "from": 15.5,
+            "to": 16,
+            "level": "danger"
+          }
+        ]
       }
     },
     {
@@ -517,6 +686,13 @@
       "decode": {
         "raw": "u8",
         "expr": "x - 128"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "bar",
+        "min": -128,
+        "max": 127,
+        "center": 0
       }
     },
     {
@@ -530,6 +706,13 @@
       "decode": {
         "raw": "u8",
         "expr": "x - 128"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "bar",
+        "min": -128,
+        "max": 127,
+        "center": 0
       }
     },
     {
@@ -543,6 +726,10 @@
       "decode": {
         "raw": "u8",
         "expr": "720 - x * 90 / 4"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "value"
       }
     },
     {
@@ -556,6 +743,12 @@
       "decode": {
         "raw": "u8",
         "expr": "idiv(x * 100, 255)"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "bar",
+        "min": 0,
+        "max": 100
       }
     },
     {
@@ -569,6 +762,13 @@
       "decode": {
         "raw": "u16",
         "expr": "x / 8000"
+      },
+      "display": {
+        "group": "mixture",
+        "widget": "bar",
+        "min": 0.75,
+        "max": 1.25,
+        "center": 1.0
       }
     },
     {
@@ -581,6 +781,11 @@
       "decode": {
         "raw": "bit",
         "bit": 6
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "good"
       }
     },
     {
@@ -593,6 +798,11 @@
       "decode": {
         "raw": "bit",
         "bit": 6
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -605,6 +815,11 @@
       "decode": {
         "raw": "bit",
         "bit": 6
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -617,6 +832,11 @@
       "decode": {
         "raw": "bit",
         "bit": 5
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -629,6 +849,11 @@
       "decode": {
         "raw": "bit",
         "bit": 5
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -641,6 +866,11 @@
       "decode": {
         "raw": "bit",
         "bit": 1
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "warning"
       }
     },
     {
@@ -653,6 +883,11 @@
       "decode": {
         "raw": "bit",
         "bit": 2
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "good"
       }
     },
     {
@@ -665,6 +900,11 @@
       "decode": {
         "raw": "bit",
         "bit": 3
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -677,6 +917,11 @@
       "decode": {
         "raw": "bit",
         "bit": 4
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -689,6 +934,11 @@
       "decode": {
         "raw": "bit",
         "bit": 5
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -701,6 +951,11 @@
       "decode": {
         "raw": "bit",
         "bit": 6
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -713,6 +968,11 @@
       "decode": {
         "raw": "bit",
         "bit": 7
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     }
   ],

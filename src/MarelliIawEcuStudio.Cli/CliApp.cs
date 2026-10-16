@@ -37,7 +37,7 @@ internal sealed class CliApp(TextWriter output, TextReader input)
         Connection:
           --port <name>                Serial port, e.g. COM3, /dev/ttyUSB0
           --simulate [ecu]             Use the built-in simulator instead of a cable
-          --ecu <id|auto>              ECU family (default: auto)
+          --ecu <id|code|auto>         ECU family or label code, e.g. IAW-04K.P8 or 4WF.P8 (default: auto)
           --compat                     Slower timing for unreliable adapters (IES2 compatibility mode)
           --no-echo                    Adapter does not echo sent bytes
           --no-broadcast               Do not wait 10 s for the ISO code broadcast at key-on
@@ -115,6 +115,14 @@ internal sealed class CliApp(TextWriter output, TextReader input)
         foreach (var d in registry.All.OrderBy(d => d.Id, StringComparer.Ordinal))
         {
             output.WriteLine($"{d.Id,-14} {d.LongName}  [{d.Parameters.Count} parameters, {d.Errors.Engine.Items.Count} errors, {d.ActiveTests.Count} tests]{(d.Verified ? "" : "  UNVERIFIED")}");
+            foreach (var alias in d.Aliases)
+                output.WriteLine($"    also known as {alias.Name}{(alias.Note is null ? "" : " — " + alias.Note)}");
+            if (d.Family is { } family)
+            {
+                output.WriteLine($"    {family.Technology?.Get()} ({family.Period})");
+                foreach (var c in family.Compatibility)
+                    output.WriteLine($"    ~ {c.Brand} {c.Model}{(c.Engines is null ? "" : " — " + c.Engines)}");
+            }
             foreach (var v in d.Vehicles.Take(50))
                 output.WriteLine($"    {v.Iso}  {v.Model}");
         }

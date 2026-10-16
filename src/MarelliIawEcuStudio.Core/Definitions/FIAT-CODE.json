@@ -8,6 +8,28 @@
   "protocol": {
     "identification": "standard"
   },
+  "family": {
+    "technology": {
+      "en": "Immobiliser: does not control the injection; it talks to the transponder in the key to enable starting",
+      "it": "Immobilizzatore: non controlla l'iniezione; dialoga con il transponder della chiave per consentire l'avviamento"
+    },
+    "period": "1995–",
+    "compatibility": [
+      {
+        "brand": "Fiat",
+        "model": "Punto, Bravo, Marea, Barchetta, Coupé"
+      },
+      {
+        "brand": "Alfa Romeo",
+        "model": "145, 146, 155, 156"
+      },
+      {
+        "brand": "Lancia",
+        "model": "Y, K, Delta II"
+      }
+    ],
+    "compatibilityVerified": false
+  },
   "detection": {
     "autoDetect": false
   },
@@ -196,6 +218,10 @@
       ],
       "decode": {
         "raw": "u8"
+      },
+      "display": {
+        "group": "other",
+        "widget": "value"
       }
     }
   ],

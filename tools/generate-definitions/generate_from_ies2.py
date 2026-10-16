@@ -46,6 +46,159 @@ ERROR_SCHEMES = {
 MULTILINE_DECODERS = {"PERIODE"}
 
 
+# ---------------------------------------------------------------------------
+# Dashboard layout. Not in IES2: chosen for this project. Ranges are the
+# usual instrument scales for these engines; zones mark unusual values.
+# ---------------------------------------------------------------------------
+
+def zone(a, b, level):
+    return {"from": a, "to": b, "level": level}
+
+
+DISPLAY = {
+    "PERIODE": {"group": "engine", "widget": "gauge", "min": 0, "max": 7000,
+                "zones": [zone(6000, 6500, "warning"), zone(6500, 7000, "danger")]},
+    "MP2_MP8": {"group": "engine", "widget": "gauge", "min": 0, "max": 1100},
+    "MP2_MP8t": {"group": "engine", "widget": "gauge", "min": 0, "max": 2600,
+                 "zones": [zone(2100, 2350, "warning"), zone(2350, 2600, "danger")]},
+    "T_INJ_AP": {"group": "engine", "widget": "bar", "min": 0, "max": 20},
+    "AVANCE": {"group": "engine", "widget": "bar", "min": -10, "max": 50},
+    "INJ_AVA": {"group": "engine", "widget": "value"},
+    "MT_EAU_L": {"group": "temperatures", "widget": "gauge", "min": 40, "max": 130,
+                 "zones": [zone(40, 60, "cold"), zone(105, 115, "warning"), zone(115, 130, "danger")]},
+    "MT_AIR_L": {"group": "temperatures", "widget": "bar", "min": -20, "max": 80,
+                 "zones": [zone(60, 80, "warning")]},
+    "M_VBATT": {"group": "electrical", "widget": "gauge", "min": 8, "max": 16,
+                "zones": [zone(8, 10.5, "danger"), zone(10.5, 11.8, "warning"), zone(14.8, 15.5, "warning"), zone(15.5, 16, "danger")]},
+    "K_O2_RAW": {"group": "mixture", "widget": "bar", "min": 0, "max": 1000},
+    "K_O2": {"group": "mixture", "widget": "bar", "min": 0.75, "max": 1.25, "center": 1.0},
+    "ANG_PAP0": {"group": "idle", "widget": "bar", "min": 0, "max": 90},
+    "T_VAE": {"group": "idle", "widget": "bar", "min": 0, "max": 100},
+    "CONS_REG": {"group": "idle", "widget": "value"},
+    "OFNNTR": {"group": "idle", "widget": "value"},
+    "INTEGR": {"group": "idle", "widget": "value"},
+    "PROP": {"group": "idle", "widget": "value"},
+    "DELREG": {"group": "idle", "widget": "value"},
+    "ALFAFTR": {"group": "idle", "widget": "value"},
+    "TRIMRAM": {"group": "adaptation", "widget": "bar", "min": -128, "max": 127, "center": 0},
+    "CRDVAS": {"group": "other", "widget": "value"},
+}
+for _id in ["ALFAU", "ALFAUC", "ADOFFSET", "ADOFFPURG", "ADOFFPL", "ADGAIN"]:
+    DISPLAY[_id] = {"group": "adaptation", "widget": "value"}
+for _id in ["OFFSET1", "OFFSET2", "OFFSET3", "OFFSET4", "OFFSET5", "OFFSET6", "OFFSETm"]:
+    DISPLAY[_id] = {"group": "adaptation", "widget": "bar", "min": -2, "max": 2, "center": 0}
+
+# LED colour when the flag is on.
+LED_WARNING = {"StaAdvDecr"}
+LED_INFO = {"StaThrMM", "StaAirCoON", "StaGearEng", "StaABSON", "StaVAESC",
+            "FABEPAT", "FABEEAT", "FABEPATi", "FABEEATi"}
+
+
+def display_for(name, p):
+    if p["decode"]["raw"] == "bit":
+        key = p.get("nameKey", "")
+        led = "warning" if key in LED_WARNING else "info" if key in LED_INFO else "good"
+        return {"group": "status", "widget": "led", "led": led}
+    d = dict(DISPLAY.get(p["id"], {"group": "other", "widget": "value"}))
+    # Idle stepper position: raw 0..255, but IAW-04K reports it as -128..127.
+    if p["id"] == "ALFAR":
+        signed = p["decode"].get("expr") == "x - 128"
+        d = {"group": "idle", "widget": "bar", "min": -128 if signed else 0, "max": 127 if signed else 255}
+        if signed:
+            d["center"] = 0
+    return d
+
+
+# ---------------------------------------------------------------------------
+# Family information supplied by the project owner (October 2026). Not
+# checked against real units yet: shown as an indicative list.
+# ---------------------------------------------------------------------------
+
+# Other names of units that work with a definition, so users find their ECU
+# by the code on its label. Supplied by the project owner (October 2026).
+ALIASES = {
+    "iaw04k": [
+        {"name": "IAW 4WF.P8", "note": "Fiat Coupé 2.0 Turbo 16V (software P8)"},
+    ],
+}
+
+
+def car(brand, model, engines=None):
+    return {"brand": brand, "model": model, **({"engines": engines} if engines else {})}
+
+
+FAMILY = {
+    "iaw18fd": {
+        "technology": {"en": "Multipoint electronic injection (MPI) with static ignition",
+                       "it": "Iniezione elettronica multipoint (MPI) con accensione statica"},
+        "period": "1995–2001",
+        "compatibility": [
+            car("Fiat", "Punto 60 / 75 (Mk1)", "1.2 8V Fire (1242 cc)"),
+            car("Fiat", "Palio / Palio Weekend", "1.2 8V, 1.5 8V SPI/MPI"),
+            car("Fiat", "Uno / Fiorino", "1.5 MPI (Latin American and European markets, late 1990s)"),
+            car("Fiat", "Siena / Strada", "1.2 8V Fire"),
+        ],
+    },
+    "iaw18f": {
+        "technology": {"en": "Sequential phased multipoint injection (MPI), common on Fire and boxer engines",
+                       "it": "Iniezione multipoint (MPI) sequenziale fasata, comune sui motori Fire e boxer"},
+        "period": "1993–1999",
+        "compatibility": [
+            car("Fiat", "Punto 75 / 90 / Cabrio (Mk1)", "1.2 8V, 1.6 8V"),
+            car("Fiat", "Bravo / Brava / Marea", "1.6 16V (early versions), 1.4 12V"),
+            car("Lancia", "Y (Mk1)", "1.2 8V (LX / Elefantino Rosso), 1.4 12V"),
+            car("Lancia", "Dedra / Delta II", "1.6 8V, 1.6 16V"),
+            car("Alfa Romeo", "145 / 146", "1.3 8V Boxer"),
+        ],
+    },
+    "iaw8f_68": {
+        "technology": {"en": "Multipoint injection calibrated for the Alfa Romeo boxer engines",
+                       "it": "Iniezione multipoint tarata per i motori boxer Alfa Romeo"},
+        "period": "1992–1995",
+        "compatibility": [
+            car("Alfa Romeo", "33 (3rd series / Nuova 33)", "Boxer 1.3 ie, 1.5 ie, 1.7 ie 8V"),
+        ],
+    },
+    "iaw16f": {
+        "technology": {"en": "Single-point injection (one injector on the throttle body) for small engines",
+                       "it": "Iniezione single-point (monoiniettore sul corpo farfallato) per motori di piccola cilindrata"},
+        "period": "1993–2000",
+        "compatibility": [
+            car("Fiat", "Cinquecento", "900 ie, 1.1 Sporting"),
+            car("Fiat", "Seicento", "900 ie, 1.1 Sporting (until Euro 3, 2000)"),
+            car("Fiat", "Panda (141)", "900 ie, 1100 Fire 4x4 / Trekking"),
+            car("Fiat", "Punto 55 / 60 (Mk1)", "1.1 8V, 1.2 8V Fire SPI"),
+            car("Lancia", "Y10 (3rd series)", "1.1 i.e. Fire"),
+            car("Seat", "Marbella", "0.9 i.e. (last series, built under Fiat licence)"),
+        ],
+    },
+    "iaw04k": {
+        "technology": {"en": "High-performance ECU for the turbocharged and multi-valve engines of 1990s sports cars",
+                       "it": "Centralina ad alte prestazioni per i motori turbo e plurivalvole delle sportive anni '90"},
+        "period": "1989–1996",
+        "compatibility": [
+            car("Lancia", "Delta HF Integrale", "16V, Evoluzione I/II (2.0 Turbo 16V)"),
+            car("Alfa Romeo", "155 Q4", "2.0 Turbo 16V 4WD"),
+            car("Fiat", "Coupé", "2.0 Turbo 16V"),
+            car("Ducati", "888 (SP/SPS/Strada, from 1993), 916 (Strada/SP/SPS), 996 SPS", "P8/IAW module"),
+            car("Moto Guzzi", "Daytona 1000, California i.e. (early series)", "P8/IAW module"),
+        ],
+        "notes": {"en": "Motorcycles use the same module family with their own software and connector; not tested with this program.",
+                  "it": "Le moto usano la stessa famiglia di moduli con software e connettore propri; non provate con questo programma."},
+    },
+    "code": {
+        "technology": {"en": "Immobiliser: does not control the injection; it talks to the transponder in the key to enable starting",
+                       "it": "Immobilizzatore: non controlla l'iniezione; dialoga con il transponder della chiave per consentire l'avviamento"},
+        "period": "1995–",
+        "compatibility": [
+            car("Fiat", "Punto, Bravo, Marea, Barchetta, Coupé"),
+            car("Alfa Romeo", "145, 146, 155, 156"),
+            car("Lancia", "Y, K, Delta II"),
+        ],
+    },
+}
+
+
 def hexs(value: int) -> str:
     return f"0x{value:02X}"
 
@@ -232,6 +385,10 @@ def module_definition(name: str, meta: dict) -> dict:
     d["verified"] = True
 
     d["protocol"] = {"identification": meta["identification"]}
+    if name in FAMILY:
+        d["family"] = {**FAMILY[name], "compatibilityVerified": False}
+    if name in ALIASES:
+        d["aliases"] = ALIASES[name]
     detection = {"autoDetect": meta["detectionOrder"] is not None}
     if meta["detectionOrder"] is not None:
         detection["order"] = meta["detectionOrder"]
@@ -270,6 +427,7 @@ def module_definition(name: str, meta: dict) -> dict:
             p["decode"] = engine_speed_decoder(src, fn, reqs)
         else:
             p["decode"] = translate(decoder_body(src, fn), reqs)
+        p["display"] = display_for(name, p)
         params.append({"id": p.pop("id"), **p})
     d["parameters"] = params
 
