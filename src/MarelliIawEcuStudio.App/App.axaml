@@ -50,5 +50,64 @@
       <Setter Property="BorderBrush" Value="#E6E8EB" />
       <Setter Property="BorderThickness" Value="0,0,0,1" />
     </Style>
+    <Style Selector="Border.card">
+      <Setter Property="Background" Value="White" />
+      <Setter Property="BorderBrush" Value="#E1E4E8" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="12,10" />
+    </Style>
+    <Style Selector="TextBlock.cardTitle">
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="Foreground" Value="#3A3F45" />
+    </Style>
+    <Style Selector="Border.tile">
+      <Setter Property="Background" Value="#F6F7F9" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="Padding" Value="8,5" />
+      <Setter Property="Margin" Value="0,0,6,6" />
+    </Style>
+    <Style Selector="Run.dashValue">
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="FontFeatures" Value="+tnum" />
+    </Style>
+    <Style Selector="Border.compactRow">
+      <Setter Property="BorderBrush" Value="#EEF0F2" />
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+      <Setter Property="Padding" Value="8,0" />
+      <Setter Property="MinHeight" Value="28" />
+    </Style>
+    <Style Selector="Border.compactRow CheckBox">
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.compactRow TextBlock">
+      <Setter Property="FontSize" Value="13" />
+    </Style>
+    <Style Selector="Border.led">
+      <Setter Property="Width" Value="14" />
+      <Setter Property="Height" Value="14" />
+      <Setter Property="CornerRadius" Value="7" />
+      <Setter Property="Background" Value="#D5D9DE" />
+      <Setter Property="BorderBrush" Value="#B8BEC5" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.led.on">
+      <Setter Property="Background" Value="#2EB84F" />
+      <Setter Property="BorderBrush" Value="#1E8A39" />
+      <Setter Property="BoxShadow" Value="0 0 6 1 #802EB84F" />
+    </Style>
+    <Style Selector="Border.led.on.ledWarning">
+      <Setter Property="Background" Value="#F2A100" />
+      <Setter Property="BorderBrush" Value="#C27F00" />
+      <Setter Property="BoxShadow" Value="0 0 6 1 #80F2A100" />
+    </Style>
+    <Style Selector="Border.led.on.ledInfo">
+      <Setter Property="Background" Value="#2F80ED" />
+      <Setter Property="BorderBrush" Value="#1E5FB8" />
+      <Setter Property="BoxShadow" Value="0 0 6 1 #802F80ED" />
+    </Style>
   </Application.Styles>
 </Application>

@@ -46,7 +46,7 @@ internal sealed class SimulatorOnly : ITransportFactory
         var ecu = new SimulatedEcu(simulatedEcu, new SimulatedEcuOptions { BroadcastIso = broadcastIso, HasImmobilizer = true });
         ecu.SetError("ErrECT", stored: true, highReason: true);
         ecu.SetError("ErrLambda", active: true);
-        return new SimulatorTransport(ecu) { Scenario = EngineScenario.Idle(50) };
+        return new SimulatorTransport(ecu) { Scenario = EngineScenario.Drive(50) };
     }
 }
 
@@ -70,12 +70,12 @@ public sealed class MainWindowTests : IAsyncLifetime
         return ValueTask.CompletedTask;
     }
 
-    private (MainWindow Window, MainViewModel Vm) Open(string language = "en")
+    private (MainWindow Window, MainViewModel Vm) Open(string language = "en", string ecu = "IAW-8F/18F")
     {
         var settings = new MemorySettingsStore(new AppSettings
         {
             Target = ConnectionTarget.SimulatorId,
-            EcuId = "IAW-8F/18F",
+            EcuId = ecu,
             ListenForIsoBroadcast = false,
             LogFolder = _logDir,
             Language = language,
@@ -120,7 +120,11 @@ public sealed class MainWindowTests : IAsyncLifetime
     }
 
     private static List<string> Texts(Control root) =>
-        [.. root.GetVisualDescendants().OfType<TextBlock>().Select(t => t.Text ?? "").Where(t => t.Length > 0)];
+        [.. root.GetVisualDescendants().OfType<TextBlock>()
+            .SelectMany(t => t.Inlines is { Count: > 0 } inlines
+                ? inlines.OfType<Avalonia.Controls.Documents.Run>().Select(r => r.Text ?? "")
+                : [t.Text ?? ""])
+            .Where(t => t.Length > 0)];
 
     [Fact]
     public Task ShowsEveryTabWithLiveSimulatorData() => Session.Dispatch(async () =>
@@ -130,12 +134,30 @@ public sealed class MainWindowTests : IAsyncLifetime
         var tabs = window.FindControl<TabControl>("Tabs")!;
         await Settle(window);
         Shot(window, "00-disconnected");
+        Assert.Contains("1993–1999", Texts(window)); // family card for the selected ECU, before connecting
         Assert.Contains("Not connected", Texts(window));
 
         await vm.ConnectCommand.ExecuteAsync(null);
         var rpm = vm.Parameters.Single(p => p.Id == "PERIODE");
         await Until(() => rpm.ValueText.Length > 0 && vm.HasErrors, "live values and errors");
         tabs.SelectedIndex = 0;
+        await Settle(window, 1500);
+        var dashboard = Texts(window);
+        Assert.Contains("Punto 75 1.2 Fire 8V ECE F2", dashboard);
+        Assert.Contains("1993–1999", dashboard);
+        Assert.Contains("Engine", dashboard);
+        Assert.NotEmpty(window.GetVisualDescendants().OfType<ArcGauge>());
+        Assert.NotEmpty(window.GetVisualDescendants().OfType<LinearGauge>());
+        Assert.Contains(window.GetVisualDescendants().OfType<Border>(), b => b.Classes.Contains("led") && b.Classes.Contains("on"));
+        Shot(window, "00-dashboard");
+        var expander = window.GetVisualDescendants().OfType<Expander>().First();
+        expander.IsExpanded = true;
+        await Settle(window);
+        Assert.Contains("145 / 146", Texts(window));
+        Shot(window, "00-vehicles");
+        expander.IsExpanded = false;
+
+        tabs.SelectedIndex = 1;
         await Settle(window);
         var texts = Texts(window);
         Assert.Contains("Engine Speed", texts);
@@ -143,23 +165,23 @@ public sealed class MainWindowTests : IAsyncLifetime
         Assert.Contains("Simulation", texts);
         Shot(window, "01-parameters");
 
-        tabs.SelectedIndex = 1;
+        tabs.SelectedIndex = 2;
         await Settle(window);
         Assert.Contains(Texts(window), t => t.Contains("[A]"));
         Shot(window, "02-errors");
 
-        tabs.SelectedIndex = 2;
+        tabs.SelectedIndex = 3;
         await Settle(window);
         await vm.RunTestCommand.ExecuteAsync(vm.Tests[0]);
         await Settle(window);
         Assert.Contains("PASSED", Texts(window));
         Shot(window, "03-tests");
 
-        tabs.SelectedIndex = 3;
+        tabs.SelectedIndex = 4;
         await Settle(window);
         Shot(window, "04-adjustments");
 
-        tabs.SelectedIndex = 4;
+        tabs.SelectedIndex = 5;
         await Settle(window, 2500); // let the graph fill
         var plot = window.FindControl<PlotView>("LivePlot")!;
         Assert.Equal(4, plot.Plot.Plot.GetPlottables().Count(p => p is ScottPlot.Plottables.Scatter));
@@ -177,7 +199,7 @@ public sealed class MainWindowTests : IAsyncLifetime
         vm.ToggleRecordingCommand.Execute(null);
         await vm.OpenLastRecordingCommand.ExecuteAsync(null);
         vm.Replay.PositionMs = vm.Replay.DurationMs / 2;
-        tabs.SelectedIndex = 5;
+        tabs.SelectedIndex = 6;
         await Settle(window);
         Assert.True(vm.Replay.IsLoaded);
         Shot(window, "06-replay");
@@ -199,6 +221,41 @@ public sealed class MainWindowTests : IAsyncLifetime
         Assert.DoesNotContain("Engine Speed", texts);
         Shot(window, "07-italiano");
         await vm.DisconnectCommand.ExecuteAsync(null);
+        window.Close();
+        Ui.Instance.SetLanguage("en");
+        return true;
+    }, TestContext.Current.CancellationToken);
+
+    [Fact]
+    public Task ShowsTheTurboDashboardOfTheIaw04k() => Session.Dispatch(async () =>
+    {
+        Ui.Instance.SetLanguage("it");
+        var (window, vm) = Open("it", "IAW-04K.P8");
+        await vm.ConnectCommand.ExecuteAsync(null);
+        await Until(() => vm.Parameters.Any(p => p.ValueText.Length > 0), "live values");
+        await Settle(window, 6000); // into the acceleration of the drive scenario
+        var texts = Texts(window);
+        Assert.Contains("1989–1996", texts);
+        Assert.Contains(vm.DashboardLeft.SelectMany(g => g.Gauges), r => r.Id == "MP2_MP8t");
+        Assert.Equal(["temperatures", "electrical"], vm.DashboardRightPair.Select(g => g.Key));
+        Shot(window, "08-cruscotto-04k");
+        await vm.DisconnectCommand.ExecuteAsync(null);
+        window.Close();
+        Ui.Instance.SetLanguage("en");
+        return true;
+    }, TestContext.Current.CancellationToken);
+
+    [Fact]
+    public Task FindsTheEcuByItsLabelCode() => Session.Dispatch(async () =>
+    {
+        Ui.Instance.SetLanguage("it");
+        var (window, vm) = Open("it", "IAW-8F/18F");
+        vm.EcuFilter = "4WF";
+        await Settle(window);
+        Assert.Equal("IAW-04K.P8", vm.SelectedEcu.Definition?.Id);
+        var texts = Texts(window);
+        Assert.Contains(texts, t => t.Contains("IAW 4WF.P8"));
+        Shot(window, "09-ricerca-4wf");
         window.Close();
         Ui.Instance.SetLanguage("en");
         return true;

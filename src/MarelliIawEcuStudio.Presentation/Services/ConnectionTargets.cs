@@ -49,7 +49,7 @@ public sealed class DefaultTransportFactory : ITransportFactory
         if (target.IsSimulator)
         {
             var ecu = new SimulatedEcu(simulatedEcu, new SimulatedEcuOptions { BroadcastIso = broadcastIso, BroadcastDelayMs = 800 });
-            return new SimulatorTransport(ecu) { Scenario = EngineScenario.Idle() };
+            return new SimulatorTransport(ecu) { Scenario = EngineScenario.Drive() };
         }
         return new SerialTransport(target.Id, dtrEnable);
     }

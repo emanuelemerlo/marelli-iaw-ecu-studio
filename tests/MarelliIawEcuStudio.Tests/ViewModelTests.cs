@@ -44,6 +44,16 @@ internal sealed class FakeDialogs : IDialogService
     }
 }
 
+/// <summary>Simulator with a given ISO code.</summary>
+internal sealed class IsoFactory(string iso) : ITransportFactory
+{
+    public IReadOnlyList<ConnectionTarget> ListTargets() =>
+        [new ConnectionTarget(ConnectionTarget.SimulatorId, "Simulator", "", true)];
+
+    public ITransport Create(ConnectionTarget target, EcuDefinition simulatedEcu, bool broadcastIso, bool dtrEnable) =>
+        new SimulatorTransport(new SimulatedEcu(DefinitionRegistry.BuiltIn().Get("IAW-8F/18F"), new SimulatedEcuOptions { Iso = iso }));
+}
+
 /// <summary>
 /// Like a UI dispatcher: posted actions queue up and run on the test thread
 /// when it pumps, so view model state is only touched by one thread.
@@ -316,6 +326,86 @@ public sealed class ViewModelTests : IAsyncLifetime
         Assert.NotEqual("Engine Speed", rpm.Name);
         Assert.Equal("Parametri", vm.Ui["TabParameters"]);
         Assert.Equal("it", CultureInfo.CurrentUICulture.Name);
+    }
+
+    [Fact]
+    public async Task DashboardGroupsParametersByInstrument()
+    {
+        var vm = Create(new SimulatorFactory(ecu => ecu.SetValue("S2", 1)), new FakeDialogs());
+        await vm.ConnectCommand.ExecuteAsync(null);
+        var keys = vm.ParameterGroups.Select(g => g.Key).ToList();
+        Assert.Equal(["engine", "temperatures", "electrical", "mixture", "idle", "adaptation", "status"], keys);
+        Assert.Equal(vm.Parameters.Count, vm.ParameterGroups.Sum(g => g.Rows.Count));
+        var engine = vm.DashboardLeft.Single(g => g.Key == "engine");
+        Assert.Equal(["PERIODE", "MP2_MP8"], engine.Gauges.Select(r => r.Id));
+        Assert.Equal(["temperatures", "electrical"], vm.DashboardRightPair.Select(g => g.Key));
+        var running = vm.ParameterGroups.Single(g => g.Key == "status").Leds.Single(r => r.Decoder.Definition.NameKey == "StaEngRun");
+        WaitFor(() => running.IsOn, "engine running LED");
+        var knock = vm.ParameterGroups.Single(g => g.Key == "status").Leds.Single(r => r.Decoder.Definition.NameKey == "StaAdvDecr");
+        Assert.True(knock.IsLedWarning);
+        var battery = vm.Parameters.Single(p => p.Id == "M_VBATT");
+        WaitFor(() => double.IsFinite(battery.NumericValue), "numeric value for the gauge");
+    }
+
+    [Fact]
+    public async Task VehicleCardShowsDetectedCarAndFamily()
+    {
+        var vm = Create(new SimulatorFactory(), new FakeDialogs());
+        Assert.True(vm.VehicleInfo.HasInfo); // family of the selected ECU, before connecting
+        Assert.Equal("1993–1999", vm.VehicleInfo.Period);
+        Assert.Equal("", vm.VehicleInfo.DetectedVehicle);
+
+        await vm.ConnectCommand.ExecuteAsync(null);
+        Assert.True(vm.VehicleInfo.IsDetected);
+        Assert.Equal("Punto 75 1.2 Fire 8V ECE F2", vm.VehicleInfo.DetectedVehicle);
+        Assert.Contains(vm.VehicleInfo.Brands, b => b.Brand == "Alfa Romeo" && b.Models.Any(m => m.Model == "145 / 146"));
+        Assert.Contains("indicative", vm.VehicleInfo.CompatibilityCaption);
+        Assert.Contains("Punto 75 1.2 Fire 8V ECE ECOL", vm.VehicleInfo.IsoVehicles);
+
+        vm.SelectedLanguage = vm.Languages.Single(l => l.Code == "it");
+        Assert.StartsWith("Iniezione multipoint", vm.VehicleInfo.Technology);
+        Assert.Contains("da verificare", vm.VehicleInfo.CompatibilityCaption);
+    }
+
+    [Fact]
+    public async Task UnknownIsoIsShownOnTheVehicleCard()
+    {
+        // An ISO code with the family signature but not in the vehicle table.
+        var vm = _vm = new MainViewModel(Registry, new IsoFactory("55318099AAAA"), new MemorySettingsStore(new AppSettings { EcuId = null, ListenForIsoBroadcast = false, LogFolder = _logDir }),
+            new FakeDialogs(), _ui, ProtocolTiming.Fast);
+        await vm.ConnectCommand.ExecuteAsync(null);
+        Assert.Equal(ConnectionState.Connected, vm.State);
+        Assert.False(vm.VehicleInfo.IsDetected);
+        Assert.Contains("55-31-80-99-AA-AA", vm.VehicleInfo.DetectedVehicle);
+    }
+
+    [Theory]
+    [InlineData("4WF", "IAW-04K.P8")]
+    [InlineData("coupe turbo", "IAW-04K.P8")]
+    [InlineData("Integrale", "IAW-04K.P8")]
+    [InlineData("alfa 33", "IAW-8F.68")]
+    [InlineData("Seicento", "IAW-6F/16F")]
+    public void EcuSearchFindsFamiliesByCodeOrVehicle(string filter, string expected)
+    {
+        var vm = Create(new SimulatorFactory(), new FakeDialogs());
+        vm.EcuFilter = filter;
+        Assert.Null(vm.FilteredEcus[0].Definition); // automatic detection stays available
+        Assert.Contains(vm.FilteredEcus, e => e.Definition?.Id == expected);
+        Assert.Equal(expected, vm.SelectedEcu.Definition?.Id);
+        vm.EcuFilter = "";
+        Assert.Equal(vm.Ecus.Count, vm.FilteredEcus.Count);
+    }
+
+    [Fact]
+    public void EcuEntriesShowAliasesAndVehicles()
+    {
+        var vm = Create(new SimulatorFactory(), new FakeDialogs());
+        var p8 = vm.Ecus.Single(e => e.Definition?.Id == "IAW-04K.P8");
+        Assert.Contains("IAW 4WF.P8", p8.Subtitle);
+        Assert.Contains("Delta HF Integrale", p8.Subtitle);
+        vm.SelectedEcu = p8;
+        Assert.Contains("IAW 4WF.P8", vm.VehicleInfo.AliasesText);
+        Assert.Contains("Coupé 2.0 Turbo 16V (software P8)", vm.VehicleInfo.AliasesText);
     }
 
     [Fact]
