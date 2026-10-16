@@ -66,7 +66,7 @@ dotnet run --project src/MarelliIawEcuStudio.Cli -- read --port /dev/ttyUSB0 --p
 dotnet run --project src/MarelliIawEcuStudio.Cli -- errors --port /dev/ttyUSB0
 ```
 
-Ready-made executables for Windows, Linux x64, Linux arm64 (Raspberry Pi) and macOS are built by the CI on every change (GitHub Actions → artifacts).
+Ready-made executables for Windows, Linux x64, Linux arm64 (Raspberry Pi) and macOS are attached to each [release](https://github.com/emanuelemerlo/marelli-iaw-ecu-studio/releases); the CI also builds them on every change (GitHub Actions → artifacts).
 
 Like IES2, the software first listens up to 10 seconds for an ISO code the ECU may send at key-on: start it, then turn the ignition on. In the application, untick "Wait for the ISO code at key-on" in Options to skip the wait; on the command line use `--no-broadcast` (and `--lang it` for Italian names).
 

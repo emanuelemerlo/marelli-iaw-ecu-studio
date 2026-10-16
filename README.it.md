@@ -66,7 +66,7 @@ dotnet run --project src/MarelliIawEcuStudio.Cli -- read --port /dev/ttyUSB0 --p
 dotnet run --project src/MarelliIawEcuStudio.Cli -- errors --port /dev/ttyUSB0
 ```
 
-Gli eseguibili pronti per Windows, Linux x64, Linux arm64 (Raspberry Pi) e macOS vengono prodotti dalla CI a ogni modifica (GitHub Actions → artifacts).
+Gli eseguibili pronti per Windows, Linux x64, Linux arm64 (Raspberry Pi) e macOS sono allegati a ogni [release](https://github.com/emanuelemerlo/marelli-iaw-ecu-studio/releases); la CI li produce anche a ogni modifica (GitHub Actions → artifacts).
 
 Come IES2, il programma ascolta per 10 secondi il codice ISO che la centralina può inviare all'accensione: avvialo, poi gira la chiave. Per saltare l'attesa togli la spunta "Attendi il codice ISO all'accensione" nelle Opzioni, o usa `--no-broadcast` da riga di comando.
 
