@@ -1,0 +1,39 @@
+marelli-iaw-ecu-studio
+Copyright (c) 2026 Emanuele Merlo
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version. See LICENSE.
+
+-------------------------------------------------------------------------------
+Origin
+-------------------------------------------------------------------------------
+
+This project is an evolution of IES2 (IAW Scan 2) by Tomasz Orczyk:
+https://github.com/TzOk83/IES2
+
+The original source code is kept unchanged under legacy/IES2. The protocol,
+the ECU tables (src/MarelliIawEcuStudio.Core/Definitions) and the translations
+(src/MarelliIawEcuStudio.Core/Localization) are derived from it and remain
+subject to its BSD 3-Clause license, reproduced in LICENSE-IES2:
+
+    Copyright (c) 2011-2015, Tomasz Orczyk
+    All rights reserved.
+
+Under clause 3 of that license, the name of the original author is not used to
+endorse or promote this project.
+
+IES2 translations were contributed by the people credited in its change log
+(legacy/IES2/readme.txt): Julio Ortiz (Spanish), Renè Bayer (German), Edin
+Huseinagić (Bosnian/Croatian/Serbian), Artur Soares (Portuguese) and Gerrelt
+(Dutch, and the early IAW-8F support for the Alfa 33).
+
+-------------------------------------------------------------------------------
+Trademarks
+-------------------------------------------------------------------------------
+
+"Marelli", "Magneti Marelli", "Weber", "FIAT", "Lancia" and "Alfa Romeo" are
+trademarks of their respective owners. This project is not affiliated with,
+endorsed by or sponsored by any of them. The names are used only to identify
+the hardware the software works with.

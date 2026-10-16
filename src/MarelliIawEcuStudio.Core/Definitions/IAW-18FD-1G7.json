@@ -1,0 +1,1198 @@
+{
+  "$schema": "../../../schemas/ecu-definition.schema.json",
+  "id": "IAW-18FD/1G7",
+  "name": "IAW-18FD/1G7",
+  "longName": "Magneti-Marelli IAW-18FD/1G7 MPI",
+  "source": "IES2 0.86, legacy/IES2/IES_2/ECU/iaw18fd.cs",
+  "verified": true,
+  "protocol": {
+    "identification": "standard"
+  },
+  "detection": {
+    "autoDetect": true,
+    "order": 10,
+    "isoMatches": [
+      {
+        "offset": 2,
+        "value": "31800D"
+      },
+      {
+        "offset": 2,
+        "value": "31808C"
+      },
+      {
+        "offset": 2,
+        "value": "318008"
+      }
+    ],
+    "codricMatches": [
+      {
+        "offset": 0,
+        "value": "61600"
+      },
+      {
+        "offset": 0,
+        "value": "61602"
+      }
+    ]
+  },
+  "vehicles": [
+    {
+      "iso": "5531800D1629",
+      "model": "Punto 1242 FIRE 16V CEE F2"
+    },
+    {
+      "iso": "5531808C16A8",
+      "model": "Siena 1.4 8V (IAW-1G7SP)"
+    },
+    {
+      "iso": "553180081523",
+      "model": "Palio 1.0 8V (IAW-1G7SD)"
+    }
+  ],
+  "parameters": [
+    {
+      "id": "PERIODE",
+      "nameKey": "PERIODE",
+      "unitKey": "rpm",
+      "format": "0",
+      "requests": [
+        "0x01",
+        "0x02"
+      ],
+      "decode": {
+        "raw": "u16",
+        "expr": "x == 0 || x == 65535 ? 0 : 15000000 / x"
+      }
+    },
+    {
+      "id": "T_INJ_AP",
+      "nameKey": "T_INJ_AP",
+      "unit": "ms",
+      "format": "0.00",
+      "requests": [
+        "0x03",
+        "0x04"
+      ],
+      "decode": {
+        "raw": "u16",
+        "expr": "x / 500"
+      }
+    },
+    {
+      "id": "AVANCE",
+      "nameKey": "AVANCE",
+      "unit": "°",
+      "format": "0.00",
+      "requests": [
+        "0x05"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x / 2"
+      }
+    },
+    {
+      "id": "MP2_MP8",
+      "nameKey": "MP2_MP8",
+      "unit": "hPa",
+      "format": "0",
+      "requests": [
+        "0x06"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 3.876 + 122.6"
+      }
+    },
+    {
+      "id": "MT_AIR_L",
+      "nameKey": "MT_AIR_L",
+      "unit": "°C",
+      "format": "0",
+      "requests": [
+        "0x07"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 0.666 - 40"
+      }
+    },
+    {
+      "id": "MT_EAU_L",
+      "nameKey": "MT_EAU_L",
+      "unit": "°C",
+      "format": "0",
+      "requests": [
+        "0x08"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 0.666 - 40"
+      }
+    },
+    {
+      "id": "ANG_PAP0",
+      "nameKey": "ANG_PAP0",
+      "unit": "°",
+      "format": "0.00",
+      "requests": [
+        "0x09"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 0.4228"
+      }
+    },
+    {
+      "id": "M_VBATT",
+      "nameKey": "V_BATT",
+      "unit": "V",
+      "format": "0.00",
+      "requests": [
+        "0x0A"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 0.06424"
+      }
+    },
+    {
+      "id": "K_O2",
+      "nameKey": "K_O2",
+      "format": "0.00",
+      "requests": [
+        "0x0B"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 0.00196 + 0.75"
+      }
+    },
+    {
+      "id": "K_O2_RAW",
+      "nameKey": "K_O2_RAW",
+      "unit": "mV",
+      "format": "0.00",
+      "requests": [
+        "0x6F"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 5.4348"
+      }
+    },
+    {
+      "id": "ALFAR",
+      "nameKey": "ALFAR",
+      "unitKey": "steps",
+      "format": "0",
+      "requests": [
+        "0x0C"
+      ],
+      "decode": {
+        "raw": "u8"
+      }
+    },
+    {
+      "id": "INTEGR",
+      "nameKey": "INTEGR",
+      "format": "0",
+      "requests": [
+        "0x0D"
+      ],
+      "decode": {
+        "raw": "s8"
+      }
+    },
+    {
+      "id": "PROP",
+      "nameKey": "PROP",
+      "format": "0",
+      "requests": [
+        "0x0E"
+      ],
+      "decode": {
+        "raw": "s8"
+      }
+    },
+    {
+      "id": "TRIMRAM",
+      "nameKey": "TRIMRAM",
+      "unitKey": "steps",
+      "format": "0",
+      "requests": [
+        "0x0F"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x - 128"
+      }
+    },
+    {
+      "id": "ALFAU",
+      "nameKey": "ALFAU",
+      "format": "0",
+      "requests": [
+        "0x10",
+        "0x11"
+      ],
+      "decode": {
+        "raw": "s16"
+      }
+    },
+    {
+      "id": "ALFAUC",
+      "nameKey": "ALFAUC",
+      "format": "0",
+      "requests": [
+        "0x12",
+        "0x13"
+      ],
+      "decode": {
+        "raw": "s16"
+      }
+    },
+    {
+      "id": "CONS_REG",
+      "nameKey": "CONS_REG",
+      "unitKey": "rpm",
+      "format": "0",
+      "requests": [
+        "0x16"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 8"
+      }
+    },
+    {
+      "id": "OFNNTR",
+      "nameKey": "OFNNTR",
+      "unitKey": "rpm",
+      "format": "0",
+      "requests": [
+        "0x15"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "(x - 128) * 8"
+      }
+    },
+    {
+      "id": "OFFSET1",
+      "nameKey": "OFFSET1",
+      "unit": "ms",
+      "format": "0",
+      "requests": [
+        "0x22"
+      ],
+      "decode": {
+        "raw": "s8",
+        "expr": "x * 0.016"
+      }
+    },
+    {
+      "id": "OFFSET2",
+      "nameKey": "OFFSET2",
+      "unit": "ms",
+      "format": "0",
+      "requests": [
+        "0x23"
+      ],
+      "decode": {
+        "raw": "s8",
+        "expr": "x * 0.016"
+      }
+    },
+    {
+      "id": "OFFSET3",
+      "nameKey": "OFFSET3",
+      "unit": "ms",
+      "format": "0",
+      "requests": [
+        "0x24"
+      ],
+      "decode": {
+        "raw": "s8",
+        "expr": "x * 0.016"
+      }
+    },
+    {
+      "id": "OFFSET4",
+      "nameKey": "OFFSET4",
+      "unit": "ms",
+      "format": "0",
+      "requests": [
+        "0x25"
+      ],
+      "decode": {
+        "raw": "s8",
+        "expr": "x * 0.016"
+      }
+    },
+    {
+      "id": "OFFSET5",
+      "nameKey": "OFFSET5",
+      "unit": "ms",
+      "format": "0",
+      "requests": [
+        "0x26"
+      ],
+      "decode": {
+        "raw": "s8",
+        "expr": "x * 0.016"
+      }
+    },
+    {
+      "id": "OFFSET6",
+      "nameKey": "OFFSET6",
+      "unit": "ms",
+      "format": "0",
+      "requests": [
+        "0x27"
+      ],
+      "decode": {
+        "raw": "s8",
+        "expr": "x * 0.016"
+      }
+    },
+    {
+      "id": "OFFSETm",
+      "nameKey": "OFFSETm",
+      "unit": "ms",
+      "format": "0",
+      "requests": [
+        "0x28"
+      ],
+      "decode": {
+        "raw": "s8",
+        "expr": "x * 0.004"
+      }
+    },
+    {
+      "id": "S2",
+      "nameKey": "StaEngRun",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x36"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 1
+      }
+    },
+    {
+      "id": "S3",
+      "nameKey": "StaSensOK",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x36"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 2
+      }
+    },
+    {
+      "id": "S4",
+      "nameKey": "StaThrMM",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x36"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 3
+      }
+    },
+    {
+      "id": "S5",
+      "nameKey": "StaClLoop",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x36"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 4
+      }
+    },
+    {
+      "id": "S6",
+      "nameKey": "StaAirCoON",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x36"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 5
+      }
+    },
+    {
+      "id": "S7",
+      "nameKey": "StaMixACOK",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x36"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 6
+      }
+    },
+    {
+      "id": "S25",
+      "nameKey": "StaAdvDecr",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x37"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 4
+      }
+    },
+    {
+      "id": "S26",
+      "nameKey": "StaStepACOK",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x37"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 5
+      }
+    },
+    {
+      "id": "S27",
+      "nameKey": "StaGearEng",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x37"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 6
+      }
+    }
+  ],
+  "errors": {
+    "engine": {
+      "scheme": "activeVerifiedStored",
+      "requests": [
+        "0x30",
+        "0x31",
+        "0x32",
+        "0x33",
+        "0x34",
+        "0x35",
+        "0x39",
+        "0x3A",
+        "0x3B",
+        "0x3C",
+        "0x3D",
+        "0x3E",
+        "0x40",
+        "0x41",
+        "0x42",
+        "0x43",
+        "0x44",
+        "0x45"
+      ],
+      "items": [
+        {
+          "nameKey": "ErrTPS",
+          "active": "0x30",
+          "verified": "0x39",
+          "stored": "0x40",
+          "bit": 0,
+          "ext": {
+            "active": "0x35",
+            "verified": "0x3E",
+            "stored": "0x45",
+            "bit": 5
+          },
+          "highReasonKey": "ShortToGND",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrI2",
+          "active": "0x30",
+          "verified": "0x39",
+          "stored": "0x40",
+          "bit": 1,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrLambda",
+          "active": "0x30",
+          "verified": "0x39",
+          "stored": "0x40",
+          "bit": 2,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrECT",
+          "active": "0x30",
+          "verified": "0x39",
+          "stored": "0x40",
+          "bit": 3,
+          "ext": {
+            "active": "0x35",
+            "verified": "0x3E",
+            "stored": "0x45",
+            "bit": 3
+          },
+          "highReasonKey": "ShortToGND",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrIAT",
+          "active": "0x30",
+          "verified": "0x39",
+          "stored": "0x40",
+          "bit": 4,
+          "ext": {
+            "active": "0x35",
+            "verified": "0x3E",
+            "stored": "0x45",
+            "bit": 4
+          },
+          "highReasonKey": "ShortToGND",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrBattV",
+          "active": "0x30",
+          "verified": "0x39",
+          "stored": "0x40",
+          "bit": 5,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrIdleReg",
+          "active": "0x30",
+          "verified": "0x39",
+          "stored": "0x40",
+          "bit": 6,
+          "ext": {
+            "active": "0x35",
+            "verified": "0x3E",
+            "stored": "0x45",
+            "bit": 1
+          },
+          "highReasonKey": "NoAir",
+          "lowReasonKey": "TooMuchAir"
+        },
+        {
+          "nameKey": "ErrKnockS",
+          "active": "0x30",
+          "verified": "0x39",
+          "stored": "0x40",
+          "bit": 7,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrInj1",
+          "active": "0x31",
+          "verified": "0x3A",
+          "stored": "0x41",
+          "bit": 0,
+          "ext": {
+            "active": "0x34",
+            "verified": "0x3D",
+            "stored": "0x44",
+            "bit": 0
+          },
+          "highReasonKey": "ShortToGNDorOpen",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrCoil1",
+          "active": "0x31",
+          "verified": "0x3A",
+          "stored": "0x41",
+          "bit": 1,
+          "ext": {
+            "active": "0x34",
+            "verified": "0x3D",
+            "stored": "0x44",
+            "bit": 1
+          },
+          "highReasonKey": "ShortToGNDorOpen",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrCoil2",
+          "active": "0x31",
+          "verified": "0x3A",
+          "stored": "0x41",
+          "bit": 2,
+          "ext": {
+            "active": "0x34",
+            "verified": "0x3D",
+            "stored": "0x44",
+            "bit": 2
+          },
+          "highReasonKey": "ShortToGNDorOpen",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrIAV",
+          "active": "0x31",
+          "verified": "0x3A",
+          "stored": "0x41",
+          "bit": 3,
+          "ext": {
+            "active": "0x34",
+            "verified": "0x3D",
+            "stored": "0x44",
+            "bit": 3
+          },
+          "highReasonKey": "ShortToGNDorOpen",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrEVAP",
+          "active": "0x31",
+          "verified": "0x3A",
+          "stored": "0x41",
+          "bit": 4,
+          "ext": {
+            "active": "0x34",
+            "verified": "0x3D",
+            "stored": "0x44",
+            "bit": 4
+          },
+          "highReasonKey": "ShortToGNDorOpen",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrAirCo",
+          "active": "0x31",
+          "verified": "0x3A",
+          "stored": "0x41",
+          "bit": 5,
+          "ext": {
+            "active": "0x34",
+            "verified": "0x3D",
+            "stored": "0x44",
+            "bit": 5
+          },
+          "highReasonKey": "ShortToGNDorOpen",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrFuelPump",
+          "active": "0x31",
+          "verified": "0x3A",
+          "stored": "0x41",
+          "bit": 6,
+          "ext": {
+            "active": "0x34",
+            "verified": "0x3D",
+            "stored": "0x44",
+            "bit": 6
+          },
+          "highReasonKey": "ShortToGNDorOpen",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrMIL",
+          "active": "0x31",
+          "verified": "0x3A",
+          "stored": "0x41",
+          "bit": 7,
+          "ext": {
+            "active": "0x34",
+            "verified": "0x3D",
+            "stored": "0x44",
+            "bit": 7
+          },
+          "highReasonKey": "ShortToGNDorOpen",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrO1a",
+          "active": "0x32",
+          "verified": "0x3B",
+          "stored": "0x42",
+          "bit": 0,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrO2a",
+          "active": "0x32",
+          "verified": "0x3B",
+          "stored": "0x42",
+          "bit": 1,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrO3a",
+          "active": "0x32",
+          "verified": "0x3B",
+          "stored": "0x42",
+          "bit": 2,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrInj2",
+          "active": "0x32",
+          "verified": "0x3B",
+          "stored": "0x42",
+          "bit": 3,
+          "ext": {
+            "active": "0x35",
+            "verified": "0x3E",
+            "stored": "0x45",
+            "bit": 7
+          },
+          "highReasonKey": "ShortToGNDorOpen",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrMixRatio",
+          "active": "0x32",
+          "verified": "0x3B",
+          "stored": "0x42",
+          "bit": 4,
+          "ext": {
+            "active": "0x35",
+            "verified": "0x3E",
+            "stored": "0x45",
+            "bit": 6
+          },
+          "highReasonKey": "MaxLEAN",
+          "lowReasonKey": "MaxRICH"
+        },
+        {
+          "nameKey": "ErrWasteG",
+          "active": "0x32",
+          "verified": "0x3B",
+          "stored": "0x42",
+          "bit": 5,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrConMet",
+          "active": "0x32",
+          "verified": "0x3B",
+          "stored": "0x42",
+          "bit": 6,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrMAP",
+          "active": "0x32",
+          "verified": "0x3B",
+          "stored": "0x42",
+          "bit": 7,
+          "ext": {
+            "active": "0x35",
+            "verified": "0x3E",
+            "stored": "0x45",
+            "bit": 0
+          },
+          "highReasonKey": "ShortToGNDorOpen",
+          "lowReasonKey": "ShortToVcc"
+        },
+        {
+          "nameKey": "ErrACParam",
+          "active": "0x33",
+          "verified": "0x3C",
+          "stored": "0x43",
+          "bit": 0,
+          "ext": {
+            "active": "0x35",
+            "verified": "0x3E",
+            "stored": "0x45",
+            "bit": 2
+          },
+          "highReasonKey": "MaxLEAN",
+          "lowReasonKey": "MaxRICH"
+        },
+        {
+          "nameKey": "ErrRAM",
+          "active": "0x33",
+          "verified": "0x3C",
+          "stored": "0x43",
+          "bit": 1,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrROM",
+          "active": "0x33",
+          "verified": "0x3C",
+          "stored": "0x43",
+          "bit": 2,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrEEPROM",
+          "active": "0x33",
+          "verified": "0x3C",
+          "stored": "0x43",
+          "bit": 3,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrCPU",
+          "active": "0x33",
+          "verified": "0x3C",
+          "stored": "0x43",
+          "bit": 4,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrRPMSens",
+          "active": "0x33",
+          "verified": "0x3C",
+          "stored": "0x43",
+          "bit": 5,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrAutoTrans",
+          "active": "0x33",
+          "verified": "0x3C",
+          "stored": "0x43",
+          "bit": 6,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrEGRVal",
+          "active": "0x33",
+          "verified": "0x3C",
+          "stored": "0x43",
+          "bit": 7,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        }
+      ]
+    },
+    "immobilizer": {
+      "scheme": "fiatCode",
+      "requests": [
+        "0x71",
+        "0x72"
+      ],
+      "items": [
+        {
+          "nameKey": "ErrNoSync",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 0,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrStartDis",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 1,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrUniCode",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 2,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrC4",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 3,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrBackdoor",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 4,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrKeyCode",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 5,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrUnrCode",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 6,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrLinkDown",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 7,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        }
+      ]
+    }
+  },
+  "activeTests": [
+    {
+      "nameKey": "FuelPump",
+      "engineRunning": false,
+      "timeoutSeconds": 30,
+      "requests": [
+        "0x80"
+      ]
+    },
+    {
+      "nameKey": "Injectors",
+      "engineRunning": false,
+      "timeoutSeconds": 10,
+      "requests": [
+        "0x81"
+      ]
+    },
+    {
+      "nameKey": "Coil1",
+      "engineRunning": false,
+      "timeoutSeconds": 5,
+      "requests": [
+        "0x82"
+      ]
+    },
+    {
+      "nameKey": "Coil2",
+      "engineRunning": false,
+      "timeoutSeconds": 5,
+      "requests": [
+        "0x83"
+      ]
+    },
+    {
+      "nameKey": "EVAP",
+      "engineRunning": false,
+      "timeoutSeconds": 7,
+      "requests": [
+        "0x85"
+      ]
+    },
+    {
+      "nameKey": "REVmeter",
+      "engineRunning": false,
+      "timeoutSeconds": 2,
+      "requests": [
+        "0x86"
+      ]
+    },
+    {
+      "nameKey": "ACrelay",
+      "engineRunning": false,
+      "timeoutSeconds": 30,
+      "requests": [
+        "0x87"
+      ]
+    },
+    {
+      "nameKey": "MIL",
+      "engineRunning": false,
+      "timeoutSeconds": 30,
+      "requests": [
+        "0x88"
+      ]
+    },
+    {
+      "nameKey": "EGR",
+      "engineRunning": false,
+      "timeoutSeconds": 30,
+      "requests": [
+        "0x89"
+      ]
+    },
+    {
+      "nameKey": "ConMeter",
+      "engineRunning": false,
+      "timeoutSeconds": 30,
+      "requests": [
+        "0x8A"
+      ]
+    }
+  ],
+  "clearCodes": {
+    "timeoutSeconds": 10,
+    "requests": [
+      "0x84"
+    ]
+  },
+  "adjustments": [
+    {
+      "nameKey": "ToggleTrimAC",
+      "statusRequest": "0x00",
+      "statusMask": "0x00",
+      "preSet": [
+        "0x8D"
+      ],
+      "type": "toggle"
+    },
+    {
+      "nameKey": "ToggleStepAC",
+      "statusRequest": "0x00",
+      "statusMask": "0x00",
+      "preSet": [
+        "0x91"
+      ],
+      "type": "toggle"
+    },
+    {
+      "nameKey": "TrimReset",
+      "statusRequest": "0x00",
+      "statusMask": "0x00",
+      "preSet": [
+        "0x8D",
+        "0x8D"
+      ],
+      "type": "toggle"
+    },
+    {
+      "nameKey": "StepReset",
+      "statusRequest": "0x00",
+      "statusMask": "0x00",
+      "preSet": [
+        "0x91",
+        "0x91"
+      ],
+      "type": "toggle"
+    }
+  ]
+}

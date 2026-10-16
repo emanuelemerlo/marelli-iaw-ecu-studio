@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Build and test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Build
+        run: dotnet build --configuration Release
+
+      - name: Test
+        run: dotnet test --configuration Release --no-build
+
+      - name: Validate built-in definitions
+        run: dotnet run --project src/MarelliIawEcuStudio.Cli --configuration Release --no-build -- validate src/MarelliIawEcuStudio.Core/Definitions
+
+      - name: Simulator smoke test
+        run: dotnet run --project src/MarelliIawEcuStudio.Cli --configuration Release --no-build -- read --simulate --no-broadcast --count 2
+
+  publish:
+    name: Publish iaw-cli (${{ matrix.rid }})
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rid: [win-x64, linux-x64, linux-arm64, osx-arm64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Publish self-contained
+        run: >
+          dotnet publish src/MarelliIawEcuStudio.Cli
+          --configuration Release
+          --runtime ${{ matrix.rid }}
+          --self-contained true
+          -p:PublishSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          --output publish/${{ matrix.rid }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: iaw-cli-${{ matrix.rid }}
+          path: publish/${{ matrix.rid }}
