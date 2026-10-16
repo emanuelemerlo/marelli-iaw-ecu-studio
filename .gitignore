@@ -1,0 +1,28 @@
+# Build output
+bin/
+obj/
+artifacts/
+publish/
+TestResults/
+
+# IDE and user files
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userprefs
+*.DotSettings.user
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python tooling
+__pycache__/
+*.pyc
+
+# Local logs and captures
+*.log
+IESexp_*.csv
+IESlog_*.txt
