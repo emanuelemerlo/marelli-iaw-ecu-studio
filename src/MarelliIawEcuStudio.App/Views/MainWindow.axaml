@@ -1,0 +1,319 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MarelliIawEcuStudio.Presentation.ViewModels"
+        xmlns:views="using:MarelliIawEcuStudio.App.Views"
+        x:Class="MarelliIawEcuStudio.App.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        x:Name="Root"
+        Title="{Binding Ui[AppTitle]}"
+        Width="1180" Height="780" MinWidth="900" MinHeight="600">
+
+  <DockPanel>
+
+    <!-- Connection bar -->
+    <Border DockPanel.Dock="Top" Classes="toolbar" Background="#F6F7F9">
+      <Grid ColumnDefinitions="Auto,*,Auto,Auto,*,Auto,Auto" ColumnSpacing="8">
+        <TextBlock Classes="label" Text="{Binding Ui[Interface]}" />
+        <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding Targets}"
+                  SelectedItem="{Binding SelectedTarget}" IsEnabled="{Binding IsDisconnected}" />
+        <Button Grid.Column="2" Content="{Binding Ui[Refresh]}" Command="{Binding RefreshTargetsCommand}"
+                IsEnabled="{Binding IsDisconnected}" />
+        <TextBlock Grid.Column="3" Classes="label" Margin="12,0,0,0" Text="{Binding Ui[Ecu]}" />
+        <ComboBox Grid.Column="4" HorizontalAlignment="Stretch" ItemsSource="{Binding Ecus}"
+                  SelectedItem="{Binding SelectedEcu}" IsEnabled="{Binding IsDisconnected}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:EcuChoice">
+              <TextBlock Text="{Binding Name}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+        <StackPanel Grid.Column="5" Orientation="Horizontal" Spacing="6">
+          <Button Classes="accent" Content="{Binding Ui[Connect]}" Command="{Binding ConnectCommand}"
+                  IsVisible="{Binding IsDisconnected}" MinWidth="110" HotKey="F10" />
+          <Button Content="{Binding Ui[Cancel]}" Command="{Binding CancelConnectCommand}"
+                  IsVisible="{Binding IsConnecting}" MinWidth="110" HotKey="Escape" />
+          <Button Content="{Binding Ui[Reconnect]}" Command="{Binding ReconnectCommand}"
+                  IsVisible="{Binding IsLost}" HotKey="F12" />
+          <Button Content="{Binding Ui[Disconnect]}" Command="{Binding DisconnectCommand}"
+                  IsVisible="{Binding IsOnline}" MinWidth="110" />
+        </StackPanel>
+        <Button Grid.Column="6" Content="{Binding Ui[Options]}">
+          <Button.Flyout>
+            <Flyout Placement="BottomEdgeAlignedRight">
+              <StackPanel Spacing="8" Width="380">
+                <CheckBox Content="{Binding Ui[WaitBroadcast]}" IsChecked="{Binding ListenForIsoBroadcast}" />
+                <CheckBox Content="{Binding Ui[CompatMode]}" IsChecked="{Binding Compatibility}" />
+                <CheckBox Content="{Binding Ui[Dtr]}" IsChecked="{Binding DtrEnable}" />
+                <CheckBox Content="{Binding Ui[AllowActive]}" IsChecked="{Binding AllowActiveCommands}" />
+                <TextBlock Classes="label" Text="{Binding Ui[Language]}" />
+                <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" />
+                <TextBlock Classes="label" Text="Log" />
+                <TextBox Text="{Binding LogFolder}" />
+              </StackPanel>
+            </Flyout>
+          </Button.Flyout>
+        </Button>
+      </Grid>
+    </Border>
+
+    <!-- Port hint (e.g. FTDI latency) -->
+    <Border DockPanel.Dock="Top" Background="#FFF4E5" Padding="8,4" IsVisible="{Binding TargetHint, Converter={x:Static ObjectConverters.IsNotNull}}">
+      <TextBlock Text="{Binding TargetHint}" TextWrapping="Wrap" />
+    </Border>
+
+    <!-- Connected ECU -->
+    <Border DockPanel.Dock="Top" Classes="toolbar" IsVisible="{Binding IsOnline}">
+      <WrapPanel ItemSpacing="24" LineSpacing="4">
+        <StackPanel Orientation="Horizontal" Spacing="6">
+          <TextBlock Classes="label" Text="{Binding Ui[Ecu]}" />
+          <TextBlock FontWeight="SemiBold" Text="{Binding EcuName}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="6">
+          <TextBlock Classes="label" Text="{Binding Ui[IsoCode]}" />
+          <TextBlock Classes="value" FontSize="13" Text="{Binding Iso}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="6">
+          <TextBlock Classes="label" Text="{Binding Ui[Codric]}" />
+          <TextBlock Classes="value" FontSize="13" Text="{Binding Codric}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="6">
+          <TextBlock Classes="label" Text="{Binding Ui[Vehicle]}" />
+          <TextBlock Text="{Binding Vehicle}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="6">
+          <TextBlock Classes="label" Text="{Binding Ui[Immobilizer]}" />
+          <TextBlock Text="{Binding Immobilizer}" />
+        </StackPanel>
+        <TextBlock Classes="label" Text="{Binding RateText}" />
+        <Border Classes="badge" IsVisible="{Binding IsSimulation}">
+          <TextBlock FontWeight="SemiBold" Text="{Binding Ui[Simulation]}" />
+        </Border>
+      </WrapPanel>
+    </Border>
+
+    <!-- Status bar -->
+    <Border DockPanel.Dock="Bottom" Background="#F6F7F9" BorderBrush="#E6E8EB" BorderThickness="0,1,0,0" Padding="8,4">
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBlock Text="{Binding StatusText}" TextTrimming="CharacterEllipsis" />
+        <TextBlock Grid.Column="1" Classes="label" Text="{Binding RecordingText}" TextTrimming="CharacterEllipsis" MaxWidth="560" />
+      </Grid>
+    </Border>
+
+    <TabControl x:Name="Tabs" Padding="0">
+
+      <!-- Parameters -->
+      <TabItem Header="{Binding Ui[TabParameters]}" IsEnabled="{Binding IsOnline}">
+        <DockPanel>
+          <Border DockPanel.Dock="Top" Classes="toolbar">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <Button Content="{Binding Ui[SelectAll]}" Command="{Binding SelectAllCommand}" />
+              <Button Content="{Binding Ui[SelectNone]}" Command="{Binding SelectNoneCommand}" />
+              <Button Content="{Binding RecordButtonText}" Command="{Binding ToggleRecordingCommand}" Margin="16,0,0,0" />
+            </StackPanel>
+          </Border>
+          <Grid DockPanel.Dock="Top" ColumnDefinitions="60,60,*,140,80" Margin="8,6,8,2">
+            <TextBlock Classes="header" Text="{Binding Ui[ColRead]}" />
+            <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColPlot]}" />
+            <TextBlock Grid.Column="2" Classes="header" Text="{Binding Ui[ColName]}" />
+            <TextBlock Grid.Column="3" Classes="header" Text="{Binding Ui[ColValue]}" HorizontalAlignment="Right" />
+            <TextBlock Grid.Column="4" Classes="header" Text="{Binding Ui[ColUnit]}" Margin="10,0,0,0" />
+          </Grid>
+          <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Parameters}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:ParameterRowViewModel">
+                  <Border Classes="row">
+                    <Grid ColumnDefinitions="60,60,*,140,80">
+                      <CheckBox IsChecked="{Binding IsSelected}" MinWidth="0" />
+                      <CheckBox Grid.Column="1" IsChecked="{Binding IsPlotted}" MinWidth="0" />
+                      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Name}" />
+                      <TextBlock Grid.Column="3" Classes="value" Classes.invalid="{Binding !IsValid}" VerticalAlignment="Center"
+                                 HorizontalAlignment="Right" Text="{Binding ValueText}" />
+                      <TextBlock Grid.Column="4" Classes="label" Margin="10,0,0,0" Text="{Binding Unit}" />
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </DockPanel>
+      </TabItem>
+
+      <!-- Errors -->
+      <TabItem Header="{Binding Ui[TabErrors]}" IsEnabled="{Binding IsOnline}">
+        <DockPanel>
+          <Border DockPanel.Dock="Top" Classes="toolbar">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+              <CheckBox Content="{Binding Ui[ReadErrors]}" IsChecked="{Binding ReadErrors}" />
+              <Button Content="{Binding Ui[ClearCodes]}" Command="{Binding ClearCodesCommand}" />
+              <TextBlock Classes="label" Text="{Binding Ui[StatusLegend]}" />
+            </StackPanel>
+          </Border>
+          <Grid DockPanel.Dock="Top" ColumnDefinitions="*,90,*" Margin="8,6,8,2">
+            <TextBlock Classes="header" Text="{Binding Ui[ColName]}" />
+            <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColStatus]}" />
+            <TextBlock Grid.Column="2" Classes="header" Text="{Binding Ui[ColReason]}" />
+          </Grid>
+          <Panel>
+            <TextBlock Classes="label" Margin="12" VerticalAlignment="Top" Text="{Binding Ui[NoErrors]}" IsVisible="{Binding !HasErrors}" />
+            <ScrollViewer>
+              <ItemsControl ItemsSource="{Binding Errors}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:ErrorRowViewModel">
+                    <Border Classes="row">
+                      <Grid ColumnDefinitions="*,90,*">
+                        <TextBlock Classes.active="{Binding IsActive}" Text="{Binding Name}" />
+                        <TextBlock Grid.Column="1" Classes="value" FontSize="13" Classes.active="{Binding IsActive}" Text="{Binding Status}" />
+                        <TextBlock Grid.Column="2" Text="{Binding Reason}" />
+                      </Grid>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+          </Panel>
+        </DockPanel>
+      </TabItem>
+
+      <!-- Actuator tests -->
+      <TabItem Header="{Binding Ui[TabTests]}" IsEnabled="{Binding IsOnline}">
+        <DockPanel>
+          <Grid DockPanel.Dock="Top" ColumnDefinitions="*,220,110,110,120" Margin="8,10,8,2">
+            <TextBlock Classes="header" Text="{Binding Ui[ColName]}" />
+            <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColCondition]}" />
+            <TextBlock Grid.Column="2" Classes="header" Text="{Binding Ui[ColDuration]}" />
+            <TextBlock Grid.Column="4" Classes="header" Text="{Binding Ui[ColResult]}" />
+          </Grid>
+          <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Tests}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:ActiveItemViewModel">
+                  <Border Classes="row">
+                    <Grid ColumnDefinitions="*,220,110,110,120">
+                      <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                      <TextBlock Grid.Column="1" Classes="label" Text="{Binding Condition}" />
+                      <TextBlock Grid.Column="2" Classes="label" Text="{Binding Detail}" />
+                      <Button Grid.Column="3" Content="{Binding #Root.((vm:MainViewModel)DataContext).Ui[Run]}"
+                              Command="{Binding #Root.((vm:MainViewModel)DataContext).RunTestCommand}"
+                              CommandParameter="{Binding}" />
+                      <TextBlock Grid.Column="4" VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding Result}"
+                                 Classes.passed="{Binding IsPassed}" Classes.failed="{Binding IsFailed}" />
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </DockPanel>
+      </TabItem>
+
+      <!-- Adjustments -->
+      <TabItem Header="{Binding Ui[TabAdjustments]}" IsEnabled="{Binding IsOnline}">
+        <DockPanel>
+          <Grid DockPanel.Dock="Top" ColumnDefinitions="*,220,110,110,120" Margin="8,10,8,2">
+            <TextBlock Classes="header" Text="{Binding Ui[ColName]}" />
+            <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColCondition]}" />
+            <TextBlock Grid.Column="4" Classes="header" Text="{Binding Ui[ColResult]}" />
+          </Grid>
+          <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Adjustments}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:ActiveItemViewModel">
+                  <Border Classes="row">
+                    <Grid ColumnDefinitions="*,220,110,110,120">
+                      <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                      <TextBlock Grid.Column="1" Classes="label" Text="{Binding Condition}" />
+                      <TextBlock Grid.Column="2" Classes="label" Text="{Binding Detail}" />
+                      <Button Grid.Column="3" Content="{Binding #Root.((vm:MainViewModel)DataContext).Ui[Apply]}"
+                              Command="{Binding #Root.((vm:MainViewModel)DataContext).RunAdjustmentCommand}"
+                              CommandParameter="{Binding}" />
+                      <TextBlock Grid.Column="4" VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding Result}"
+                                 Classes.passed="{Binding IsPassed}" Classes.failed="{Binding IsFailed}" />
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </DockPanel>
+      </TabItem>
+
+      <!-- Live graphs -->
+      <TabItem Header="{Binding Ui[TabGraphs]}" IsEnabled="{Binding IsOnline}">
+        <DockPanel>
+          <Border DockPanel.Dock="Top" Classes="toolbar">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+              <CheckBox Content="{Binding Ui[SeparateScales]}" IsChecked="{Binding Graph.SeparateScales}" />
+              <CheckBox Content="{Binding Ui[Follow]}" IsChecked="{Binding Graph.Follow}" />
+              <TextBlock Classes="label" Text="{Binding Ui[Window]}" />
+              <ComboBox ItemsSource="{x:Static vm:GraphViewModel.WindowChoices}" SelectedItem="{Binding Graph.WindowSecondsChoice}" x:Name="WindowCombo">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate x:DataType="x:Int32">
+                    <TextBlock Text="{Binding StringFormat='{}{0} s'}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+              <Button Content="{Binding Ui[ClearGraph]}" Command="{Binding Graph.ClearCommand}" />
+              <Button Content="{Binding RecordButtonText}" Command="{Binding ToggleRecordingCommand}" />
+            </StackPanel>
+          </Border>
+          <TextBlock DockPanel.Dock="Bottom" Classes="label" Margin="8,4" TextWrapping="Wrap" Text="{Binding Ui[GraphHint]}" />
+          <views:PlotView x:Name="LivePlot" Source="{Binding Graph}" />
+        </DockPanel>
+      </TabItem>
+
+      <!-- Log replay -->
+      <TabItem Header="{Binding Ui[TabReplay]}">
+        <DockPanel>
+          <Border DockPanel.Dock="Top" Classes="toolbar">
+            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,*" ColumnSpacing="10">
+              <Button Content="{Binding Ui[OpenLog]}" Command="{Binding Replay.OpenCommand}" />
+              <Button Grid.Column="1" Classes="accent" MinWidth="90" Content="{Binding Replay.PlayPauseText}"
+                      Command="{Binding Replay.TogglePlayCommand}" IsEnabled="{Binding Replay.IsLoaded}" />
+              <TextBlock Grid.Column="2" Classes="label" Text="{Binding Ui[Speed]}" />
+              <ComboBox Grid.Column="3" ItemsSource="{x:Static vm:ReplayViewModel.SpeedChoices}" SelectedItem="{Binding Replay.Speed}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate x:DataType="x:Double">
+                    <TextBlock Text="{Binding StringFormat='{}{0}x'}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+              <CheckBox Grid.Column="4" Content="{Binding Ui[SeparateScales]}" IsChecked="{Binding Replay.SeparateScales}" />
+              <TextBlock Grid.Column="5" Classes="label" HorizontalAlignment="Right" Text="{Binding Replay.FileName}" />
+            </Grid>
+          </Border>
+          <Border DockPanel.Dock="Top" Padding="8,4" IsVisible="{Binding Replay.IsLoaded}">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+              <Slider Minimum="0" Maximum="{Binding Replay.DurationMs}" Value="{Binding Replay.PositionMs}" />
+              <TextBlock Grid.Column="1" Classes="value" FontSize="13" VerticalAlignment="Center" Text="{Binding Replay.PositionText}" />
+            </Grid>
+          </Border>
+          <TextBlock DockPanel.Dock="Top" Classes="label" Margin="8,0,8,4" Text="{Binding Replay.Summary}" IsVisible="{Binding Replay.IsLoaded}" />
+          <Panel>
+            <TextBlock Classes="label" Margin="16" Text="{Binding Ui[ReplayEmpty]}" IsVisible="{Binding !Replay.IsLoaded}" />
+            <Grid ColumnDefinitions="340,*" IsVisible="{Binding Replay.IsLoaded}">
+              <ScrollViewer>
+                <ItemsControl ItemsSource="{Binding Replay.Columns}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ReplayColumnViewModel">
+                      <Border Classes="row">
+                        <Grid ColumnDefinitions="40,*,80,50">
+                          <CheckBox IsChecked="{Binding IsPlotted}" MinWidth="0" />
+                          <TextBlock Grid.Column="1" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+                          <TextBlock Grid.Column="2" Classes="value" FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding ValueText}" />
+                          <TextBlock Grid.Column="3" Classes="label" Margin="6,0,0,0" Text="{Binding Unit}" />
+                        </Grid>
+                      </Border>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </ScrollViewer>
+              <views:PlotView Grid.Column="1" x:Name="ReplayPlot" Source="{Binding Replay}" />
+            </Grid>
+          </Panel>
+        </DockPanel>
+      </TabItem>
+
+    </TabControl>
+  </DockPanel>
+</Window>
