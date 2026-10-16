@@ -4,7 +4,24 @@ Diagnosi per le centraline motore Magneti Marelli IAW delle FIAT, Lancia e Alfa 
 
 [Read in English](README.md)
 
-> **Stato: sviluppo iniziale.** Il nucleo del protocollo, le definizioni delle centraline, il simulatore e lo strumento a riga di comando funzionano e sono verificati contro il codice originale di IES2. L'interfaccia grafica (Avalonia) non è ancora scritta; l'applicazione Windows originale è in `legacy/IES2`.
+> **Stato: sviluppo iniziale, non ancora provato su un'auto reale.** L'applicazione desktop, lo strumento a riga di comando, il nucleo del protocollo e le definizioni funzionano con il simulatore integrato e sono verificati contro il codice originale di IES2. L'applicazione Windows originale è conservata in `legacy/IES2`.
+
+![Parametri in tempo reale](docs/screenshots/parametri-it.png)
+
+## Funzioni
+
+- Riconoscimento automatico della centralina, codici ISO e CODRIC, modello di veicolo, immobilizzatore
+- Parametri in tempo reale, con la frequenza di aggiornamento effettiva
+- Errori motore e immobilizzatore, cancellazione errori
+- Test attuatori e regolazioni, ciascuno con conferma
+- Grafici interattivi: zoom, spostamento, una scala per segnale, finestra temporale
+- Registrazione CSV e riproduzione dei log (anche quelli esportati da IES2) con play, pausa, barra di scorrimento e velocità 1x/2x/5x/10x
+- Simulatore integrato per provare tutto senza auto
+- Windows, Linux (anche Raspberry Pi) e macOS; interfaccia in italiano e inglese, nomi di parametri ed errori in dieci lingue
+
+| Errori | Grafici | Riproduzione log |
+| --- | --- | --- |
+| ![Errori](docs/screenshots/errors.png) | ![Grafici](docs/screenshots/graphs.png) | ![Riproduzione](docs/screenshots/replay.png) |
 
 ## Centraline supportate
 
@@ -33,7 +50,10 @@ Serve il [.NET 10 SDK](https://dotnet.microsoft.com/download).
 dotnet build
 dotnet test
 
-# Prova senza auto: il simulatore integrato
+# Applicazione desktop (scegli "Simulatore" come interfaccia per provarla senza auto)
+dotnet run --project src/MarelliIawEcuStudio.App
+
+# Riga di comando, anche senza auto
 dotnet run --project src/MarelliIawEcuStudio.Cli -- read --simulate --count 5 --lang it
 
 # Con il cavo (esempio Linux; su Windows --port COM3)
@@ -43,11 +63,13 @@ dotnet run --project src/MarelliIawEcuStudio.Cli -- read --port /dev/ttyUSB0 --p
 dotnet run --project src/MarelliIawEcuStudio.Cli -- errors --port /dev/ttyUSB0
 ```
 
-Come IES2, lo strumento ascolta per 10 secondi il codice ISO che la centralina può inviare all'accensione: avvialo, poi gira la chiave. `--no-broadcast` salta l'attesa.
+Gli eseguibili pronti per Windows, Linux x64, Linux arm64 (Raspberry Pi) e macOS vengono prodotti dalla CI a ogni modifica (GitHub Actions → artifacts).
+
+Come IES2, il programma ascolta per 10 secondi il codice ISO che la centralina può inviare all'accensione: avvialo, poi gira la chiave. Per saltare l'attesa togli la spunta "Attendi il codice ISO all'accensione" nelle Opzioni, o usa `--no-broadcast` da riga di comando.
 
 ## Sicurezza
 
-Test attuatori, cancellazione errori e regolazioni comandano componenti reali (pompa, iniettori, bobine). Lo strumento a riga di comando è **in sola lettura** senza `--allow-active`, e chiede conferma prima di ogni comando. Le definizioni non marcate `verified` non eseguono comandi attivi salvo autorizzazione esplicita. Uso a proprio rischio; vedi l'esclusione di garanzia nella licenza.
+Test attuatori, cancellazione errori e regolazioni comandano componenti reali (pompa, iniettori, bobine). L'applicazione chiede conferma prima di ciascuno e permette di disattivarli nelle Opzioni; lo strumento a riga di comando è **in sola lettura** senza `--allow-active`, e chiede anch'esso conferma. Le definizioni non marcate `verified` non eseguono comandi attivi salvo autorizzazione esplicita. Uso a proprio rischio; vedi l'esclusione di garanzia nella licenza.
 
 ## Origine e licenza
 

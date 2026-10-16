@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>MarelliIawEcuStudio.Presentation</RootNamespace>
+    <Description>View models (MVVM) of the desktop application. No dependency on a UI framework, so they are tested with the simulator and can be reused by another front end.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MarelliIawEcuStudio.Core\MarelliIawEcuStudio.Core.csproj" />
+    <ProjectReference Include="..\MarelliIawEcuStudio.Simulator\MarelliIawEcuStudio.Simulator.csproj" />
+    <ProjectReference Include="..\MarelliIawEcuStudio.Transport.Serial\MarelliIawEcuStudio.Transport.Serial.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="MarelliIawEcuStudio.Tests" />
+  </ItemGroup>
+
+</Project>

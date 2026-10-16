@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\src\MarelliIawEcuStudio.Core\MarelliIawEcuStudio.Core.csproj" />
     <ProjectReference Include="..\..\src\MarelliIawEcuStudio.Simulator\MarelliIawEcuStudio.Simulator.csproj" />
     <ProjectReference Include="..\..\src\MarelliIawEcuStudio.Cli\MarelliIawEcuStudio.Cli.csproj" />
+    <ProjectReference Include="..\..\src\MarelliIawEcuStudio.Presentation\MarelliIawEcuStudio.Presentation.csproj" />
     <ProjectReference Include="..\MarelliIawEcuStudio.LegacyReference\MarelliIawEcuStudio.LegacyReference.csproj" />
   </ItemGroup>
 

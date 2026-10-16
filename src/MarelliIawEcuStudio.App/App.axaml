@@ -1,0 +1,54 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MarelliIawEcuStudio.App.App"
+             RequestedThemeVariant="Light">
+
+  <Application.Styles>
+    <FluentTheme />
+
+    <Style Selector="TextBlock.header">
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="#5A5F66" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style Selector="TextBlock.label">
+      <Setter Property="Foreground" Value="#5A5F66" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="TextBlock.value">
+      <Setter Property="FontFeatures" Value="+tnum" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="FontSize" Value="15" />
+    </Style>
+    <Style Selector="TextBlock.invalid">
+      <Setter Property="Foreground" Value="#B3261E" />
+    </Style>
+    <Style Selector="TextBlock.passed">
+      <Setter Property="Foreground" Value="#1B7F3B" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="TextBlock.failed">
+      <Setter Property="Foreground" Value="#B3261E" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="TextBlock.active">
+      <Setter Property="Foreground" Value="#B3261E" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="Border.badge">
+      <Setter Property="Background" Value="#FDE7B0" />
+      <Setter Property="CornerRadius" Value="4" />
+      <Setter Property="Padding" Value="8,2" />
+    </Style>
+    <Style Selector="Border.row">
+      <Setter Property="BorderBrush" Value="#E6E8EB" />
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+      <Setter Property="Padding" Value="8,4" />
+    </Style>
+    <Style Selector="Border.toolbar">
+      <Setter Property="Padding" Value="8" />
+      <Setter Property="BorderBrush" Value="#E6E8EB" />
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+    </Style>
+  </Application.Styles>
+</Application>

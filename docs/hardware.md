@@ -5,7 +5,7 @@
 1. **A KKL cable** ("VAG-COM KKL 409.1", USB). It must be a plain K-Line cable: avoid "K+DCAN" or switchable models. Prefer a seller who states a **genuine FTDI FT232R** chip; cloned chips are common and some were disabled by FTDI's Windows driver in the past. CH340 based cables may work but are less tested.
 2. **An OBD2 to FIAT 3-pin adapter.** The 3-pin connector carries +12 V, ground and K-Line. Before the first connection, check with a multimeter that each signal reaches the right OBD2 pin (16 = +12 V, 4/5 = ground, 7 = K-Line): cheap adapters are not always wired correctly.
 
-The ECU only talks with the ignition on. Like IES2, the software first listens for 10 seconds for an ISO code that the ECU may send by itself at key-on, so start the software first, then turn the key. If nothing arrives it initialises the ECU and asks for the code. Use `--no-broadcast` to skip the wait when the ignition is already on.
+The ECU only talks with the ignition on. Like IES2, the software first listens for 10 seconds for an ISO code that the ECU may send by itself at key-on, so start the software first, then turn the key. If nothing arrives it initialises the ECU and asks for the code. To skip the wait when the ignition is already on, untick "Wait for the ISO code at key-on" in the application's Options, or pass `--no-broadcast` to `iaw-cli`.
 
 ## The protocol, briefly
 

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppTitle" xml:space="preserve"><value>Marelli IAW ECU Studio</value></data>
+  <data name="Interface" xml:space="preserve"><value>Interface</value></data>
+  <data name="Ecu" xml:space="preserve"><value>ECU</value></data>
+  <data name="Refresh" xml:space="preserve"><value>Refresh</value></data>
+  <data name="Connect" xml:space="preserve"><value>Connect</value></data>
+  <data name="Disconnect" xml:space="preserve"><value>Disconnect</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Reconnect" xml:space="preserve"><value>Reconnect</value></data>
+  <data name="Options" xml:space="preserve"><value>Options</value></data>
+  <data name="CompatMode" xml:space="preserve"><value>Compatibility mode (slow adapters)</value></data>
+  <data name="WaitBroadcast" xml:space="preserve"><value>Wait for the ISO code at key-on</value></data>
+  <data name="Dtr" xml:space="preserve"><value>Raise DTR</value></data>
+  <data name="AllowActive" xml:space="preserve"><value>Enable active commands (tests, clear codes, adjustments)</value></data>
+  <data name="Language" xml:space="preserve"><value>Language</value></data>
+  <data name="StatusDisconnected" xml:space="preserve"><value>Not connected</value></data>
+  <data name="StatusConnected" xml:space="preserve"><value>Connected</value></data>
+  <data name="StatusError" xml:space="preserve"><value>Error</value></data>
+  <data name="Simulation" xml:space="preserve"><value>Simulation</value></data>
+  <data name="IsoCode" xml:space="preserve"><value>ISO code</value></data>
+  <data name="Codric" xml:space="preserve"><value>CODRIC</value></data>
+  <data name="Vehicle" xml:space="preserve"><value>Vehicle</value></data>
+  <data name="Immobilizer" xml:space="preserve"><value>Immobiliser</value></data>
+  <data name="Present" xml:space="preserve"><value>present</value></data>
+  <data name="Absent" xml:space="preserve"><value>absent</value></data>
+  <data name="RefreshRate" xml:space="preserve"><value>{0:0.0} updates/s</value></data>
+  <data name="TabParameters" xml:space="preserve"><value>Parameters</value></data>
+  <data name="TabErrors" xml:space="preserve"><value>Errors</value></data>
+  <data name="TabTests" xml:space="preserve"><value>Actuator tests</value></data>
+  <data name="TabAdjustments" xml:space="preserve"><value>Adjustments</value></data>
+  <data name="TabGraphs" xml:space="preserve"><value>Graphs</value></data>
+  <data name="TabReplay" xml:space="preserve"><value>Log replay</value></data>
+  <data name="SelectAll" xml:space="preserve"><value>Select all</value></data>
+  <data name="SelectNone" xml:space="preserve"><value>Select none</value></data>
+  <data name="ColRead" xml:space="preserve"><value>Read</value></data>
+  <data name="ColName" xml:space="preserve"><value>Name</value></data>
+  <data name="ColValue" xml:space="preserve"><value>Value</value></data>
+  <data name="ColUnit" xml:space="preserve"><value>Unit</value></data>
+  <data name="ColPlot" xml:space="preserve"><value>Graph</value></data>
+  <data name="ColStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="ColReason" xml:space="preserve"><value>Reason</value></data>
+  <data name="ColResult" xml:space="preserve"><value>Result</value></data>
+  <data name="ColDuration" xml:space="preserve"><value>Max duration</value></data>
+  <data name="ColCondition" xml:space="preserve"><value>Condition</value></data>
+  <data name="Record" xml:space="preserve"><value>Record CSV</value></data>
+  <data name="StopRecording" xml:space="preserve"><value>Stop recording</value></data>
+  <data name="RecordingTo" xml:space="preserve"><value>Recording to {0}</value></data>
+  <data name="Recorded" xml:space="preserve"><value>Saved {0}</value></data>
+  <data name="ReadErrors" xml:space="preserve"><value>Read errors</value></data>
+  <data name="ClearCodes" xml:space="preserve"><value>Clear codes</value></data>
+  <data name="NoErrors" xml:space="preserve"><value>No errors</value></data>
+  <data name="StatusLegend" xml:space="preserve"><value>[A] active · [V] verified · [S] stored</value></data>
+  <data name="Run" xml:space="preserve"><value>Run</value></data>
+  <data name="Apply" xml:space="preserve"><value>Apply</value></data>
+  <data name="EngineRunning" xml:space="preserve"><value>engine running</value></data>
+  <data name="EngineStopped" xml:space="preserve"><value>ignition on, engine stopped</value></data>
+  <data name="ConfirmTestTitle" xml:space="preserve"><value>Actuator test</value></data>
+  <data name="ConfirmTest" xml:space="preserve"><value>Run "{0}"?
+
+The actuator will be driven for up to {1} s.
+Required: {2}.</value></data>
+  <data name="ConfirmClearTitle" xml:space="preserve"><value>Clear error codes</value></data>
+  <data name="ConfirmClear" xml:space="preserve"><value>Clear all stored error codes?
+
+The ignition must be ON and the engine STOPPED.</value></data>
+  <data name="ConfirmAdjustTitle" xml:space="preserve"><value>Adjustment</value></data>
+  <data name="ConfirmAdjust" xml:space="preserve"><value>Apply "{0}"?</value></data>
+  <data name="AdjustValueTitle" xml:space="preserve"><value>{0}: new value</value></data>
+  <data name="ActiveDisabled" xml:space="preserve"><value>Active commands are disabled in the options.</value></data>
+  <data name="Busy" xml:space="preserve"><value>Command in progress...</value></data>
+  <data name="SeparateScales" xml:space="preserve"><value>Separate scales</value></data>
+  <data name="Window" xml:space="preserve"><value>Window</value></data>
+  <data name="WindowAll" xml:space="preserve"><value>All</value></data>
+  <data name="Follow" xml:space="preserve"><value>Follow</value></data>
+  <data name="ClearGraph" xml:space="preserve"><value>Clear</value></data>
+  <data name="GraphHint" xml:space="preserve"><value>Tick parameters in the Graph column of the Parameters tab. Scroll to zoom, drag to pan, double-click to reset the view.</value></data>
+  <data name="OpenLog" xml:space="preserve"><value>Open log...</value></data>
+  <data name="Play" xml:space="preserve"><value>Play</value></data>
+  <data name="Pause" xml:space="preserve"><value>Pause</value></data>
+  <data name="Speed" xml:space="preserve"><value>Speed</value></data>
+  <data name="ReplayEmpty" xml:space="preserve"><value>Open a CSV log recorded by this program or exported by IES2.</value></data>
+  <data name="ReplayLegacy" xml:space="preserve"><value>IES2 export</value></data>
+  <data name="Samples" xml:space="preserve"><value>{0} samples</value></data>
+  <data name="OpenFailed" xml:space="preserve"><value>The file could not be read: {0}</value></data>
+  <data name="SimulatedEcu" xml:space="preserve"><value>Simulated ECU</value></data>
+  <data name="Unverified" xml:space="preserve"><value>UNVERIFIED</value></data>
+  <data name="SimulatorName" xml:space="preserve"><value>Simulator</value></data>
+  <data name="SimulatorDescription" xml:space="preserve"><value>demo, no cable needed</value></data>
+</root>
