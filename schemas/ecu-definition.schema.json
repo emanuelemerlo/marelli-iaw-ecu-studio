@@ -4,23 +4,51 @@
   "title": "Magneti Marelli IAW ECU definition",
   "description": "One ECU family for marelli-iaw-ecu-studio. See docs/definitions.md.",
   "type": "object",
-  "required": ["id", "name", "parameters"],
+  "required": [
+    "id",
+    "name",
+    "parameters"
+  ],
   "$defs": {
     "byte": {
       "description": "A byte, as a number or a \"0xNN\" string.",
       "oneOf": [
-        { "type": "integer", "minimum": 0, "maximum": 255 },
-        { "type": "string", "pattern": "^0[xX][0-9A-Fa-f]{1,2}$" }
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        {
+          "type": "string",
+          "pattern": "^0[xX][0-9A-Fa-f]{1,2}$"
+        }
       ]
     },
-    "bytes": { "type": "array", "items": { "$ref": "#/$defs/byte" } },
-    "bit": { "type": "integer", "minimum": 0, "maximum": 7 },
+    "bytes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/byte"
+      }
+    },
+    "bit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7
+    },
     "match": {
       "type": "object",
-      "required": ["offset", "value"],
+      "required": [
+        "offset",
+        "value"
+      ],
       "properties": {
-        "offset": { "type": "integer", "minimum": 0 },
-        "value": { "type": "string" }
+        "offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "value": {
+          "type": "string"
+        }
       }
     },
     "text": {
@@ -30,55 +58,196 @@
     "error": {
       "type": "object",
       "properties": {
-        "nameKey": { "$ref": "#/$defs/text" },
-        "name": { "$ref": "#/$defs/text" },
-        "active": { "$ref": "#/$defs/byte" },
-        "verified": { "$ref": "#/$defs/byte" },
-        "stored": { "$ref": "#/$defs/byte" },
-        "bit": { "$ref": "#/$defs/bit" },
+        "nameKey": {
+          "$ref": "#/$defs/text"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "active": {
+          "$ref": "#/$defs/byte"
+        },
+        "verified": {
+          "$ref": "#/$defs/byte"
+        },
+        "stored": {
+          "$ref": "#/$defs/byte"
+        },
+        "bit": {
+          "$ref": "#/$defs/bit"
+        },
         "ext": {
           "type": "object",
           "properties": {
-            "active": { "$ref": "#/$defs/byte" },
-            "verified": { "$ref": "#/$defs/byte" },
-            "stored": { "$ref": "#/$defs/byte" },
-            "bit": { "$ref": "#/$defs/bit" }
+            "active": {
+              "$ref": "#/$defs/byte"
+            },
+            "verified": {
+              "$ref": "#/$defs/byte"
+            },
+            "stored": {
+              "$ref": "#/$defs/byte"
+            },
+            "bit": {
+              "$ref": "#/$defs/bit"
+            }
           }
         },
-        "highReasonKey": { "type": "string" },
-        "highReason": { "type": "string" },
-        "lowReasonKey": { "type": "string" },
-        "lowReason": { "type": "string" }
+        "highReasonKey": {
+          "type": "string"
+        },
+        "highReason": {
+          "type": "string"
+        },
+        "lowReasonKey": {
+          "type": "string"
+        },
+        "lowReason": {
+          "type": "string"
+        }
       }
     },
     "errorGroup": {
       "type": "object",
       "properties": {
         "scheme": {
-          "enum": ["storedFirst", "activeVerifiedStored", "activeVerifiedStoredNoVerifiedFlag", "noReason", "fiatCode"]
+          "enum": [
+            "storedFirst",
+            "activeVerifiedStored",
+            "activeVerifiedStoredNoVerifiedFlag",
+            "noReason",
+            "fiatCode"
+          ]
         },
-        "requests": { "$ref": "#/$defs/bytes" },
-        "items": { "type": "array", "items": { "$ref": "#/$defs/error" } }
+        "requests": {
+          "$ref": "#/$defs/bytes"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/error"
+          }
+        }
       }
     },
     "activeTest": {
       "type": "object",
-      "required": ["requests"],
+      "required": [
+        "requests"
+      ],
       "properties": {
-        "nameKey": { "type": "string" },
-        "name": { "type": "string" },
-        "engineRunning": { "type": "boolean" },
-        "timeoutSeconds": { "type": "integer", "minimum": 0 },
-        "requests": { "$ref": "#/$defs/bytes", "minItems": 1 }
+        "nameKey": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "engineRunning": {
+          "type": "boolean"
+        },
+        "timeoutSeconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "requests": {
+          "$ref": "#/$defs/bytes",
+          "minItems": 1
+        }
+      }
+    },
+    "localizedText": {
+      "type": "object",
+      "description": "Text by language code (en, it...); English is the fallback.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "display": {
+      "type": "object",
+      "description": "Dashboard group and instrument.",
+      "properties": {
+        "group": {
+          "enum": [
+            "engine",
+            "temperatures",
+            "electrical",
+            "mixture",
+            "idle",
+            "adaptation",
+            "status",
+            "other"
+          ]
+        },
+        "widget": {
+          "enum": [
+            "gauge",
+            "bar",
+            "led",
+            "value"
+          ]
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "center": {
+          "type": "number"
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "from",
+              "to",
+              "level"
+            ],
+            "properties": {
+              "from": {
+                "type": "number"
+              },
+              "to": {
+                "type": "number"
+              },
+              "level": {
+                "enum": [
+                  "cold",
+                  "warning",
+                  "danger"
+                ]
+              }
+            }
+          }
+        },
+        "led": {
+          "enum": [
+            "good",
+            "warning",
+            "info"
+          ]
+        }
       }
     }
   },
   "properties": {
-    "$schema": { "type": "string" },
-    "id": { "type": "string", "minLength": 1 },
-    "name": { "type": "string" },
-    "longName": { "type": "string" },
-    "source": { "type": "string" },
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string"
+    },
+    "longName": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
     "verified": {
       "type": "boolean",
       "description": "Checked against a real ECU or the original code. Active commands of unverified definitions are disabled by default."
@@ -86,57 +255,136 @@
     "protocol": {
       "type": "object",
       "properties": {
-        "identification": { "enum": ["standard", "p8"] }
+        "identification": {
+          "enum": [
+            "standard",
+            "p8"
+          ]
+        }
       }
     },
     "detection": {
       "type": "object",
       "properties": {
-        "autoDetect": { "type": "boolean" },
-        "order": { "type": "integer" },
-        "isoMatches": { "type": "array", "items": { "$ref": "#/$defs/match" } },
-        "codricMatches": { "type": "array", "items": { "$ref": "#/$defs/match" } }
+        "autoDetect": {
+          "type": "boolean"
+        },
+        "order": {
+          "type": "integer"
+        },
+        "isoMatches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/match"
+          }
+        },
+        "codricMatches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/match"
+          }
+        }
       }
     },
     "vehicles": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["iso", "model"],
+        "required": [
+          "iso",
+          "model"
+        ],
         "properties": {
-          "iso": { "type": "string", "pattern": "^[0-9A-F?]{12}$" },
-          "model": { "type": "string" }
+          "iso": {
+            "type": "string",
+            "pattern": "^[0-9A-F?]{12}$"
+          },
+          "model": {
+            "type": "string"
+          }
         }
       }
     },
     "tables": {
       "type": "object",
-      "additionalProperties": { "type": "array", "items": { "type": "number" }, "minItems": 256, "maxItems": 256 }
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        },
+        "minItems": 256,
+        "maxItems": 256
+      }
     },
     "parameters": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "requests", "decode"],
+        "required": [
+          "id",
+          "requests",
+          "decode"
+        ],
         "properties": {
-          "id": { "type": "string" },
-          "nameKey": { "type": "string" },
-          "name": { "type": "string" },
-          "unitKey": { "type": "string" },
-          "unit": { "type": "string" },
-          "format": { "type": "string", "description": ".NET numeric format, e.g. 0.00" },
-          "formatKey": { "type": "string" },
-          "requests": { "$ref": "#/$defs/bytes", "minItems": 1, "maxItems": 2 },
+          "id": {
+            "type": "string"
+          },
+          "nameKey": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "unitKey": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string",
+            "description": ".NET numeric format, e.g. 0.00"
+          },
+          "formatKey": {
+            "type": "string"
+          },
+          "requests": {
+            "$ref": "#/$defs/bytes",
+            "minItems": 1,
+            "maxItems": 2
+          },
           "decode": {
             "type": "object",
-            "required": ["raw"],
+            "required": [
+              "raw"
+            ],
             "properties": {
-              "raw": { "enum": ["u8", "s8", "u16", "s16", "bit"] },
-              "bit": { "$ref": "#/$defs/bit" },
-              "invert": { "type": "boolean" },
-              "expr": { "type": "string", "description": "Expression in x, e.g. \"x * 0.0625\" or \"x < 171 ? x * 0.1848 - 1.41 : x * 0.7058 - 90\"" },
-              "table": { "type": "string" }
+              "raw": {
+                "enum": [
+                  "u8",
+                  "s8",
+                  "u16",
+                  "s16",
+                  "bit"
+                ]
+              },
+              "bit": {
+                "$ref": "#/$defs/bit"
+              },
+              "invert": {
+                "type": "boolean"
+              },
+              "expr": {
+                "type": "string",
+                "description": "Expression in x, e.g. \"x * 0.0625\" or \"x < 171 ? x * 0.1848 - 1.41 : x * 0.7058 - 90\""
+              },
+              "table": {
+                "type": "string"
+              }
             }
+          },
+          "display": {
+            "$ref": "#/$defs/display"
           }
         }
       }
@@ -144,24 +392,110 @@
     "errors": {
       "type": "object",
       "properties": {
-        "engine": { "$ref": "#/$defs/errorGroup" },
-        "immobilizer": { "$ref": "#/$defs/errorGroup" }
+        "engine": {
+          "$ref": "#/$defs/errorGroup"
+        },
+        "immobilizer": {
+          "$ref": "#/$defs/errorGroup"
+        }
       }
     },
-    "activeTests": { "type": "array", "items": { "$ref": "#/$defs/activeTest" } },
-    "clearCodes": { "$ref": "#/$defs/activeTest" },
+    "activeTests": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/activeTest"
+      }
+    },
+    "clearCodes": {
+      "$ref": "#/$defs/activeTest"
+    },
     "adjustments": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "nameKey": { "type": "string" },
-          "name": { "type": "string" },
-          "statusRequest": { "$ref": "#/$defs/byte" },
-          "statusMask": { "$ref": "#/$defs/byte" },
-          "preSet": { "$ref": "#/$defs/bytes" },
-          "postSet": { "$ref": "#/$defs/bytes" },
-          "type": { "enum": ["toggle", "onebyte", "code"] }
+          "nameKey": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "statusRequest": {
+            "$ref": "#/$defs/byte"
+          },
+          "statusMask": {
+            "$ref": "#/$defs/byte"
+          },
+          "preSet": {
+            "$ref": "#/$defs/bytes"
+          },
+          "postSet": {
+            "$ref": "#/$defs/bytes"
+          },
+          "type": {
+            "enum": [
+              "toggle",
+              "onebyte",
+              "code"
+            ]
+          }
+        }
+      }
+    },
+    "family": {
+      "type": "object",
+      "description": "Technology, period and compatible vehicles of the family.",
+      "properties": {
+        "technology": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "period": {
+          "type": "string"
+        },
+        "compatibility": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "brand",
+              "model"
+            ],
+            "properties": {
+              "brand": {
+                "type": "string"
+              },
+              "model": {
+                "type": "string"
+              },
+              "engines": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "compatibilityVerified": {
+          "type": "boolean"
+        },
+        "notes": {
+          "$ref": "#/$defs/localizedText"
+        }
+      }
+    },
+    "aliases": {
+      "type": "array",
+      "description": "Other names or hardware codes of units covered by this definition.",
+      "items": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
         }
       }
     }

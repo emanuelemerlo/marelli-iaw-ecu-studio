@@ -116,3 +116,94 @@ public class DefinitionTests
         return s[..i] + replace + s[(i + find.Length)..];
     }
 }
+
+public class DisplayAndFamilyTests
+{
+    private static readonly DefinitionRegistry Registry = DefinitionRegistry.BuiltIn();
+
+    [Fact]
+    public void EveryParameterHasADashboardPlace()
+    {
+        foreach (var d in Registry.All)
+            foreach (var p in d.Parameters)
+            {
+                Assert.NotNull(p.Display);
+                if (p.Decode.Raw == "bit")
+                    Assert.Equal(DisplaySpec.WidgetLed, p.Display.Widget);
+            }
+    }
+
+    [Fact]
+    public void GaugeScalesCoverTheUsualValues()
+    {
+        var rpm = Registry.Get("IAW-8F/18F").Parameters.Single(p => p.Id == "PERIODE").Display!;
+        Assert.Equal(DisplaySpec.WidgetGauge, rpm.Widget);
+        Assert.Equal(7000, rpm.Max);
+        var turbo = Registry.Get("IAW-04K.P8").Parameters.Single(p => p.Id == "MP2_MP8t").Display!;
+        Assert.Equal(DisplaySpec.GroupEngine, turbo.Group);
+        Assert.Contains(turbo.Zones, z => z.Level == "danger");
+        var stepper04k = Registry.Get("IAW-04K.P8").Parameters.Single(p => p.Id == "ALFAR").Display!;
+        Assert.Equal(-128, stepper04k.Min); // IAW-04K reports the idle stepper as x - 128
+    }
+
+    [Fact]
+    public void KnockFlagIsAWarningLed()
+    {
+        var knock = Registry.Get("IAW-8F/18F").Parameters.Single(p => p.NameKey == "StaAdvDecr").Display!;
+        Assert.Equal("warning", knock.Led);
+    }
+
+    [Fact]
+    public void EveryFamilyDescribesItsVehiclesAsIndicative()
+    {
+        foreach (var d in Registry.All)
+        {
+            Assert.NotNull(d.Family);
+            Assert.False(d.Family.CompatibilityVerified);
+            Assert.NotEmpty(d.Family.Compatibility);
+            Assert.False(string.IsNullOrEmpty(d.Family.Period));
+            Assert.NotEqual(d.Family.Technology!.Get(System.Globalization.CultureInfo.GetCultureInfo("it")),
+                d.Family.Technology.Get(System.Globalization.CultureInfo.InvariantCulture));
+        }
+        Assert.Contains(Registry.Get("IAW-18FD/1G7").Family!.Compatibility, c => c.Model.Contains("Palio"));
+    }
+
+    [Fact]
+    public void LocalizedTextFallsBackToEnglish()
+    {
+        var text = new LocalizedText { ["en"] = "Single point", ["it"] = "Monopunto" };
+        Assert.Equal("Monopunto", text.Get(System.Globalization.CultureInfo.GetCultureInfo("it-IT")));
+        Assert.Equal("Single point", text.Get(System.Globalization.CultureInfo.GetCultureInfo("de")));
+    }
+
+    [Theory]
+    [InlineData("\"widget\": \"gauge\"", "\"widget\": \"dial\"", "unknown display widget")]
+    [InlineData("\"group\": \"engine\"", "\"group\": \"cabin\"", "unknown display group")]
+    [InlineData("\"max\": 7000", "\"max\": -1", "min must be lower")]
+    public void InvalidDisplayIsRejected(string find, string replace, string message)
+    {
+        using var s = typeof(DefinitionLoader).Assembly.GetManifestResourceStream("MarelliIawEcuStudio.Core.Definitions.IAW-8F-18F.json")!;
+        var json = new StreamReader(s).ReadToEnd();
+        var i = json.IndexOf(find, StringComparison.Ordinal);
+        Assert.True(i >= 0, find);
+        var ex = Assert.Throws<DefinitionException>(() => DefinitionLoader.Parse(json[..i] + replace + json[(i + find.Length)..], "x.json"));
+        Assert.Contains(message, ex.Message);
+    }
+
+    [Theory]
+    [InlineData("IAW-04K.P8")]
+    [InlineData("IAW 4WF.P8")]
+    [InlineData("4WF.P8")]
+    [InlineData("iaw-4wf-p8")]
+    [InlineData("4wfp8")]
+    public void FindsTheCoupeTurboUnitByItsLabelCode(string name) =>
+        Assert.Equal("IAW-04K.P8", Registry.Find(name)?.Id);
+
+    [Fact]
+    public void UnknownCodeIsNotMatchedByAccident()
+    {
+        Assert.Null(Registry.Find("IAW 59F"));
+        Assert.Null(Registry.Find(""));
+        Assert.Equal("4WFP8", EcuDefinition.NormalizeName("IAW 4WF.P8"));
+    }
+}

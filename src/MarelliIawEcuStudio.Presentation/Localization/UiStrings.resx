@@ -91,4 +91,25 @@ The ignition must be ON and the engine STOPPED.</value></data>
   <data name="Unverified" xml:space="preserve"><value>UNVERIFIED</value></data>
   <data name="SimulatorName" xml:space="preserve"><value>Simulator</value></data>
   <data name="SimulatorDescription" xml:space="preserve"><value>demo, no cable needed</value></data>
+  <data name="TabDashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="Group_engine" xml:space="preserve"><value>Engine</value></data>
+  <data name="Group_temperatures" xml:space="preserve"><value>Temperatures</value></data>
+  <data name="Group_electrical" xml:space="preserve"><value>Electrical</value></data>
+  <data name="Group_mixture" xml:space="preserve"><value>Mixture and lambda</value></data>
+  <data name="Group_idle" xml:space="preserve"><value>Throttle and idle</value></data>
+  <data name="Group_adaptation" xml:space="preserve"><value>Self-adaptation</value></data>
+  <data name="Group_status" xml:space="preserve"><value>Status</value></data>
+  <data name="Group_other" xml:space="preserve"><value>Other</value></data>
+  <data name="VehicleCard" xml:space="preserve"><value>Vehicle and ECU</value></data>
+  <data name="DetectedVehicle" xml:space="preserve"><value>Detected vehicle</value></data>
+  <data name="VehicleNotInTable" xml:space="preserve"><value>ISO code {0} is not in the vehicle table</value></data>
+  <data name="Technology" xml:space="preserve"><value>Technology</value></data>
+  <data name="Period" xml:space="preserve"><value>Period</value></data>
+  <data name="CompatibleVehicles" xml:space="preserve"><value>Compatible vehicles</value></data>
+  <data name="CompatibleVehiclesIndicative" xml:space="preserve"><value>Compatible vehicles (indicative, to be verified)</value></data>
+  <data name="IsoVehicles" xml:space="preserve"><value>Recognised by ISO code</value></data>
+  <data name="AlsoKnownAs" xml:space="preserve"><value>Also known as</value></data>
+  <data name="AutoDetectHint" xml:space="preserve"><value>Recognises the family from the ISO code</value></data>
+  <data name="EcuSearch" xml:space="preserve"><value>Search: code on the label, car, brand...</value></data>
+  <data name="Aliases" xml:space="preserve"><value>Also known as</value></data>
 </root>

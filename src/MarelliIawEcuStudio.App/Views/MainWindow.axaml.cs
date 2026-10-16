@@ -23,8 +23,8 @@ public partial class MainWindow : Window
                 vm.PropertyChanged += (_, e) =>
                 {
                     // Show live data as soon as the ECU answers (the replay tab is the only one enabled before).
-                    if (e.PropertyName == nameof(MainViewModel.State) && vm.State == ConnectionState.Connected && Tabs.SelectedIndex == 5)
-                        Tabs.SelectedIndex = 0;
+                    if (e.PropertyName == nameof(MainViewModel.State) && vm.State == ConnectionState.Connected && Tabs.SelectedItem == ReplayTab)
+                        Tabs.SelectedItem = DashboardTab;
                 };
         };
     }

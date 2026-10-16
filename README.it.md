@@ -6,12 +6,15 @@ Diagnosi per le centraline motore Magneti Marelli IAW delle FIAT, Lancia e Alfa 
 
 > **Stato: sviluppo iniziale, non ancora provato su un'auto reale.** L'applicazione desktop, lo strumento a riga di comando, il nucleo del protocollo e le definizioni funzionano con il simulatore integrato e sono verificati contro il codice originale di IES2. L'applicazione Windows originale è conservata in `legacy/IES2`.
 
-![Parametri in tempo reale](docs/screenshots/parametri-it.png)
+![Cruscotto IAW-04K.P8 (Fiat Coupé 2.0 Turbo)](docs/screenshots/cruscotto-04k.png)
 
 ## Funzioni
 
 - Riconoscimento automatico della centralina, codici ISO e CODRIC, modello di veicolo, immobilizzatore
-- Parametri in tempo reale, con la frequenza di aggiornamento effettiva
+- Ricerca della centralina per codice sull'etichetta (ad esempio IAW 4WF.P8), per auto o per marca
+- Cruscotto organizzato per impianto (motore, temperature, impianto elettrico, miscela, minimo, autoadattamento, stato) con strumenti circolari, barre con zone di allarme e spie
+- Scheda veicolo: auto riconosciuta, tecnologia e periodo della centralina, veicoli compatibili
+- Tabella dei parametri in tempo reale, raggruppata, con la frequenza di aggiornamento effettiva
 - Errori motore e immobilizzatore, cancellazione errori
 - Test attuatori e regolazioni, ciascuno con conferma
 - Grafici interattivi: zoom, spostamento, una scala per segnale, finestra temporale
@@ -19,9 +22,9 @@ Diagnosi per le centraline motore Magneti Marelli IAW delle FIAT, Lancia e Alfa 
 - Simulatore integrato per provare tutto senza auto
 - Windows, Linux (anche Raspberry Pi) e macOS; interfaccia in italiano e inglese, nomi di parametri ed errori in dieci lingue
 
-| Errori | Grafici | Riproduzione log |
+| Scheda veicolo | Grafici | Riproduzione log |
 | --- | --- | --- |
-| ![Errori](docs/screenshots/errors.png) | ![Grafici](docs/screenshots/graphs.png) | ![Riproduzione](docs/screenshots/replay.png) |
+| ![Scheda veicolo](docs/screenshots/vehicles.png) | ![Grafici](docs/screenshots/graphs.png) | ![Riproduzione](docs/screenshots/replay.png) |
 
 ## Centraline supportate
 
@@ -31,10 +34,10 @@ Diagnosi per le centraline motore Magneti Marelli IAW delle FIAT, Lancia e Alfa 
 | IAW-8F/18F MPI | Punto 75 1.2, Palio 1.2, Delta/Dedra 1.8, Alfa 145/146 1.3 Boxer, Tipo/Tempra 1.8 |
 | IAW-8F.68 MPI | Alfa 33 1.4 |
 | IAW-18FD/1G7 MPI | Punto 1.2 16V, Siena 1.4, Palio 1.0 |
-| Weber-Marelli IAW-04K.P8 MPI | Coupé 2.0, Delta Evoluzione, Dedra/Tempra 2.0, Tipo 2000 16V, Alfa 155 2.0 16V |
+| Weber-Marelli IAW-04K.P8 MPI (anche IAW 4WF.P8) | Coupé 2.0 Turbo 16V, Delta Evoluzione, Dedra/Tempra 2.0, Tipo 2000 16V, Alfa 155 2.0 16V |
 | Immobilizzatore FIAT CODE | tutte le precedenti, se presente |
 
-`iaw-cli ecus` mostra l'elenco completo con i codici ISO. Le definizioni sono file JSON in [`src/MarelliIawEcuStudio.Core/Definitions`](src/MarelliIawEcuStudio.Core/Definitions); per correggerne o aggiungerne una vedi [docs/definitions.md](docs/definitions.md).
+`iaw-cli ecus` mostra l'elenco completo con i codici ISO, gli altri nomi delle centraline e i veicoli compatibili indicativi; `--ecu` accetta anche un codice etichetta come `4WF.P8`. Le definizioni sono file JSON in [`src/MarelliIawEcuStudio.Core/Definitions`](src/MarelliIawEcuStudio.Core/Definitions); per correggerne o aggiungerne una vedi [docs/definitions.md](docs/definitions.md).
 
 ## Hardware
 

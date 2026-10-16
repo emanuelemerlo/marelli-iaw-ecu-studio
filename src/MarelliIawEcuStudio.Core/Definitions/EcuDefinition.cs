@@ -30,6 +30,30 @@ public sealed class EcuDefinition
 
     public ProtocolSettings Protocol { get; init; } = new();
 
+    /// <summary>Technology, period and compatible vehicles of the family.</summary>
+    public FamilyInfo? Family { get; init; }
+
+    /// <summary>
+    /// Other names or hardware codes of units that work with this definition
+    /// (for example IAW 4WF.P8 for the IAW-04K.P8 family), so users find
+    /// their ECU by the code printed on its label.
+    /// </summary>
+    public IReadOnlyList<EcuAlias> Aliases { get; init; } = [];
+
+    /// <summary>True when <paramref name="name"/> is the id, the name or an alias, ignoring case, spaces, dashes and dots.</summary>
+    public bool IsKnownAs(string name)
+    {
+        var key = NormalizeName(name);
+        return key.Length > 0 && (NormalizeName(Id) == key || NormalizeName(Name) == key || Aliases.Any(a => NormalizeName(a.Name) == key));
+    }
+
+    /// <summary>"IAW 4WF.P8", "iaw-4wf-p8" and "4WF.P8" all become "4WFP8".</summary>
+    public static string NormalizeName(string name)
+    {
+        var compact = new string([.. name.Where(char.IsLetterOrDigit).Select(char.ToUpperInvariant)]);
+        return compact.StartsWith("IAW", StringComparison.Ordinal) ? compact[3..] : compact;
+    }
+
     public DetectionRules Detection { get; init; } = new();
 
     public IReadOnlyList<VehicleEntry> Vehicles { get; init; } = [];
@@ -87,6 +111,9 @@ public sealed record CodeMatch(int Offset, string Value)
 
 public sealed record VehicleEntry(string Iso, string Model);
 
+/// <summary>Another name of an ECU covered by a definition; <c>Note</c> says where it is fitted.</summary>
+public sealed record EcuAlias(string Name, string? Note);
+
 /// <summary>A live data value read from one or two ECU registers.</summary>
 public sealed class ParameterDefinition
 {
@@ -112,6 +139,11 @@ public sealed class ParameterDefinition
     public required byte[] Requests { get; init; }
 
     public required DecodeSpec Decode { get; init; }
+
+    /// <summary>Dashboard group and instrument; optional.</summary>
+    public DisplaySpec? Display { get; init; }
+
+    public DisplaySpec EffectiveDisplay => Display ?? DisplaySpec.DefaultFor(this);
 }
 
 public sealed class DecodeSpec

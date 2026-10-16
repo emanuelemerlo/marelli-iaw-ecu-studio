@@ -8,6 +8,36 @@
   "protocol": {
     "identification": "standard"
   },
+  "family": {
+    "technology": {
+      "en": "Multipoint electronic injection (MPI) with static ignition",
+      "it": "Iniezione elettronica multipoint (MPI) con accensione statica"
+    },
+    "period": "1995–2001",
+    "compatibility": [
+      {
+        "brand": "Fiat",
+        "model": "Punto 60 / 75 (Mk1)",
+        "engines": "1.2 8V Fire (1242 cc)"
+      },
+      {
+        "brand": "Fiat",
+        "model": "Palio / Palio Weekend",
+        "engines": "1.2 8V, 1.5 8V SPI/MPI"
+      },
+      {
+        "brand": "Fiat",
+        "model": "Uno / Fiorino",
+        "engines": "1.5 MPI (Latin American and European markets, late 1990s)"
+      },
+      {
+        "brand": "Fiat",
+        "model": "Siena / Strada",
+        "engines": "1.2 8V Fire"
+      }
+    ],
+    "compatibilityVerified": false
+  },
   "detection": {
     "autoDetect": true,
     "order": 10,
@@ -63,6 +93,24 @@
       "decode": {
         "raw": "u16",
         "expr": "x == 0 || x == 65535 ? 0 : 15000000 / x"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "gauge",
+        "min": 0,
+        "max": 7000,
+        "zones": [
+          {
+            "from": 6000,
+            "to": 6500,
+            "level": "warning"
+          },
+          {
+            "from": 6500,
+            "to": 7000,
+            "level": "danger"
+          }
+        ]
       }
     },
     {
@@ -77,6 +125,12 @@
       "decode": {
         "raw": "u16",
         "expr": "x / 500"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "bar",
+        "min": 0,
+        "max": 20
       }
     },
     {
@@ -90,6 +144,12 @@
       "decode": {
         "raw": "u8",
         "expr": "x / 2"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "bar",
+        "min": -10,
+        "max": 50
       }
     },
     {
@@ -103,6 +163,12 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 3.876 + 122.6"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "gauge",
+        "min": 0,
+        "max": 1100
       }
     },
     {
@@ -116,6 +182,19 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 0.666 - 40"
+      },
+      "display": {
+        "group": "temperatures",
+        "widget": "bar",
+        "min": -20,
+        "max": 80,
+        "zones": [
+          {
+            "from": 60,
+            "to": 80,
+            "level": "warning"
+          }
+        ]
       }
     },
     {
@@ -129,6 +208,29 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 0.666 - 40"
+      },
+      "display": {
+        "group": "temperatures",
+        "widget": "gauge",
+        "min": 40,
+        "max": 130,
+        "zones": [
+          {
+            "from": 40,
+            "to": 60,
+            "level": "cold"
+          },
+          {
+            "from": 105,
+            "to": 115,
+            "level": "warning"
+          },
+          {
+            "from": 115,
+            "to": 130,
+            "level": "danger"
+          }
+        ]
       }
     },
     {
@@ -142,6 +244,12 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 0.4228"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "bar",
+        "min": 0,
+        "max": 90
       }
     },
     {
@@ -155,6 +263,34 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 0.06424"
+      },
+      "display": {
+        "group": "electrical",
+        "widget": "gauge",
+        "min": 8,
+        "max": 16,
+        "zones": [
+          {
+            "from": 8,
+            "to": 10.5,
+            "level": "danger"
+          },
+          {
+            "from": 10.5,
+            "to": 11.8,
+            "level": "warning"
+          },
+          {
+            "from": 14.8,
+            "to": 15.5,
+            "level": "warning"
+          },
+          {
+            "from": 15.5,
+            "to": 16,
+            "level": "danger"
+          }
+        ]
       }
     },
     {
@@ -167,6 +303,13 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 0.00196 + 0.75"
+      },
+      "display": {
+        "group": "mixture",
+        "widget": "bar",
+        "min": 0.75,
+        "max": 1.25,
+        "center": 1.0
       }
     },
     {
@@ -180,6 +323,12 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 5.4348"
+      },
+      "display": {
+        "group": "mixture",
+        "widget": "bar",
+        "min": 0,
+        "max": 1000
       }
     },
     {
@@ -192,6 +341,12 @@
       ],
       "decode": {
         "raw": "u8"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "bar",
+        "min": 0,
+        "max": 255
       }
     },
     {
@@ -203,6 +358,10 @@
       ],
       "decode": {
         "raw": "s8"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "value"
       }
     },
     {
@@ -214,6 +373,10 @@
       ],
       "decode": {
         "raw": "s8"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "value"
       }
     },
     {
@@ -227,6 +390,13 @@
       "decode": {
         "raw": "u8",
         "expr": "x - 128"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "bar",
+        "min": -128,
+        "max": 127,
+        "center": 0
       }
     },
     {
@@ -239,6 +409,10 @@
       ],
       "decode": {
         "raw": "s16"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "value"
       }
     },
     {
@@ -251,6 +425,10 @@
       ],
       "decode": {
         "raw": "s16"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "value"
       }
     },
     {
@@ -264,6 +442,10 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 8"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "value"
       }
     },
     {
@@ -277,6 +459,10 @@
       "decode": {
         "raw": "u8",
         "expr": "(x - 128) * 8"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "value"
       }
     },
     {
@@ -290,6 +476,13 @@
       "decode": {
         "raw": "s8",
         "expr": "x * 0.016"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "bar",
+        "min": -2,
+        "max": 2,
+        "center": 0
       }
     },
     {
@@ -303,6 +496,13 @@
       "decode": {
         "raw": "s8",
         "expr": "x * 0.016"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "bar",
+        "min": -2,
+        "max": 2,
+        "center": 0
       }
     },
     {
@@ -316,6 +516,13 @@
       "decode": {
         "raw": "s8",
         "expr": "x * 0.016"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "bar",
+        "min": -2,
+        "max": 2,
+        "center": 0
       }
     },
     {
@@ -329,6 +536,13 @@
       "decode": {
         "raw": "s8",
         "expr": "x * 0.016"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "bar",
+        "min": -2,
+        "max": 2,
+        "center": 0
       }
     },
     {
@@ -342,6 +556,13 @@
       "decode": {
         "raw": "s8",
         "expr": "x * 0.016"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "bar",
+        "min": -2,
+        "max": 2,
+        "center": 0
       }
     },
     {
@@ -355,6 +576,13 @@
       "decode": {
         "raw": "s8",
         "expr": "x * 0.016"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "bar",
+        "min": -2,
+        "max": 2,
+        "center": 0
       }
     },
     {
@@ -368,6 +596,13 @@
       "decode": {
         "raw": "s8",
         "expr": "x * 0.004"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "bar",
+        "min": -2,
+        "max": 2,
+        "center": 0
       }
     },
     {
@@ -380,6 +615,11 @@
       "decode": {
         "raw": "bit",
         "bit": 1
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "good"
       }
     },
     {
@@ -392,6 +632,11 @@
       "decode": {
         "raw": "bit",
         "bit": 2
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "good"
       }
     },
     {
@@ -404,6 +649,11 @@
       "decode": {
         "raw": "bit",
         "bit": 3
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -416,6 +666,11 @@
       "decode": {
         "raw": "bit",
         "bit": 4
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "good"
       }
     },
     {
@@ -428,6 +683,11 @@
       "decode": {
         "raw": "bit",
         "bit": 5
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -440,6 +700,11 @@
       "decode": {
         "raw": "bit",
         "bit": 6
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "good"
       }
     },
     {
@@ -452,6 +717,11 @@
       "decode": {
         "raw": "bit",
         "bit": 4
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "warning"
       }
     },
     {
@@ -464,6 +734,11 @@
       "decode": {
         "raw": "bit",
         "bit": 5
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "good"
       }
     },
     {
@@ -476,6 +751,11 @@
       "decode": {
         "raw": "bit",
         "bit": 6
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     }
   ],

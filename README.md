@@ -6,12 +6,15 @@ Diagnostics for the Magneti Marelli IAW engine control units of 1990s FIAT, Lanc
 
 > **Status: early development, not yet tested on a real car.** The desktop application, the command line tool, the protocol core and the ECU definitions work against the built-in simulator and are checked against the original IES2 code. The original Windows application is kept in `legacy/IES2`.
 
-![Live parameters](docs/screenshots/parameters.png)
+![Dashboard](docs/screenshots/dashboard.png)
 
 ## Features
 
 - Automatic ECU detection, ISO and CODRIC codes, vehicle model, immobiliser
-- Live parameters with the real refresh rate shown
+- ECU search by the code on its label (for example IAW 4WF.P8), by car or by brand
+- Dashboard grouped by system (engine, temperatures, electrical, mixture, idle, self-adaptation, status) with round gauges, bars with warning zones and status lights
+- Vehicle card: detected car, ECU technology and period, compatible vehicles
+- Live parameters table, grouped, with the real refresh rate shown
 - Engine and immobiliser errors, clear codes
 - Actuator tests and adjustments, each with a confirmation
 - Interactive graphs: zoom, pan, one scale per signal, time window
@@ -19,9 +22,9 @@ Diagnostics for the Magneti Marelli IAW engine control units of 1990s FIAT, Lanc
 - Built-in simulator to try everything without a car
 - Windows, Linux (including Raspberry Pi) and macOS; interface in English and Italian, parameter and error names in ten languages
 
-| Errors | Graphs | Log replay |
+| Vehicle card | Graphs | Log replay |
 | --- | --- | --- |
-| ![Errors](docs/screenshots/errors.png) | ![Graphs](docs/screenshots/graphs.png) | ![Replay](docs/screenshots/replay.png) |
+| ![Vehicle card](docs/screenshots/vehicles.png) | ![Graphs](docs/screenshots/graphs.png) | ![Replay](docs/screenshots/replay.png) |
 
 ## Supported ECUs
 
@@ -31,10 +34,10 @@ Diagnostics for the Magneti Marelli IAW engine control units of 1990s FIAT, Lanc
 | IAW-8F/18F MPI | Punto 75 1.2, Palio 1.2, Delta/Dedra 1.8, Alfa 145/146 1.3 Boxer, Tipo/Tempra 1.8 |
 | IAW-8F.68 MPI | Alfa 33 1.4 |
 | IAW-18FD/1G7 MPI | Punto 1.2 16V, Siena 1.4, Palio 1.0 |
-| Weber-Marelli IAW-04K.P8 MPI | Coupé 2.0, Delta Evoluzione, Dedra/Tempra 2.0, Tipo 2000 16V, Alfa 155 2.0 16V |
+| Weber-Marelli IAW-04K.P8 MPI (also IAW 4WF.P8) | Coupé 2.0 Turbo 16V, Delta Evoluzione, Dedra/Tempra 2.0, Tipo 2000 16V, Alfa 155 2.0 16V |
 | FIAT CODE immobiliser | all of the above, when fitted |
 
-Run `iaw-cli ecus` for the full list with ISO codes. The definitions are JSON files in [`src/MarelliIawEcuStudio.Core/Definitions`](src/MarelliIawEcuStudio.Core/Definitions); see [docs/definitions.md](docs/definitions.md) to correct or add one.
+Run `iaw-cli ecus` for the full list with ISO codes, other names of the units and indicative compatible vehicles; `--ecu` also accepts a label code such as `4WF.P8`. The definitions are JSON files in [`src/MarelliIawEcuStudio.Core/Definitions`](src/MarelliIawEcuStudio.Core/Definitions); see [docs/definitions.md](docs/definitions.md) to correct or add one.
 
 ## Hardware
 

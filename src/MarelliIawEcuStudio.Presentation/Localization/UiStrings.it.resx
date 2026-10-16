@@ -91,4 +91,25 @@ Il quadro deve essere ACCESO e il motore SPENTO.</value></data>
   <data name="Unverified" xml:space="preserve"><value>NON VERIFICATA</value></data>
   <data name="SimulatorName" xml:space="preserve"><value>Simulatore</value></data>
   <data name="SimulatorDescription" xml:space="preserve"><value>demo, senza cavo</value></data>
+  <data name="TabDashboard" xml:space="preserve"><value>Cruscotto</value></data>
+  <data name="Group_engine" xml:space="preserve"><value>Motore</value></data>
+  <data name="Group_temperatures" xml:space="preserve"><value>Temperature</value></data>
+  <data name="Group_electrical" xml:space="preserve"><value>Impianto elettrico</value></data>
+  <data name="Group_mixture" xml:space="preserve"><value>Miscela e sonda lambda</value></data>
+  <data name="Group_idle" xml:space="preserve"><value>Farfalla e minimo</value></data>
+  <data name="Group_adaptation" xml:space="preserve"><value>Autoadattamento</value></data>
+  <data name="Group_status" xml:space="preserve"><value>Stato</value></data>
+  <data name="Group_other" xml:space="preserve"><value>Altro</value></data>
+  <data name="VehicleCard" xml:space="preserve"><value>Veicolo e centralina</value></data>
+  <data name="DetectedVehicle" xml:space="preserve"><value>Veicolo riconosciuto</value></data>
+  <data name="VehicleNotInTable" xml:space="preserve"><value>Il codice ISO {0} non è nella tabella veicoli</value></data>
+  <data name="Technology" xml:space="preserve"><value>Tecnologia</value></data>
+  <data name="Period" xml:space="preserve"><value>Periodo</value></data>
+  <data name="CompatibleVehicles" xml:space="preserve"><value>Veicoli compatibili</value></data>
+  <data name="CompatibleVehiclesIndicative" xml:space="preserve"><value>Veicoli compatibili (indicativo, da verificare)</value></data>
+  <data name="IsoVehicles" xml:space="preserve"><value>Riconosciuti dal codice ISO</value></data>
+  <data name="AlsoKnownAs" xml:space="preserve"><value>Nota anche come</value></data>
+  <data name="AutoDetectHint" xml:space="preserve"><value>Riconosce la famiglia dal codice ISO</value></data>
+  <data name="EcuSearch" xml:space="preserve"><value>Cerca: codice sull'etichetta, auto, marca...</value></data>
+  <data name="Aliases" xml:space="preserve"><value>Nota anche come</value></data>
 </root>

@@ -107,4 +107,14 @@ public class CliTests
         Assert.Equal(2, code);
         Assert.Contains("--port", output);
     }
+
+    [Fact]
+    public void AcceptsTheLabelCodeOfTheEcu()
+    {
+        var (code, output) = Run("", "identify", "--simulate", "4WF.P8", "--ecu", "4WF.P8");
+        Assert.Equal(0, code);
+        Assert.Contains("Weber-Marelli IAW-04K.P8 MPI", output);
+        var (_, list) = Run("", "ecus");
+        Assert.Contains("also known as IAW 4WF.P8", list);
+    }
 }

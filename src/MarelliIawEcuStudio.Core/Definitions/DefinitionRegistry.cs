@@ -26,7 +26,9 @@ public sealed class DefinitionRegistry
     public IReadOnlyList<EcuDefinition> AutoDetectOrder =>
         [.. _byId.Values.Where(d => d.Detection.AutoDetect).OrderBy(d => d.Detection.Order).ThenBy(d => d.Id, StringComparer.Ordinal)];
 
-    public EcuDefinition? Find(string id) => _byId.GetValueOrDefault(id);
+    /// <summary>Finds a definition by id, name or alias (for example "4WF.P8").</summary>
+    public EcuDefinition? Find(string id) =>
+        _byId.GetValueOrDefault(id) ?? _byId.Values.FirstOrDefault(d => d.IsKnownAs(id));
 
     public EcuDefinition Get(string id) =>
         Find(id) ?? throw new KeyNotFoundException($"Unknown ECU definition '{id}'. Known: {string.Join(", ", _byId.Keys.Order())}");

@@ -58,6 +58,8 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
         Replay = new ReplayViewModel(dialogs, () => LogFolder) { SeparateScales = s.SeparateScales };
         Ecus = [new EcuChoice(null), .. registry.All.OrderBy(d => d.Detection.AutoDetect ? d.Detection.Order : int.MaxValue).ThenBy(d => d.Id).Select(d => new EcuChoice(d))];
         SelectedEcu = Ecus.FirstOrDefault(e => e.Definition?.Id == s.EcuId) ?? Ecus[0];
+        foreach (var e in Ecus)
+            FilteredEcus.Add(e);
         Compatibility = s.Compatibility;
         ListenForIsoBroadcast = s.ListenForIsoBroadcast;
         DtrEnable = s.DtrEnable;
@@ -93,6 +95,29 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
 
     [ObservableProperty]
     public partial EcuChoice SelectedEcu { get; set; }
+
+    /// <summary>Text typed in the ECU search box: name, label code (e.g. 4WF.P8), vehicle or brand.</summary>
+    [ObservableProperty]
+    public partial string EcuFilter { get; set; } = "";
+
+    /// <summary>The ECU list narrowed by <see cref="EcuFilter"/>; automatic detection is always first.</summary>
+    public ObservableCollection<EcuChoice> FilteredEcus { get; } = [];
+
+    partial void OnEcuFilterChanged(string value)
+    {
+        var keep = SelectedEcu;
+        FilteredEcus.Clear();
+        foreach (var e in Ecus.Where(e => e.Definition is null || e.Matches(value)))
+            FilteredEcus.Add(e);
+        // Typing a code selects the first family that matches it.
+        var first = FilteredEcus.FirstOrDefault(e => e.Definition is not null);
+        if (!string.IsNullOrWhiteSpace(value) && first is not null && !FilteredEcus.Contains(keep))
+            SelectedEcu = first;
+        else if (!string.IsNullOrWhiteSpace(value) && first is not null && keep.Definition is null)
+            SelectedEcu = first;
+        else if (FilteredEcus.Contains(keep))
+            SelectedEcu = keep;
+    }
 
     [ObservableProperty]
     public partial bool Compatibility { get; set; }
@@ -160,6 +185,21 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
     // ---- data -------------------------------------------------------------
 
     public ObservableCollection<ParameterRowViewModel> Parameters { get; } = [];
+
+    /// <summary>Parameters grouped logically, for the dashboard and the table.</summary>
+    public ObservableCollection<DashboardGroupViewModel> ParameterGroups { get; } = [];
+
+    /// <summary>Dashboard left column (under the vehicle card): engine and status lights.</summary>
+    public ObservableCollection<DashboardGroupViewModel> DashboardLeft { get; } = [];
+
+    /// <summary>Dashboard right column, first row: temperatures and electrical side by side.</summary>
+    public ObservableCollection<DashboardGroupViewModel> DashboardRightPair { get; } = [];
+
+    /// <summary>Dashboard right column: mixture, idle, adaptation, other.</summary>
+    public ObservableCollection<DashboardGroupViewModel> DashboardRight { get; } = [];
+
+    /// <summary>The recognised vehicle and the ECU family information.</summary>
+    public VehicleInfoViewModel VehicleInfo { get; } = new();
 
     public ObservableCollection<ErrorRowViewModel> Errors { get; } = [];
 
@@ -278,6 +318,22 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
             row.IsPlotted = true;
         _suppressSelection = false;
 
+        ParameterGroups.Clear();
+        DashboardLeft.Clear();
+        DashboardRight.Clear();
+        DashboardRightPair.Clear();
+        foreach (var g in DashboardGroupViewModel.Build(Parameters))
+        {
+            ParameterGroups.Add(g);
+            (g.Key switch
+            {
+                DisplaySpec.GroupEngine or DisplaySpec.GroupStatus => DashboardLeft,
+                DisplaySpec.GroupTemperatures or DisplaySpec.GroupElectrical => DashboardRightPair,
+                _ => DashboardRight,
+            }).Add(g);
+        }
+        VehicleInfo.ShowConnection(c);
+
         Tests.Clear();
         foreach (var t in c.Definition.ActiveTests)
             Tests.Add(new ActiveItemViewModel(t));
@@ -321,6 +377,7 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
         State = ConnectionState.Disconnected;
         StatusText = Ui.Get("StatusDisconnected");
         RateText = "";
+        VehicleInfo.ShowFamily(SelectedEcu.Definition);
     }
 
     private bool CanReconnect() => State == ConnectionState.Lost;
@@ -562,6 +619,9 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
             p.RefreshTexts();
         foreach (var t in Tests.Concat(Adjustments))
             t.RefreshTexts();
+        foreach (var g in ParameterGroups)
+            g.RefreshTexts();
+        VehicleInfo.Refresh();
         Graph.SetPlotted(Parameters.Where(p => p.IsPlotted));
         OnPropertyChanged(nameof(RecordButtonText));
         OnPropertyChanged(nameof(Ecus));
@@ -578,7 +638,12 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
 
     partial void OnAllowActiveCommandsChanged(bool value) => SaveSettings();
 
-    partial void OnSelectedEcuChanged(EcuChoice value) => SaveSettings();
+    partial void OnSelectedEcuChanged(EcuChoice value)
+    {
+        if (State == ConnectionState.Disconnected)
+            VehicleInfo.ShowFamily(value?.Definition);
+        SaveSettings();
+    }
 
     public void SaveSettings()
     {

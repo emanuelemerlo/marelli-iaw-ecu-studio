@@ -8,6 +8,21 @@
   "protocol": {
     "identification": "standard"
   },
+  "family": {
+    "technology": {
+      "en": "Multipoint injection calibrated for the Alfa Romeo boxer engines",
+      "it": "Iniezione multipoint tarata per i motori boxer Alfa Romeo"
+    },
+    "period": "1992–1995",
+    "compatibility": [
+      {
+        "brand": "Alfa Romeo",
+        "model": "33 (3rd series / Nuova 33)",
+        "engines": "Boxer 1.3 ie, 1.5 ie, 1.7 ie 8V"
+      }
+    ],
+    "compatibilityVerified": false
+  },
   "detection": {
     "autoDetect": true,
     "order": 30,
@@ -43,6 +58,24 @@
       "decode": {
         "raw": "u16",
         "expr": "x == 0 || x == 65535 ? 0 : 15000000 / x"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "gauge",
+        "min": 0,
+        "max": 7000,
+        "zones": [
+          {
+            "from": 6000,
+            "to": 6500,
+            "level": "warning"
+          },
+          {
+            "from": 6500,
+            "to": 7000,
+            "level": "danger"
+          }
+        ]
       }
     },
     {
@@ -57,6 +90,12 @@
       "decode": {
         "raw": "u16",
         "expr": "x / 500"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "bar",
+        "min": 0,
+        "max": 20
       }
     },
     {
@@ -70,6 +109,12 @@
       "decode": {
         "raw": "u8",
         "expr": "x / 2"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "bar",
+        "min": -10,
+        "max": 50
       }
     },
     {
@@ -83,6 +128,12 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 4"
+      },
+      "display": {
+        "group": "engine",
+        "widget": "gauge",
+        "min": 0,
+        "max": 1100
       }
     },
     {
@@ -96,6 +147,19 @@
       "decode": {
         "raw": "u8",
         "expr": "x - 40"
+      },
+      "display": {
+        "group": "temperatures",
+        "widget": "bar",
+        "min": -20,
+        "max": 80,
+        "zones": [
+          {
+            "from": 60,
+            "to": 80,
+            "level": "warning"
+          }
+        ]
       }
     },
     {
@@ -109,6 +173,29 @@
       "decode": {
         "raw": "u8",
         "expr": "x - 40"
+      },
+      "display": {
+        "group": "temperatures",
+        "widget": "gauge",
+        "min": 40,
+        "max": 130,
+        "zones": [
+          {
+            "from": 40,
+            "to": 60,
+            "level": "cold"
+          },
+          {
+            "from": 105,
+            "to": 115,
+            "level": "warning"
+          },
+          {
+            "from": 115,
+            "to": 130,
+            "level": "danger"
+          }
+        ]
       }
     },
     {
@@ -122,6 +209,12 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 0.4234 - 2.9638"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "bar",
+        "min": 0,
+        "max": 90
       }
     },
     {
@@ -135,6 +228,34 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 0.0625"
+      },
+      "display": {
+        "group": "electrical",
+        "widget": "gauge",
+        "min": 8,
+        "max": 16,
+        "zones": [
+          {
+            "from": 8,
+            "to": 10.5,
+            "level": "danger"
+          },
+          {
+            "from": 10.5,
+            "to": 11.8,
+            "level": "warning"
+          },
+          {
+            "from": 14.8,
+            "to": 15.5,
+            "level": "warning"
+          },
+          {
+            "from": 15.5,
+            "to": 16,
+            "level": "danger"
+          }
+        ]
       }
     },
     {
@@ -147,6 +268,13 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 0.002656 + 0.66"
+      },
+      "display": {
+        "group": "mixture",
+        "widget": "bar",
+        "min": 0.75,
+        "max": 1.25,
+        "center": 1.0
       }
     },
     {
@@ -159,6 +287,12 @@
       ],
       "decode": {
         "raw": "u8"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "bar",
+        "min": 0,
+        "max": 255
       }
     },
     {
@@ -170,6 +304,10 @@
       ],
       "decode": {
         "raw": "s8"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "value"
       }
     },
     {
@@ -181,6 +319,10 @@
       ],
       "decode": {
         "raw": "s8"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "value"
       }
     },
     {
@@ -194,6 +336,13 @@
       "decode": {
         "raw": "u8",
         "expr": "x - 128"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "bar",
+        "min": -128,
+        "max": 127,
+        "center": 0
       }
     },
     {
@@ -206,6 +355,10 @@
       ],
       "decode": {
         "raw": "s16"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "value"
       }
     },
     {
@@ -218,6 +371,10 @@
       ],
       "decode": {
         "raw": "s16"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "value"
       }
     },
     {
@@ -231,6 +388,10 @@
       "decode": {
         "raw": "u8",
         "expr": "x * 8"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "value"
       }
     },
     {
@@ -244,6 +405,10 @@
       "decode": {
         "raw": "u8",
         "expr": "(x - 128) * 8"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "value"
       }
     },
     {
@@ -256,6 +421,10 @@
       "decode": {
         "raw": "u8",
         "expr": "x - 128"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "value"
       }
     },
     {
@@ -268,6 +437,10 @@
       "decode": {
         "raw": "u8",
         "expr": "x - 128"
+      },
+      "display": {
+        "group": "idle",
+        "widget": "value"
       }
     },
     {
@@ -280,6 +453,10 @@
       ],
       "decode": {
         "raw": "s16"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "value"
       }
     },
     {
@@ -292,6 +469,10 @@
       ],
       "decode": {
         "raw": "s16"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "value"
       }
     },
     {
@@ -304,6 +485,10 @@
       ],
       "decode": {
         "raw": "s16"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "value"
       }
     },
     {
@@ -316,6 +501,10 @@
       ],
       "decode": {
         "raw": "s16"
+      },
+      "display": {
+        "group": "adaptation",
+        "widget": "value"
       }
     },
     {
@@ -328,6 +517,11 @@
       "decode": {
         "raw": "bit",
         "bit": 1
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "good"
       }
     },
     {
@@ -340,6 +534,11 @@
       "decode": {
         "raw": "bit",
         "bit": 2
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "good"
       }
     },
     {
@@ -352,6 +551,11 @@
       "decode": {
         "raw": "bit",
         "bit": 3
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -364,6 +568,11 @@
       "decode": {
         "raw": "bit",
         "bit": 4
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "good"
       }
     },
     {
@@ -376,6 +585,11 @@
       "decode": {
         "raw": "bit",
         "bit": 5
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "info"
       }
     },
     {
@@ -388,6 +602,11 @@
       "decode": {
         "raw": "bit",
         "bit": 6
+      },
+      "display": {
+        "group": "status",
+        "widget": "led",
+        "led": "good"
       }
     }
   ],

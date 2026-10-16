@@ -79,6 +79,42 @@ idiv(x * 100, 255)                           VAE duty cycle in % (IAW-04K)
 x < 171 ? x * 0.1848 - 1.41 : x * 0.7058 - 90   throttle angle (IAW-04K, two slopes)
 ```
 
+Optional `display` places the parameter on the dashboard:
+
+```jsonc
+"display": { "group": "engine", "widget": "gauge", "min": 0, "max": 7000,
+             "zones": [{ "from": 6000, "to": 6500, "level": "warning" }, { "from": 6500, "to": 7000, "level": "danger" }] }
+```
+
+| Field | Values |
+| --- | --- |
+| `group` | `engine`, `temperatures`, `electrical`, `mixture`, `idle`, `adaptation`, `status`, `other` |
+| `widget` | `gauge` (round dial), `bar` (linear; `center` fills from a value such as 0 or 1.0), `led` (bit parameters; `led` = `good`, `warning` or `info`), `value` (number only) |
+| `zones` | coloured ranges, `level` = `cold`, `warning` or `danger` |
+
+Without `display`, bits become green LEDs in `status` and the rest plain values in `other`.
+
+### Other names and vehicles
+
+`aliases` lists other names or label codes of units that work with the definition, so users find their ECU:
+
+```jsonc
+"aliases": [{ "name": "IAW 4WF.P8", "note": "Fiat Coupé 2.0 Turbo 16V (software P8)" }]
+```
+
+The ECU search box and `iaw-cli --ecu` match ids, names and aliases ignoring case, spaces, dashes and dots (`4wf p8` finds `IAW 4WF.P8`).
+
+`family` describes the family for the vehicle card. `technology` and `notes` are texts by language; `compatibility` lists vehicles beyond the ISO table, shown as indicative while `compatibilityVerified` is false:
+
+```jsonc
+"family": {
+  "technology": { "en": "Single-point injection...", "it": "Iniezione single-point..." },
+  "period": "1993–2000",
+  "compatibility": [{ "brand": "Fiat", "model": "Seicento", "engines": "900 ie, 1.1 Sporting" }],
+  "compatibilityVerified": false
+}
+```
+
 ### Errors
 
 Each error is a bit in three flag registers (`active`, `verified`, `stored`) and, optionally, a bit in three extension registers (`ext`) that chooses between `highReason` and `lowReason`. `scheme` selects the decoding used by the family:
