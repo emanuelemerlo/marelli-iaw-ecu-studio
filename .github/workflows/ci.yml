@@ -29,6 +29,16 @@ jobs:
 
       - name: Test
         run: dotnet test --configuration Release --no-build
+        env:
+          SCREENSHOT_DIR: ${{ github.workspace }}/screenshots
+
+      - name: Upload UI screenshots
+        if: always() && matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: screenshots
+          if-no-files-found: ignore
 
       - name: Validate built-in definitions
         run: dotnet run --project src/MarelliIawEcuStudio.Cli --configuration Release --no-build -- validate src/MarelliIawEcuStudio.Core/Definitions
@@ -37,7 +47,7 @@ jobs:
         run: dotnet run --project src/MarelliIawEcuStudio.Cli --configuration Release --no-build -- read --simulate --no-broadcast --count 2
 
   publish:
-    name: Publish iaw-cli (${{ matrix.rid }})
+    name: Publish (${{ matrix.rid }})
     needs: test
     runs-on: ubuntu-latest
     strategy:
@@ -50,17 +60,20 @@ jobs:
         with:
           global-json-file: global.json
 
-      - name: Publish self-contained
-        run: >
-          dotnet publish src/MarelliIawEcuStudio.Cli
-          --configuration Release
-          --runtime ${{ matrix.rid }}
-          --self-contained true
-          -p:PublishSingleFile=true
-          -p:IncludeNativeLibrariesForSelfExtract=true
-          --output publish/${{ matrix.rid }}
+      - name: Publish self-contained executables
+        run: |
+          for project in MarelliIawEcuStudio.App MarelliIawEcuStudio.Cli; do
+            dotnet publish src/$project \
+              --configuration Release \
+              --runtime ${{ matrix.rid }} \
+              --self-contained true \
+              -p:PublishSingleFile=true \
+              -p:IncludeNativeLibrariesForSelfExtract=true \
+              --output publish/${{ matrix.rid }}
+          done
+          rm -f publish/${{ matrix.rid }}/*.pdb publish/${{ matrix.rid }}/*.xml
 
       - uses: actions/upload-artifact@v4
         with:
-          name: iaw-cli-${{ matrix.rid }}
+          name: marelli-iaw-ecu-studio-${{ matrix.rid }}
           path: publish/${{ matrix.rid }}
