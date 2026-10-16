@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MarelliIawEcuStudio.Cli/MarelliIawEcuStudio.Cli.csproj" />
+    <Project Path="src/MarelliIawEcuStudio.Core/MarelliIawEcuStudio.Core.csproj" />
+    <Project Path="src/MarelliIawEcuStudio.Simulator/MarelliIawEcuStudio.Simulator.csproj" />
+    <Project Path="src/MarelliIawEcuStudio.Transport.Serial/MarelliIawEcuStudio.Transport.Serial.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MarelliIawEcuStudio.LegacyReference/MarelliIawEcuStudio.LegacyReference.csproj" />
+    <Project Path="tests/MarelliIawEcuStudio.Tests/MarelliIawEcuStudio.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MarelliIawEcuStudio.Cli</RootNamespace>
+    <AssemblyName>iaw-cli</AssemblyName>
+    <Description>Command line diagnostics for Magneti Marelli IAW ECUs (Raspberry Pi, scripts, CI).</Description>
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MarelliIawEcuStudio.Core\MarelliIawEcuStudio.Core.csproj" />
+    <ProjectReference Include="..\MarelliIawEcuStudio.Simulator\MarelliIawEcuStudio.Simulator.csproj" />
+    <ProjectReference Include="..\MarelliIawEcuStudio.Transport.Serial\MarelliIawEcuStudio.Transport.Serial.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="MarelliIawEcuStudio.Tests" />
+  </ItemGroup>
+
+</Project>

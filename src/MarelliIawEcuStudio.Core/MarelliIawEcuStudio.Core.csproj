@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>MarelliIawEcuStudio.Core</RootNamespace>
+    <Description>Protocol, ECU definitions and diagnostic session logic for Magneti Marelli IAW engine control units. No UI dependencies.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Definitions\*.json" LogicalName="MarelliIawEcuStudio.Core.Definitions.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="MarelliIawEcuStudio.Tests" />
+  </ItemGroup>
+
+</Project>

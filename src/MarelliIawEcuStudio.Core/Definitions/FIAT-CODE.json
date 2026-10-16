@@ -1,0 +1,330 @@
+{
+  "$schema": "../../../schemas/ecu-definition.schema.json",
+  "id": "FIAT CODE",
+  "name": "FIAT CODE",
+  "longName": "FIAT CODE Immobiliser",
+  "source": "IES2 0.86, legacy/IES2/IES_2/ECU/code.cs",
+  "verified": true,
+  "protocol": {
+    "identification": "standard"
+  },
+  "detection": {
+    "autoDetect": false
+  },
+  "vehicles": [
+    {
+      "iso": "55D085859443",
+      "model": "Cinquecento 899 SPI ECE F2"
+    },
+    {
+      "iso": "55D0858694C4",
+      "model": "Cinquecento 1108 SPI ECE F2"
+    },
+    {
+      "iso": "55D0850194BF",
+      "model": "Punto 1.1 SPI Em.04 Est Europa"
+    },
+    {
+      "iso": "55D085029440",
+      "model": "Punto 55 1.1 SPI 5M/6M ECE F2"
+    },
+    {
+      "iso": "55D0850494C2",
+      "model": "Punto 60 1.2 SPI CM ECE F2 T.i.T."
+    },
+    {
+      "iso": "55D085079445",
+      "model": "Punto Selecta 1.2 SPI ECE F2"
+    },
+    {
+      "iso": "55D085089446",
+      "model": "Panda 1000 SPI ECE F2"
+    },
+    {
+      "iso": "55D0850B9449",
+      "model": "Panda 1108 SPI CA ECE F2"
+    },
+    {
+      "iso": "55D0850E15CD",
+      "model": "Tipo/Tempra 1.6 SPI USA'83 (TOFAS)"
+    },
+    {
+      "iso": "55D08510154F",
+      "model": "Lancia Y 1.2 SPI CA ECE F2"
+    },
+    {
+      "iso": "55D0858994C7",
+      "model": "Panda 899 SPI ECE F2"
+    },
+    {
+      "iso": "55D0858A94C8",
+      "model": "Panda 1108 4x4/4x4 ECE F2"
+    },
+    {
+      "iso": "55D0858C15CB",
+      "model": "Tipo/Tempra 1.6 SPI Em.04 (TOFAS)"
+    },
+    {
+      "iso": "55D0858F15CE",
+      "model": "Lancia Y 1.2 SPI CM ECE F2"
+    },
+    {
+      "iso": "55D085911651",
+      "model": "Tipo 1372 SPI ECE 04 (TOFAS)"
+    },
+    {
+      "iso": "55D085921652",
+      "model": "131 Bn/Sw 1.6 SPI USA'83 (TOFAS)"
+    },
+    {
+      "iso": "55D085139754",
+      "model": "Seicento 0.9 CM SPI F2"
+    },
+    {
+      "iso": "55B683079126",
+      "model": "ALFA 33 1360 MPI CM"
+    },
+    {
+      "iso": "55318002941C",
+      "model": "Punto 75 1.2 Fire 8V ECE F2"
+    },
+    {
+      "iso": "5531808A1323",
+      "model": "Punto 75 1.2 Fire 8V ECE ECOL"
+    },
+    {
+      "iso": "5531800E97AB",
+      "model": "Palio 1.2 Fire 8V ECE F2"
+    },
+    {
+      "iso": "5531800794A1",
+      "model": "Delta/Dedra Bn/Sw 1.8 ECE F2"
+    },
+    {
+      "iso": "55318083949D",
+      "model": "Alfa 145/146 1.3 Boxer ECE F2"
+    },
+    {
+      "iso": "55318085941F",
+      "model": "Delta 1.8 90 CV ECE F2"
+    },
+    {
+      "iso": "553180869420",
+      "model": "Tipo/Tempra Bn/Sw 1.8 ECE F2"
+    },
+    {
+      "iso": "5531800D1629",
+      "model": "Punto 1242 FIRE 16V CEE F2"
+    },
+    {
+      "iso": "5531808C16A8",
+      "model": "Siena 1.4 8V (IAW-1G7SP)"
+    },
+    {
+      "iso": "55BC83019429",
+      "model": "Alfa 155 2.0 16V 4x4"
+    },
+    {
+      "iso": "55CE850894C4",
+      "model": "Dedra 2.0 16V"
+    },
+    {
+      "iso": "55CE85079443",
+      "model": "Dedra 2.0 16V 4x4"
+    },
+    {
+      "iso": "553883029426",
+      "model": "Tempra 2.0 8V 4x4"
+    },
+    {
+      "iso": "553883019425",
+      "model": "Tempra 2.0 8V M/T"
+    },
+    {
+      "iso": "5538830194A8",
+      "model": "Tempra 2.0 8V A/T"
+    },
+    {
+      "iso": "55CB8202943B",
+      "model": "Dedra 2.0 8V A/T"
+    },
+    {
+      "iso": "55CE8504943B",
+      "model": "Nuova Delta 2.0 T/C"
+    },
+    {
+      "iso": "55CE85049440",
+      "model": "Nuova Delta 2.0"
+    },
+    {
+      "iso": "55CB850194BA",
+      "model": "Coupe S 2.0 T/C"
+    },
+    {
+      "iso": "55CE858394BF",
+      "model": "Coupe S 2.0"
+    },
+    {
+      "iso": "55CD852613E0",
+      "model": "Delta Evoluzione 2000 16V 4x4"
+    },
+    {
+      "iso": "55CB859B13D3",
+      "model": "Coupe ESSE 2.0 16V T/C"
+    },
+    {
+      "iso": "55CB8592134A",
+      "model": "Nuova Delta 2.0 16V T/C 4x2"
+    },
+    {
+      "iso": "55CE8501943D",
+      "model": "Nuova Delta 2.0 16V"
+    },
+    {
+      "iso": "55D00292914A",
+      "model": "TIPO 2000 16V"
+    }
+  ],
+  "parameters": [
+    {
+      "id": "CRDVAS",
+      "nameKey": "ErrCnt",
+      "unit": "#",
+      "format": "0",
+      "requests": [
+        "0x73"
+      ],
+      "decode": {
+        "raw": "u8"
+      }
+    }
+  ],
+  "errors": {
+    "engine": {
+      "scheme": "noReason",
+      "requests": [],
+      "items": []
+    },
+    "immobilizer": {
+      "scheme": "fiatCode",
+      "requests": [
+        "0x71",
+        "0x72"
+      ],
+      "items": [
+        {
+          "nameKey": "ErrNoSync",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 0,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrStartDis",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 1,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrUniCode",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 2,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrC4",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 3,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrBackdoor",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 4,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrKeyCode",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 5,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrUnrCode",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 6,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrLinkDown",
+          "active": "0x71",
+          "verified": "0x00",
+          "stored": "0x72",
+          "bit": 7,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        }
+      ]
+    }
+  },
+  "activeTests": [],
+  "clearCodes": {
+    "timeoutSeconds": 10,
+    "requests": [
+      "0x84"
+    ]
+  },
+  "adjustments": []
+}

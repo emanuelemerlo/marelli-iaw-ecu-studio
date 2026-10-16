@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>MarelliIawEcuStudio.Simulator</RootNamespace>
+    <Description>Simulated IAW ECU behind an ITransport, driven by the same definition files as the Core. Used by tests and by the demo mode.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MarelliIawEcuStudio.Core\MarelliIawEcuStudio.Core.csproj" />
+  </ItemGroup>
+
+</Project>

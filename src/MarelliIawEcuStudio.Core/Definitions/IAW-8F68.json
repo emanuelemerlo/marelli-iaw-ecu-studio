@@ -1,0 +1,838 @@
+{
+  "$schema": "../../../schemas/ecu-definition.schema.json",
+  "id": "IAW-8F.68",
+  "name": "IAW-8F.68",
+  "longName": "Magneti-Marelli IAW-8F.68 MPI (Alfa 33)",
+  "source": "IES2 0.86, legacy/IES2/IES_2/ECU/iaw8f_68.cs",
+  "verified": true,
+  "protocol": {
+    "identification": "standard"
+  },
+  "detection": {
+    "autoDetect": true,
+    "order": 30,
+    "isoMatches": [
+      {
+        "offset": 2,
+        "value": "B683"
+      }
+    ],
+    "codricMatches": [
+      {
+        "offset": 0,
+        "value": "61600"
+      }
+    ]
+  },
+  "vehicles": [
+    {
+      "iso": "55B683079126",
+      "model": "ALFA 33 1360 MPI CM"
+    }
+  ],
+  "parameters": [
+    {
+      "id": "PERIODE",
+      "nameKey": "PERIODE",
+      "unitKey": "rpm",
+      "format": "0",
+      "requests": [
+        "0x01",
+        "0x02"
+      ],
+      "decode": {
+        "raw": "u16",
+        "expr": "x == 0 || x == 65535 ? 0 : 15000000 / x"
+      }
+    },
+    {
+      "id": "T_INJ_AP",
+      "nameKey": "T_INJ_AP",
+      "unit": "ms",
+      "format": "0.00",
+      "requests": [
+        "0x03",
+        "0x04"
+      ],
+      "decode": {
+        "raw": "u16",
+        "expr": "x / 500"
+      }
+    },
+    {
+      "id": "AVANCE",
+      "nameKey": "AVANCE",
+      "unit": "°",
+      "format": "0.00",
+      "requests": [
+        "0x05"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x / 2"
+      }
+    },
+    {
+      "id": "MP2_MP8",
+      "nameKey": "MP2_MP8",
+      "unit": "hPa",
+      "format": "0",
+      "requests": [
+        "0x06"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 4"
+      }
+    },
+    {
+      "id": "MT_AIR_L",
+      "nameKey": "MT_AIR_L",
+      "unit": "°C",
+      "format": "0",
+      "requests": [
+        "0x07"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x - 40"
+      }
+    },
+    {
+      "id": "MT_EAU_L",
+      "nameKey": "MT_EAU_L",
+      "unit": "°C",
+      "format": "0",
+      "requests": [
+        "0x08"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x - 40"
+      }
+    },
+    {
+      "id": "ANG_PAP0",
+      "nameKey": "ANG_PAP0",
+      "unit": "°",
+      "format": "0.00",
+      "requests": [
+        "0x09"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 0.4234 - 2.9638"
+      }
+    },
+    {
+      "id": "M_VBATT",
+      "nameKey": "V_BATT",
+      "unit": "V",
+      "format": "0.00",
+      "requests": [
+        "0x0A"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 0.0625"
+      }
+    },
+    {
+      "id": "K_O2",
+      "nameKey": "K_O2",
+      "format": "0.00",
+      "requests": [
+        "0x0B"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 0.002656 + 0.66"
+      }
+    },
+    {
+      "id": "ALFAR",
+      "nameKey": "ALFAR",
+      "unitKey": "steps",
+      "format": "0",
+      "requests": [
+        "0x0C"
+      ],
+      "decode": {
+        "raw": "u8"
+      }
+    },
+    {
+      "id": "INTEGR",
+      "nameKey": "INTEGR",
+      "format": "0",
+      "requests": [
+        "0x0D"
+      ],
+      "decode": {
+        "raw": "s8"
+      }
+    },
+    {
+      "id": "PROP",
+      "nameKey": "PROP",
+      "format": "0",
+      "requests": [
+        "0x0E"
+      ],
+      "decode": {
+        "raw": "s8"
+      }
+    },
+    {
+      "id": "TRIMRAM",
+      "nameKey": "TRIMRAM",
+      "unitKey": "steps",
+      "format": "0",
+      "requests": [
+        "0x0F"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x - 128"
+      }
+    },
+    {
+      "id": "ALFAU",
+      "nameKey": "ALFAU",
+      "format": "0",
+      "requests": [
+        "0x22",
+        "0x23"
+      ],
+      "decode": {
+        "raw": "s16"
+      }
+    },
+    {
+      "id": "ALFAUC",
+      "nameKey": "ALFAUC",
+      "format": "0",
+      "requests": [
+        "0x24",
+        "0x25"
+      ],
+      "decode": {
+        "raw": "s16"
+      }
+    },
+    {
+      "id": "CONS_REG",
+      "nameKey": "CONS_REG",
+      "unitKey": "rpm",
+      "format": "0",
+      "requests": [
+        "0x26"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x * 8"
+      }
+    },
+    {
+      "id": "OFNNTR",
+      "nameKey": "OFNNTR",
+      "unitKey": "rpm",
+      "format": "0",
+      "requests": [
+        "0x27"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "(x - 128) * 8"
+      }
+    },
+    {
+      "id": "DELREG",
+      "nameKey": "DELREG",
+      "format": "0",
+      "requests": [
+        "0x28"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x - 128"
+      }
+    },
+    {
+      "id": "ALFAFTR",
+      "nameKey": "ALFAFTR",
+      "format": "0",
+      "requests": [
+        "0x29"
+      ],
+      "decode": {
+        "raw": "u8",
+        "expr": "x - 128"
+      }
+    },
+    {
+      "id": "ADOFFSET",
+      "nameKey": "ADOFFSET",
+      "format": "0",
+      "requests": [
+        "0x32",
+        "0x33"
+      ],
+      "decode": {
+        "raw": "s16"
+      }
+    },
+    {
+      "id": "ADOFFPURG",
+      "nameKey": "ADOFFPURG",
+      "format": "0",
+      "requests": [
+        "0x34",
+        "0x35"
+      ],
+      "decode": {
+        "raw": "s16"
+      }
+    },
+    {
+      "id": "ADOFFPL",
+      "nameKey": "ADOFFPL",
+      "format": "0",
+      "requests": [
+        "0x36",
+        "0x37"
+      ],
+      "decode": {
+        "raw": "s16"
+      }
+    },
+    {
+      "id": "ADGAIN",
+      "nameKey": "ADGAIN",
+      "format": "0",
+      "requests": [
+        "0x38",
+        "0x39"
+      ],
+      "decode": {
+        "raw": "s16"
+      }
+    },
+    {
+      "id": "S2",
+      "nameKey": "StaEngRun",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x13"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 1
+      }
+    },
+    {
+      "id": "S3",
+      "nameKey": "StaSensOK",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x13"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 2
+      }
+    },
+    {
+      "id": "S4",
+      "nameKey": "StaThrMM",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x13"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 3
+      }
+    },
+    {
+      "id": "S5",
+      "nameKey": "StaClLoop",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x13"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 4
+      }
+    },
+    {
+      "id": "S6",
+      "nameKey": "StaAirCoON",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x13"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 5
+      }
+    },
+    {
+      "id": "S7",
+      "nameKey": "StaMixACOK",
+      "formatKey": "yes_no",
+      "requests": [
+        "0x13"
+      ],
+      "decode": {
+        "raw": "bit",
+        "bit": 6
+      }
+    }
+  ],
+  "errors": {
+    "engine": {
+      "scheme": "noReason",
+      "requests": [
+        "0x10",
+        "0x11",
+        "0x12",
+        "0x14",
+        "0x15",
+        "0x16"
+      ],
+      "items": [
+        {
+          "nameKey": "ErrTPS",
+          "active": "0x10",
+          "verified": "0x00",
+          "stored": "0x14",
+          "bit": 0,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrMAP",
+          "active": "0x10",
+          "verified": "0x00",
+          "stored": "0x14",
+          "bit": 1,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 1
+          }
+        },
+        {
+          "nameKey": "ErrLambda",
+          "active": "0x10",
+          "verified": "0x00",
+          "stored": "0x14",
+          "bit": 2,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 2
+          }
+        },
+        {
+          "nameKey": "ErrECT",
+          "active": "0x10",
+          "verified": "0x00",
+          "stored": "0x14",
+          "bit": 3,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 3
+          }
+        },
+        {
+          "nameKey": "ErrIAT",
+          "active": "0x10",
+          "verified": "0x00",
+          "stored": "0x14",
+          "bit": 4,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 4
+          }
+        },
+        {
+          "nameKey": "ErrBattV",
+          "active": "0x10",
+          "verified": "0x00",
+          "stored": "0x14",
+          "bit": 5,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 5
+          }
+        },
+        {
+          "nameKey": "ErrIdleReg",
+          "active": "0x10",
+          "verified": "0x00",
+          "stored": "0x14",
+          "bit": 6,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 6
+          }
+        },
+        {
+          "nameKey": "ErrI8",
+          "active": "0x10",
+          "verified": "0x00",
+          "stored": "0x14",
+          "bit": 7,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 7
+          }
+        },
+        {
+          "nameKey": "ErrInj",
+          "active": "0x11",
+          "verified": "0x00",
+          "stored": "0x15",
+          "bit": 0,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrCoil1",
+          "active": "0x11",
+          "verified": "0x00",
+          "stored": "0x15",
+          "bit": 1,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 1
+          }
+        },
+        {
+          "nameKey": "ErrCoil2",
+          "active": "0x11",
+          "verified": "0x00",
+          "stored": "0x15",
+          "bit": 2,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 2
+          }
+        },
+        {
+          "nameKey": "ErrIAV",
+          "active": "0x11",
+          "verified": "0x00",
+          "stored": "0x15",
+          "bit": 3,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 3
+          }
+        },
+        {
+          "nameKey": "ErrEVAP",
+          "active": "0x11",
+          "verified": "0x00",
+          "stored": "0x15",
+          "bit": 4,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 4
+          }
+        },
+        {
+          "nameKey": "ErrAirCo",
+          "active": "0x11",
+          "verified": "0x00",
+          "stored": "0x15",
+          "bit": 5,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 5
+          }
+        },
+        {
+          "nameKey": "ErrFuelPump",
+          "active": "0x11",
+          "verified": "0x00",
+          "stored": "0x15",
+          "bit": 6,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 6
+          }
+        },
+        {
+          "nameKey": "ErrGenRel",
+          "active": "0x11",
+          "verified": "0x00",
+          "stored": "0x15",
+          "bit": 7,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 7
+          }
+        },
+        {
+          "nameKey": "ErrACParam",
+          "active": "0x12",
+          "verified": "0x00",
+          "stored": "0x16",
+          "bit": 0,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 0
+          }
+        },
+        {
+          "nameKey": "ErrRAM",
+          "active": "0x12",
+          "verified": "0x00",
+          "stored": "0x16",
+          "bit": 1,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 1
+          }
+        },
+        {
+          "nameKey": "ErrROM",
+          "active": "0x12",
+          "verified": "0x00",
+          "stored": "0x16",
+          "bit": 2,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 2
+          }
+        },
+        {
+          "nameKey": "ErrEEPROM",
+          "active": "0x12",
+          "verified": "0x00",
+          "stored": "0x16",
+          "bit": 3,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 3
+          }
+        },
+        {
+          "nameKey": "ErrCPU",
+          "active": "0x12",
+          "verified": "0x00",
+          "stored": "0x16",
+          "bit": 4,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 4
+          }
+        },
+        {
+          "nameKey": "ErrRPMSens",
+          "active": "0x12",
+          "verified": "0x00",
+          "stored": "0x16",
+          "bit": 5,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 5
+          }
+        },
+        {
+          "nameKey": "ErrF7",
+          "active": "0x12",
+          "verified": "0x00",
+          "stored": "0x16",
+          "bit": 6,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 6
+          }
+        },
+        {
+          "nameKey": "ErrF8",
+          "active": "0x12",
+          "verified": "0x00",
+          "stored": "0x16",
+          "bit": 7,
+          "ext": {
+            "active": "0x00",
+            "verified": "0x00",
+            "stored": "0x00",
+            "bit": 7
+          }
+        }
+      ]
+    },
+    "immobilizer": {
+      "scheme": "fiatCode",
+      "requests": [],
+      "items": []
+    }
+  },
+  "activeTests": [
+    {
+      "nameKey": "FuelPump",
+      "engineRunning": false,
+      "timeoutSeconds": 30,
+      "requests": [
+        "0x80"
+      ]
+    },
+    {
+      "nameKey": "Injectors",
+      "engineRunning": false,
+      "timeoutSeconds": 5,
+      "requests": [
+        "0x81"
+      ]
+    },
+    {
+      "nameKey": "Coil1",
+      "engineRunning": false,
+      "timeoutSeconds": 5,
+      "requests": [
+        "0x82"
+      ]
+    },
+    {
+      "nameKey": "Coil2",
+      "engineRunning": false,
+      "timeoutSeconds": 5,
+      "requests": [
+        "0x83"
+      ]
+    },
+    {
+      "nameKey": "EVAP",
+      "engineRunning": false,
+      "timeoutSeconds": 7,
+      "requests": [
+        "0x85"
+      ]
+    },
+    {
+      "nameKey": "REVmeter",
+      "engineRunning": false,
+      "timeoutSeconds": 2,
+      "requests": [
+        "0x86"
+      ]
+    },
+    {
+      "nameKey": "ACrelay",
+      "engineRunning": false,
+      "timeoutSeconds": 30,
+      "requests": [
+        "0x87"
+      ]
+    },
+    {
+      "nameKey": "GenericRelay",
+      "engineRunning": false,
+      "timeoutSeconds": 30,
+      "requests": [
+        "0x88"
+      ]
+    }
+  ],
+  "clearCodes": {
+    "timeoutSeconds": 10,
+    "requests": [
+      "0x84"
+    ]
+  },
+  "adjustments": [
+    {
+      "nameKey": "ToggleTrimAC",
+      "statusRequest": "0x00",
+      "statusMask": "0x00",
+      "preSet": [
+        "0x89"
+      ],
+      "type": "toggle"
+    },
+    {
+      "nameKey": "ToggleStepAC",
+      "statusRequest": "0x00",
+      "statusMask": "0x00",
+      "preSet": [
+        "0x91"
+      ],
+      "type": "toggle"
+    },
+    {
+      "nameKey": "TrimReset",
+      "statusRequest": "0x00",
+      "statusMask": "0x00",
+      "preSet": [
+        "0x89",
+        "0x89"
+      ],
+      "type": "toggle"
+    },
+    {
+      "nameKey": "StepReset",
+      "statusRequest": "0x00",
+      "statusMask": "0x00",
+      "preSet": [
+        "0x91",
+        "0x91"
+      ],
+      "type": "toggle"
+    }
+  ]
+}

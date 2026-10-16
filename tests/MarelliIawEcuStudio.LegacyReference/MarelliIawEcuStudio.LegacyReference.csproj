@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Compiles the ECU modules of the original IES2 (unchanged, from legacy/IES2)
+    so the tests can compare every table and every decoding function of the
+    new Core against the code they were ported from.
+  -->
+  <PropertyGroup>
+    <RootNamespace>IES_2</RootNamespace>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);CS0168;CS0169;CS0219;CS0414;CS0649;CS8632;CS8981;CA1416</NoWarn>
+    <IsPackable>false</IsPackable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <LegacyDir>..\..\legacy\IES2\IES_2\</LegacyDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(LegacyDir)ECU\*.cs" Link="Legacy\ECU\%(Filename)%(Extension)" />
+    <Compile Include="$(LegacyDir)DataStructs.cs" Link="Legacy\DataStructs.cs" />
+    <Compile Include="$(LegacyDir)Res\lang.Designer.cs" Link="Legacy\Res\lang.Designer.cs" />
+    <Compile Include="Shims.cs" />
+    <!-- English strings only; the file reference to lang.it.resx in lang.resx is resolved by MSBuild. -->
+    <EmbeddedResource Include="$(LegacyDir)Res\lang.resx" Link="Legacy\Res\lang.resx" LogicalName="IES_2.Res.lang.resources" WithCulture="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" />
+  </ItemGroup>
+
+</Project>
