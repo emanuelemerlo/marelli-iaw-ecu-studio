@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppTitle" xml:space="preserve"><value>Marelli IAW ECU Studio</value></data>
+  <data name="Interface" xml:space="preserve"><value>Interfaccia</value></data>
+  <data name="Ecu" xml:space="preserve"><value>Centralina</value></data>
+  <data name="Refresh" xml:space="preserve"><value>Aggiorna</value></data>
+  <data name="Connect" xml:space="preserve"><value>Connetti</value></data>
+  <data name="Disconnect" xml:space="preserve"><value>Disconnetti</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Annulla</value></data>
+  <data name="Reconnect" xml:space="preserve"><value>Riconnetti</value></data>
+  <data name="Options" xml:space="preserve"><value>Opzioni</value></data>
+  <data name="CompatMode" xml:space="preserve"><value>Modalità compatibilità (adattatori lenti)</value></data>
+  <data name="WaitBroadcast" xml:space="preserve"><value>Attendi il codice ISO all'accensione</value></data>
+  <data name="Dtr" xml:space="preserve"><value>Attiva DTR</value></data>
+  <data name="AllowActive" xml:space="preserve"><value>Abilita comandi attivi (test, cancellazione errori, regolazioni)</value></data>
+  <data name="Language" xml:space="preserve"><value>Lingua</value></data>
+  <data name="StatusDisconnected" xml:space="preserve"><value>Non connesso</value></data>
+  <data name="StatusConnected" xml:space="preserve"><value>Connesso</value></data>
+  <data name="StatusError" xml:space="preserve"><value>Errore</value></data>
+  <data name="Simulation" xml:space="preserve"><value>Simulazione</value></data>
+  <data name="IsoCode" xml:space="preserve"><value>Codice ISO</value></data>
+  <data name="Codric" xml:space="preserve"><value>CODRIC</value></data>
+  <data name="Vehicle" xml:space="preserve"><value>Veicolo</value></data>
+  <data name="Immobilizer" xml:space="preserve"><value>Immobilizzatore</value></data>
+  <data name="Present" xml:space="preserve"><value>presente</value></data>
+  <data name="Absent" xml:space="preserve"><value>assente</value></data>
+  <data name="RefreshRate" xml:space="preserve"><value>{0:0.0} aggiornamenti/s</value></data>
+  <data name="TabParameters" xml:space="preserve"><value>Parametri</value></data>
+  <data name="TabErrors" xml:space="preserve"><value>Errori</value></data>
+  <data name="TabTests" xml:space="preserve"><value>Test attuatori</value></data>
+  <data name="TabAdjustments" xml:space="preserve"><value>Regolazioni</value></data>
+  <data name="TabGraphs" xml:space="preserve"><value>Grafici</value></data>
+  <data name="TabReplay" xml:space="preserve"><value>Riproduzione log</value></data>
+  <data name="SelectAll" xml:space="preserve"><value>Seleziona tutti</value></data>
+  <data name="SelectNone" xml:space="preserve"><value>Deseleziona tutti</value></data>
+  <data name="ColRead" xml:space="preserve"><value>Leggi</value></data>
+  <data name="ColName" xml:space="preserve"><value>Nome</value></data>
+  <data name="ColValue" xml:space="preserve"><value>Valore</value></data>
+  <data name="ColUnit" xml:space="preserve"><value>Unità</value></data>
+  <data name="ColPlot" xml:space="preserve"><value>Grafico</value></data>
+  <data name="ColStatus" xml:space="preserve"><value>Stato</value></data>
+  <data name="ColReason" xml:space="preserve"><value>Causa</value></data>
+  <data name="ColResult" xml:space="preserve"><value>Esito</value></data>
+  <data name="ColDuration" xml:space="preserve"><value>Durata massima</value></data>
+  <data name="ColCondition" xml:space="preserve"><value>Condizione</value></data>
+  <data name="Record" xml:space="preserve"><value>Registra CSV</value></data>
+  <data name="StopRecording" xml:space="preserve"><value>Ferma registrazione</value></data>
+  <data name="RecordingTo" xml:space="preserve"><value>Registrazione in {0}</value></data>
+  <data name="Recorded" xml:space="preserve"><value>Salvato {0}</value></data>
+  <data name="ReadErrors" xml:space="preserve"><value>Leggi errori</value></data>
+  <data name="ClearCodes" xml:space="preserve"><value>Cancella errori</value></data>
+  <data name="NoErrors" xml:space="preserve"><value>Nessun errore</value></data>
+  <data name="StatusLegend" xml:space="preserve"><value>[A] attivo · [V] verificato · [S] memorizzato</value></data>
+  <data name="Run" xml:space="preserve"><value>Esegui</value></data>
+  <data name="Apply" xml:space="preserve"><value>Applica</value></data>
+  <data name="EngineRunning" xml:space="preserve"><value>motore acceso</value></data>
+  <data name="EngineStopped" xml:space="preserve"><value>quadro acceso, motore spento</value></data>
+  <data name="ConfirmTestTitle" xml:space="preserve"><value>Test attuatore</value></data>
+  <data name="ConfirmTest" xml:space="preserve"><value>Eseguire "{0}"?
+
+L'attuatore verrà comandato per al massimo {1} s.
+Condizione: {2}.</value></data>
+  <data name="ConfirmClearTitle" xml:space="preserve"><value>Cancella codici errore</value></data>
+  <data name="ConfirmClear" xml:space="preserve"><value>Cancellare tutti i codici errore memorizzati?
+
+Il quadro deve essere ACCESO e il motore SPENTO.</value></data>
+  <data name="ConfirmAdjustTitle" xml:space="preserve"><value>Regolazione</value></data>
+  <data name="ConfirmAdjust" xml:space="preserve"><value>Applicare "{0}"?</value></data>
+  <data name="AdjustValueTitle" xml:space="preserve"><value>{0}: nuovo valore</value></data>
+  <data name="ActiveDisabled" xml:space="preserve"><value>I comandi attivi sono disabilitati nelle opzioni.</value></data>
+  <data name="Busy" xml:space="preserve"><value>Comando in corso...</value></data>
+  <data name="SeparateScales" xml:space="preserve"><value>Scale separate</value></data>
+  <data name="Window" xml:space="preserve"><value>Finestra</value></data>
+  <data name="WindowAll" xml:space="preserve"><value>Tutto</value></data>
+  <data name="Follow" xml:space="preserve"><value>Segui</value></data>
+  <data name="ClearGraph" xml:space="preserve"><value>Pulisci</value></data>
+  <data name="GraphHint" xml:space="preserve"><value>Spunta i parametri nella colonna Grafico della scheda Parametri. Rotella per lo zoom, trascina per spostarti, doppio clic per ripristinare la vista.</value></data>
+  <data name="OpenLog" xml:space="preserve"><value>Apri log...</value></data>
+  <data name="Play" xml:space="preserve"><value>Riproduci</value></data>
+  <data name="Pause" xml:space="preserve"><value>Pausa</value></data>
+  <data name="Speed" xml:space="preserve"><value>Velocità</value></data>
+  <data name="ReplayEmpty" xml:space="preserve"><value>Apri un log CSV registrato da questo programma o esportato da IES2.</value></data>
+  <data name="ReplayLegacy" xml:space="preserve"><value>Esportazione IES2</value></data>
+  <data name="Samples" xml:space="preserve"><value>{0} campioni</value></data>
+  <data name="OpenFailed" xml:space="preserve"><value>Impossibile leggere il file: {0}</value></data>
+  <data name="SimulatedEcu" xml:space="preserve"><value>Centralina simulata</value></data>
+  <data name="Unverified" xml:space="preserve"><value>NON VERIFICATA</value></data>
+  <data name="SimulatorName" xml:space="preserve"><value>Simulatore</value></data>
+  <data name="SimulatorDescription" xml:space="preserve"><value>demo, senza cavo</value></data>
+</root>
