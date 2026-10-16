@@ -1,15 +1,24 @@
 name: Release
 
-# Push a tag such as v0.1.0-rc.1 to build self-contained executables and
-# publish them as a GitHub release. Tags with a suffix (-rc.N, -beta.N, ...)
-# are published as pre-releases.
+# Push a tag such as v0.1.0-rc.1, or run this workflow from the Actions tab
+# with the tag to create, to build self-contained executables and publish them
+# as a GitHub release. Tags with a suffix (-rc.N, -beta.N, ...) are published
+# as pre-releases.
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to create and release, for example v0.1.0-rc.1 (created on the selected branch)'
+        required: true
 
 permissions:
   contents: write
+
+env:
+  TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
 
 jobs:
   test:
@@ -47,7 +56,7 @@ jobs:
 
       - name: Publish self-contained executables
         run: |
-          version="${GITHUB_REF_NAME#v}"
+          version="${TAG#v}"
           out="marelli-iaw-ecu-studio-${version}-${{ matrix.rid }}"
           for project in MarelliIawEcuStudio.App MarelliIawEcuStudio.Cli; do
             dotnet publish src/$project \
@@ -92,8 +101,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cd dist && sha256sum * > SHA256SUMS.txt && cd ..
-          notes="docs/releases/${GITHUB_REF_NAME}.md"
-          args=(--title "$GITHUB_REF_NAME" --verify-tag)
+          notes="docs/releases/${TAG}.md"
+          args=(--title "$TAG" --target "$GITHUB_SHA")
           if [[ -f "$notes" ]]; then args+=(--notes-file "$notes"); else args+=(--generate-notes); fi
-          if [[ "$GITHUB_REF_NAME" == *-* ]]; then args+=(--prerelease); fi
-          gh release create "$GITHUB_REF_NAME" dist/* "${args[@]}"
+          if [[ "$TAG" == *-* ]]; then args+=(--prerelease); fi
+          gh release create "$TAG" dist/* "${args[@]}"
