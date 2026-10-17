@@ -40,8 +40,11 @@ jobs:
         if: failure()
         shell: bash
         run: |
-          details=$(grep -E -A14 '^[[:space:]]*failed ' test-output.txt | head -120 | tr -d '\r' | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }')
-          echo "::error title=Failed tests on ${{ matrix.os }}::${details:-see the Test step}"
+          encode() { tr -d '\r' | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }'; }
+          failed=$( (grep -E -A14 '^[[:space:]]*failed ' test-output.txt || true) | head -120 | encode)
+          tail=$(tail -n 60 test-output.txt | encode)
+          echo "::error title=Failed tests on ${{ matrix.os }}::${failed:-no 'failed' line: the test host may have crashed}"
+          echo "::error title=End of test output on ${{ matrix.os }}::${tail}"
 
       - name: Upload UI screenshots
         if: always() && matrix.os == 'ubuntu-latest'
