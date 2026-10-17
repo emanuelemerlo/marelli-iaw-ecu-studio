@@ -118,97 +118,97 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ACrelay" xml:space="preserve">
-    <value>AC Relej</value>
+    <value>Relej kompresora klime</value>
   </data>
   <data name="Act" xml:space="preserve">
     <value>[A]</value>
   </data>
   <data name="ADGAIN" xml:space="preserve">
-    <value>AC Parametri</value>
+    <value>Pojačanje autokalibracije (srednje opterećenje)</value>
   </data>
   <data name="Adjusting" xml:space="preserve">
-    <value>Podešavanje</value>
+    <value>PODEŠAVANJE: {0}...</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>AC Praćenje parametara  (min. load)</value>
+    <value>Pomak autokalibracije (minimalno opterećenje)</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>AC Praćenje parametara  (min. load, EVAP on)</value>
+    <value>Pomak autokalibracije (minimalno opterećenje, EVAP uključen)</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>AC Praćenje parametara  (min. load, EVAP off)</value>
+    <value>Pomak autokalibracije (minimalno opterećenje, EVAP isključen)</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
-    <value>Stepper Correction from FLT</value>
+    <value>Korekcija koračnog motora iz FLT</value>
   </data>
   <data name="ALFAR" xml:space="preserve">
-    <value>Pozicija ler ventila (Step motor za rad u praznom hodu)</value>
+    <value>Položaj koračnog motora praznog hoda</value>
   </data>
   <data name="ALFAU" xml:space="preserve">
-    <value>Autokalibracija / Korekcija</value>
+    <value>Korekcija autokalibracije</value>
   </data>
   <data name="ALFAUC" xml:space="preserve">
-    <value>Autokalibracija / Korekcija sa  A/C</value>
+    <value>Korekcija autokalibracije s klimom</value>
   </data>
   <data name="ANG_PAP0" xml:space="preserve">
-    <value>Ugao potenciometra gasa</value>
+    <value>Kut otvaranja leptira gasa</value>
   </data>
   <data name="AtMAX" xml:space="preserve">
-    <value>Preko MAX</value>
+    <value>Iznad MAKS</value>
   </data>
   <data name="AtMIN" xml:space="preserve">
     <value>Ispod MIN</value>
   </data>
   <data name="autodetect" xml:space="preserve">
-    <value>Automatska detekcija</value>
+    <value>Automatsko prepoznavanje</value>
   </data>
   <data name="AVANCE" xml:space="preserve">
-    <value>Ignition Advance --PALJENJE</value>
+    <value>Predpaljenje</value>
   </data>
   <data name="Cancelled" xml:space="preserve">
     <value>PREKINUTO</value>
   </data>
   <data name="ClearingErrors" xml:space="preserve">
-    <value>Brisanje grešaka u toku ...</value>
+    <value>Brisanje kodova pogrešaka...</value>
   </data>
   <data name="Coil1" xml:space="preserve">
-    <value>Namotaj/Bobina 1</value>
+    <value>Bobina 1</value>
   </data>
   <data name="Coil2" xml:space="preserve">
-    <value>Namotaj/Bobina 2</value>
+    <value>Bobina 2</value>
   </data>
   <data name="CommLost" xml:space="preserve">
-    <value>Nema komunikacija sa motornom elektronikom</value>
+    <value>Nema odgovora upravljačke jedinice</value>
   </data>
   <data name="COMnotValid" xml:space="preserve">
-    <value>GREŠKA u odabranom portu</value>
+    <value>POGREŠKA na priključku sučelja</value>
   </data>
   <data name="COMopenError" xml:space="preserve">
-    <value>GREŠKA pri pokušaju povezivanja preko odabranog porta</value>
+    <value>Došlo je do pogreške pri otvaranju priključka {0}.</value>
   </data>
   <data name="ConMeter" xml:space="preserve">
     <value>Mjerač potrošnje</value>
   </data>
   <data name="ConnectedTo" xml:space="preserve">
-    <value>KONEKTOVAN NA:</value>
+    <value>POVEZANO S:</value>
   </data>
   <data name="Connecting" xml:space="preserve">
-    <value>Dodajte kontakt ...</value>
+    <value>UKLJUČITE kontakt...</value>
   </data>
   <data name="CONS_REG" xml:space="preserve">
-    <value>Obrtaji motora u praznom hodu</value>
+    <value>Broj okretaja praznog hoda</value>
   </data>
   <data name="DELREG" xml:space="preserve">
-    <value>Stepper Correction (Delta) _KOREKCIJA</value>
+    <value>Korekcija koračnog motora (delta)</value>
   </data>
   <data name="EGR" xml:space="preserve">
-    <value>EGR Ventil</value>
+    <value>EGR ventil</value>
   </data>
   <data name="EnsureIgnOnEngStop" xml:space="preserve">
-    <value>Molim osigurajte da je kontakt UKLJUČEN a motor UGAŠEN</value>
+    <value>Provjerite je li kontakt UKLJUČEN, a motor UGAŠEN.</value>
   </data>
   <data name="ErrACParam" xml:space="preserve">
-    <value>Autocallibration Parameter</value>
+    <value>Parametar autokalibracije</value>
   </data>
   <data name="ErrAirCo" xml:space="preserve">
     <value>Klima uređaj</value>
@@ -217,25 +217,25 @@
     <value>Automatski mjenjač</value>
   </data>
   <data name="ErrBackdoor" xml:space="preserve">
-    <value>Backdoor Acivated</value>
+    <value>Backdoor aktiviran</value>
   </data>
   <data name="ErrBattV" xml:space="preserve">
-    <value>Napon baterije</value>
+    <value>Napon akumulatora</value>
   </data>
   <data name="ErrC4" xml:space="preserve">
-    <value>Nepoznata GREŠKA !</value>
+    <value>Nepoznata pogreška CODE (4)</value>
   </data>
   <data name="ErrCam" xml:space="preserve">
-    <value>Senzor pozicije bregaste osovine</value>
+    <value>Senzor bregastog vratila</value>
   </data>
   <data name="ErrCnt" xml:space="preserve">
-    <value>Error Counter</value>
+    <value>Brojač pogrešaka</value>
   </data>
   <data name="ErrCoil1" xml:space="preserve">
-    <value>Bobina 1</value>
+    <value>Bobina paljenja 1</value>
   </data>
   <data name="ErrCoil2" xml:space="preserve">
-    <value>Bobina 2</value>
+    <value>Bobina paljenja 2</value>
   </data>
   <data name="ErrConMet" xml:space="preserve">
     <value>Mjerač potrošnje</value>
@@ -247,13 +247,13 @@
     <value>Digimatic signal</value>
   </data>
   <data name="ErrECT" xml:space="preserve">
-    <value>Senzor temperature rashladne tekućine motora</value>
+    <value>Senzor temperature rashladne tekućine</value>
   </data>
   <data name="ErrEEPROM" xml:space="preserve">
     <value>EEPROM</value>
   </data>
   <data name="ErrEGRCtrl" xml:space="preserve">
-    <value>EGR kontrola</value>
+    <value>Upravljanje EGR-om</value>
   </data>
   <data name="ErrEGRVal" xml:space="preserve">
     <value>EGR ventil</value>
@@ -262,49 +262,49 @@
     <value>EPROM</value>
   </data>
   <data name="ErrEVAP" xml:space="preserve">
-    <value>EVAP ventil</value>
+    <value>Ventil spremnika aktivnog ugljena (EVAP)</value>
   </data>
   <data name="ErrF7" xml:space="preserve">
-    <value>Nepoznata funkcijska greška (7)</value>
+    <value>Nepoznata funkcijska pogreška (7)</value>
   </data>
   <data name="ErrF8" xml:space="preserve">
-    <value>Nepoznata funkcijska greška (8)</value>
+    <value>Nepoznata funkcijska pogreška (8)</value>
   </data>
   <data name="ErrFuelPump" xml:space="preserve">
     <value>Pumpa goriva</value>
   </data>
   <data name="ErrGenRel" xml:space="preserve">
-    <value>Opšti sistemski relej</value>
+    <value>Glavni relej</value>
   </data>
   <data name="ErrI2" xml:space="preserve">
-    <value>Nepoznata ulazna greška (2)</value>
+    <value>Nepoznata ulazna pogreška (2)</value>
   </data>
   <data name="ErrI8" xml:space="preserve">
-    <value>Nepoznata ulazna greška (8)</value>
+    <value>Nepoznata ulazna pogreška (8)</value>
   </data>
   <data name="ErrIAT" xml:space="preserve">
     <value>Senzor temperature zraka</value>
   </data>
   <data name="ErrIAV" xml:space="preserve">
-    <value>Step motor za ler gas</value>
+    <value>Koračni motor praznog hoda</value>
   </data>
   <data name="ErrIdleReg" xml:space="preserve">
-    <value>Regulacija ler gasa</value>
+    <value>Regulacija praznog hoda</value>
   </data>
   <data name="ErrInj" xml:space="preserve">
-    <value>Injektor</value>
+    <value>Brizgaljka</value>
   </data>
   <data name="ErrInj1" xml:space="preserve">
-    <value>Injektor (Grupa 1)</value>
+    <value>Brizgaljke (grupa 1)</value>
   </data>
   <data name="ErrInj2" xml:space="preserve">
-    <value>Injektor (Grupa 2)</value>
+    <value>Brizgaljke (grupa 2)</value>
   </data>
   <data name="ErrInjs" xml:space="preserve">
-    <value>Injektori</value>
+    <value>Brizgaljke</value>
   </data>
   <data name="ErrKeyCode" xml:space="preserve">
-    <value>Kod ključa GREŠKA</value>
+    <value>Pogreška koda ključa</value>
   </data>
   <data name="ErrKnock" xml:space="preserve">
     <value>Senzor detonacije</value>
@@ -313,40 +313,40 @@
     <value>Senzor detonacije</value>
   </data>
   <data name="ErrLambda" xml:space="preserve">
-    <value>lambda sonda</value>
+    <value>Lambda sonda</value>
   </data>
   <data name="ErrLinkDown" xml:space="preserve">
-    <value>Nema ocitanih kodova ili veza prekinuta</value>
+    <value>Kod nije primljen ili je veza prekinuta</value>
   </data>
   <data name="ErrMAP" xml:space="preserve">
-    <value>MAP Senzor</value>
+    <value>Senzor apsolutnog tlaka (MAP)</value>
   </data>
   <data name="ErrMIL" xml:space="preserve">
-    <value>MIL indikacija</value>
+    <value>Žaruljica kvara motora (MIL)</value>
   </data>
   <data name="ErrMixRatio" xml:space="preserve">
-    <value>Odnos smjese</value>
+    <value>Omjer smjese</value>
   </data>
   <data name="ErrNeutralGear" xml:space="preserve">
-    <value>Neutralan/signal brzine</value>
+    <value>Signal neutralnog položaja/stupnja prijenosa</value>
   </data>
   <data name="ErrNoSync" xml:space="preserve">
-    <value>ECU nije sinhroniziran sa CODE</value>
+    <value>Upravljačka jedinica nije sinkronizirana s CODE</value>
   </data>
   <data name="ErrO1a" xml:space="preserve">
-    <value>Nepoznata IZLAZNA greška (1a)</value>
+    <value>Nepoznata izlazna pogreška (1a)</value>
   </data>
   <data name="ErrO2a" xml:space="preserve">
-    <value>Nepoznata IZLAZNA greška (2a)</value>
+    <value>Nepoznata izlazna pogreška (2a)</value>
   </data>
   <data name="ErrO3a" xml:space="preserve">
-    <value>Nepoznata IZLAZNA greška (3a)</value>
+    <value>Nepoznata izlazna pogreška (3a)</value>
   </data>
   <data name="ErrO4a" xml:space="preserve">
-    <value>Nepoznata IZLAZNA greška (4a)</value>
+    <value>Nepoznata izlazna pogreška (4a)</value>
   </data>
   <data name="Errors" xml:space="preserve">
-    <value>GREŠKE:</value>
+    <value>POGREŠKE:</value>
   </data>
   <data name="ErrRAM" xml:space="preserve">
     <value>RAM</value>
@@ -355,304 +355,304 @@
     <value>ROM</value>
   </data>
   <data name="ErrRPMSens" xml:space="preserve">
-    <value>TDC/RPM Senzor</value>
+    <value>Senzor GMT/broja okretaja</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>SMOT sensor</value>
+    <value>SMOT senzor</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Sekvenca signala</value>
+    <value>Slijed signal panela</value>
   </data>
   <data name="ErrStartDis" xml:space="preserve">
-    <value>ECU nije odobrio paljenje motora</value>
+    <value>Upravljačka jedinica ne dopušta pokretanje motora</value>
   </data>
   <data name="ErrTPS" xml:space="preserve">
-    <value>Senzor pozicije leptira gasa</value>
+    <value>Senzor položaja leptira gasa</value>
   </data>
   <data name="ErrUniCode" xml:space="preserve">
-    <value>ECU je primio'Univerzalan kod'</value>
+    <value>Upravljačka jedinica primila je 'univerzalni kod'</value>
   </data>
   <data name="ErrUnrCode" xml:space="preserve">
-    <value>Netacan ili nedodjeljiv Code</value>
+    <value>Neispravan ili neprepoznat kod</value>
   </data>
   <data name="ErrVAE" xml:space="preserve">
-    <value>Ventil ler obrtaja blokiran u otvorenom ili zatvorenom polozaju</value>
+    <value>VAE zaglavljen otvoren ili zatvoren</value>
   </data>
   <data name="ErrWasteG" xml:space="preserve">
-    <value>Waste Gate</value>
+    <value>Wastegate ventil</value>
   </data>
   <data name="EscCancel" xml:space="preserve">
-    <value>Pritisni [Esc] za Cancel</value>
+    <value>Pritisnite [Esc] za odustajanje</value>
   </data>
   <data name="EVAP" xml:space="preserve">
-    <value>EVAP Valve</value>
+    <value>Ventil spremnika aktivnog ugljena (EVAP)</value>
   </data>
   <data name="F10_Connect" xml:space="preserve">
-    <value>[F10] Konektovati</value>
+    <value>[F10] Poveži</value>
   </data>
   <data name="F10_Disconnect" xml:space="preserve">
-    <value>[F10] Diskonektovati</value>
+    <value>[F10] Prekini vezu</value>
   </data>
   <data name="F11_Confirm" xml:space="preserve">
-    <value>Pritisni [F11] za potvrdu</value>
+    <value>Pritisnite [F11] za potvrdu</value>
   </data>
   <data name="FABEEAT" xml:space="preserve">
-    <value>Samoadaptacija aktivirana u EEPROM</value>
+    <value>Samoprilagodba aktivirana u EEPROM-u</value>
   </data>
   <data name="FABEEATi" xml:space="preserve">
-    <value>Samoadaptacija Ler gasa aktivirana u EEPROM</value>
+    <value>Samoprilagodba praznog hoda aktivirana u EEPROM-u</value>
   </data>
   <data name="FABEPAT" xml:space="preserve">
-    <value>Samoadaptacija aktivirana u EPROM</value>
+    <value>Samoprilagodba aktivirana u EPROM-u</value>
   </data>
   <data name="FABEPATi" xml:space="preserve">
-    <value>Samoadaptacija Ler gasa aktivirana u EPROM</value>
+    <value>Samoprilagodba praznog hoda aktivirana u EPROM-u</value>
   </data>
   <data name="Failed" xml:space="preserve">
     <value>NEUSPJEŠNO</value>
   </data>
   <data name="FLGSMA" xml:space="preserve">
-    <value>Lambda u zatvorenoj petlji</value>
+    <value>Lambda sonda u zatvorenoj petlji</value>
   </data>
   <data name="FuelPump" xml:space="preserve">
     <value>Relej pumpe goriva</value>
   </data>
   <data name="GenericRelay" xml:space="preserve">
-    <value>Opšti relej</value>
+    <value>Glavni relej</value>
   </data>
   <data name="InitFailed" xml:space="preserve">
-    <value>Inicijalizacija prekinuta !</value>
+    <value>INICIJ. NEUSPJEŠNA</value>
   </data>
   <data name="Injector" xml:space="preserve">
-    <value>Injektor</value>
+    <value>Brizgaljka</value>
   </data>
   <data name="Injector1" xml:space="preserve">
-    <value>Injektor 1</value>
+    <value>Brizgaljka 1</value>
   </data>
   <data name="Injector2" xml:space="preserve">
-    <value>Injektor 2</value>
+    <value>Brizgaljka 2</value>
   </data>
   <data name="Injector3" xml:space="preserve">
-    <value>Injektor 3</value>
+    <value>Brizgaljka 3</value>
   </data>
   <data name="Injector4" xml:space="preserve">
-    <value>Injektor 4</value>
+    <value>Brizgaljka 4</value>
   </data>
   <data name="Injectors" xml:space="preserve">
-    <value>Injektori</value>
+    <value>Brizgaljke</value>
   </data>
   <data name="INJ_AVA" xml:space="preserve">
-    <value>Ugao paljenja</value>
+    <value>Kut ubrizgavanja</value>
   </data>
   <data name="InProceed" xml:space="preserve">
-    <value>U TOKU ...</value>
+    <value>U TIJEKU...</value>
   </data>
   <data name="INTEGR" xml:space="preserve">
-    <value>Step motor ler gasa -Integralan</value>
+    <value>Integralno pojačanje koračnog motora praznog hoda</value>
   </data>
   <data name="K_O2" xml:space="preserve">
-    <value>Lambda sonda korekcija</value>
+    <value>Korekcija lambda sonde</value>
   </data>
   <data name="K_O2_RAW" xml:space="preserve">
-    <value>Lambda sonda napon</value>
+    <value>Napon lambda sonde</value>
   </data>
   <data name="MaxLEAN" xml:space="preserve">
-    <value>Max OSIROMASEN</value>
+    <value>Maks. SIROMAŠNA</value>
   </data>
   <data name="MaxRICH" xml:space="preserve">
-    <value>Max OBOGACEN</value>
+    <value>Maks. BOGATA</value>
   </data>
   <data name="MIL" xml:space="preserve">
-    <value>MIL Lampa</value>
+    <value>Žaruljica kvara motora (MIL)</value>
   </data>
   <data name="MP2_MP8" xml:space="preserve">
-    <value>Pritisak usisne grane</value>
+    <value>Apsolutni tlak usisne grane</value>
   </data>
   <data name="MP2_MP8t" xml:space="preserve">
-    <value>Pritisak usisne grane (TURBO)</value>
+    <value>Apsolutni tlak usisne grane (TURBO)</value>
   </data>
   <data name="MT_AIR_L" xml:space="preserve">
     <value>Temperatura zraka</value>
   </data>
   <data name="MT_EAU_L" xml:space="preserve">
-    <value>Temperatura vode</value>
+    <value>Temperatura rashladne tekućine</value>
   </data>
   <data name="NoAir" xml:space="preserve">
-    <value>Bez zraka</value>
+    <value>Premalo zraka</value>
   </data>
   <data name="OFFSET1" xml:space="preserve">
-    <value>Autokalibracija injektora Offset @ ZONE 1</value>
+    <value>Pomak autokalibracije ubrizgavanja @ ZONA 1</value>
   </data>
   <data name="OFFSET2" xml:space="preserve">
-    <value>Autokalibracija injektora Offset @ ZONE 2</value>
+    <value>Pomak autokalibracije ubrizgavanja @ ZONA 2</value>
   </data>
   <data name="OFFSET3" xml:space="preserve">
-    <value>Autokalibracija injektora Offset @ ZONE 3</value>
+    <value>Pomak autokalibracije ubrizgavanja @ ZONA 3</value>
   </data>
   <data name="OFFSET4" xml:space="preserve">
-    <value>Autokalibracija injektora  Offset @ ZONE 4</value>
+    <value>Pomak autokalibracije ubrizgavanja @ ZONA 4</value>
   </data>
   <data name="OFFSET5" xml:space="preserve">
-    <value>Autokalibracija injektora  Offset @ ZONE 5</value>
+    <value>Pomak autokalibracije ubrizgavanja @ ZONA 5</value>
   </data>
   <data name="OFFSET6" xml:space="preserve">
-    <value>Autokalibracija injektora  Offset @ ZONE 6</value>
+    <value>Pomak autokalibracije ubrizgavanja @ ZONA 6</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Autokalibracija injektora  Offset @ IDLE</value>
+    <value>Pomak autokalibracije ubrizgavanja @ PRAZNI HOD</value>
   </data>
   <data name="OFNNTR" xml:space="preserve">
-    <value>Lerr obrtaji Offset</value>
+    <value>Pomak broja okretaja praznog hoda</value>
   </data>
   <data name="OpenCircuit" xml:space="preserve">
-    <value>Otvoren strujni krug</value>
+    <value>Prekid strujnog kruga</value>
   </data>
   <data name="OverB" xml:space="preserve">
-    <value>Pozitivna deviacija</value>
+    <value>Previsok tlak prednabijanja (overboost)</value>
   </data>
   <data name="Parameters" xml:space="preserve">
     <value>PARAMETRI:</value>
   </data>
   <data name="Passed" xml:space="preserve">
-    <value>PRIHVACENO</value>
+    <value>USPJEŠNO</value>
   </data>
   <data name="PERIODE" xml:space="preserve">
-    <value>Brzina vozila</value>
+    <value>Broj okretaja motora</value>
   </data>
   <data name="Press_F10" xml:space="preserve">
-    <value>Pritisni [F10] da prekines konektovanje ili [F12] da ponovis</value>
+    <value>Pritisnite [F10] za prekid veze ili [F12] za ponovno povezivanje</value>
   </data>
   <data name="PreviouslySelectedPort" xml:space="preserve">
-    <value>Prethodno odabrani port  {0} nije vise dostupan.  Molim odaberi drugi</value>
+    <value>Prethodno odabrani priključak {0} više nije dostupan. Odaberite drugi priključak.</value>
   </data>
   <data name="PROP" xml:space="preserve">
-    <value>Rad ventila ler obrtaja proporcionalan</value>
+    <value>Proporcionalno pojačanje koračnog motora praznog hoda</value>
   </data>
   <data name="REVmeter" xml:space="preserve">
-    <value>REV Meter</value>
+    <value>Brojač okretaja</value>
   </data>
   <data name="rpm" xml:space="preserve">
-    <value>RPM</value>
+    <value>o/min</value>
   </data>
   <data name="ShortToGND" xml:space="preserve">
-    <value>Kratak spoj GND</value>
+    <value>Kratki spoj prema masi</value>
   </data>
   <data name="ShortToGNDorOpen" xml:space="preserve">
-    <value>Kratak spoj  GND/Otvoren</value>
+    <value>Kratki spoj prema masi/prekid</value>
   </data>
   <data name="ShortToVcc" xml:space="preserve">
-    <value>Kratak spoj  +Vcc</value>
+    <value>Kratki spoj prema +Vcc</value>
   </data>
   <data name="Simulation" xml:space="preserve">
-    <value>SIMULACIJA</value>
+    <value>NAČIN SIMULACIJE!!!</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
-    <value>ABS aktivno</value>
+    <value>ABS aktivan</value>
   </data>
   <data name="StaAdvDecr" xml:space="preserve">
-    <value>Paljenje zahtjeva kliktanje</value>
+    <value>Predpaljenje smanjeno zbog detonacije</value>
   </data>
   <data name="StaAirCoON" xml:space="preserve">
-    <value>Klima UPALJENA</value>
+    <value>Klima UKLJUČENA</value>
   </data>
   <data name="StaClLoop" xml:space="preserve">
-    <value>Lambda sonda u  Closed Loop</value>
+    <value>Lambda sonda u zatvorenoj petlji</value>
   </data>
   <data name="StaEngRun" xml:space="preserve">
-    <value>Motor upaljen</value>
+    <value>Motor radi</value>
   </data>
   <data name="StaGearEng" xml:space="preserve">
-    <value>U brzini</value>
+    <value>Stupanj prijenosa uključen</value>
   </data>
   <data name="StaMixACOK" xml:space="preserve">
-    <value>Autokalibracija ODOBRENA</value>
+    <value>Autokalibracija smjese UKLJUČENA</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
-    <value>Power Latch Line OK</value>
+    <value>Linija zadržavanja napajanja (power latch) OK</value>
   </data>
   <data name="Start" xml:space="preserve">
-    <value>&amp;Start</value>
+    <value>&amp;Pokreni</value>
   </data>
   <data name="StaSensOK" xml:space="preserve">
-    <value>Signal sensora OK</value>
+    <value>Signali senzora OK</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Signal panela OK</value>
+    <value>Signal panel OK</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Autokalibracija stepera ODOBRENA</value>
+    <value>Autokalibracija koračnog motora UKLJUČENA</value>
   </data>
   <data name="StaThrMM" xml:space="preserve">
-    <value>Klapna gasa Min/Max</value>
+    <value>Leptir gasa na min./maks.</value>
   </data>
   <data name="StaVAESC" xml:space="preserve">
-    <value>VAE samociscenje</value>
+    <value>Samočišćenje VAE u tijeku</value>
   </data>
   <data name="Stepper" xml:space="preserve">
-    <value>Step motor za ler obrtaje</value>
+    <value>Koračni motor (aktuator praznog hoda)</value>
   </data>
   <data name="StepReset" xml:space="preserve">
-    <value>Autokalibracija step motora za ler obrtaje</value>
+    <value>Poništavanje autokalibracije koračnog motora praznog hoda</value>
   </data>
   <data name="steps" xml:space="preserve">
-    <value>stepovi</value>
+    <value>koraka</value>
   </data>
   <data name="StepSet" xml:space="preserve">
-    <value>postavi korekciju stepera (ALFAFTR)</value>
+    <value>Postavi korekciju koračnog motora (ALFAFTR)</value>
   </data>
   <data name="Sto" xml:space="preserve">
     <value>[S]</value>
   </data>
   <data name="Stop" xml:space="preserve">
-    <value>&amp;Stop</value>
+    <value>&amp;Zaustavi</value>
   </data>
   <data name="TestDuration" xml:space="preserve">
-    <value>Ako potraje duze {0} molim ugasi kontakt i ponovo upali</value>
+    <value>Ako test traje dulje od {0} s, ISKLJUČITE kontakt i zatvorite program!</value>
   </data>
   <data name="Testing" xml:space="preserve">
     <value>TESTIRANJE: {0}...</value>
   </data>
   <data name="Therm" xml:space="preserve">
-    <value>Kratak spoj po GND/+Vcc/Therm</value>
+    <value>Kratki spoj prema masi/+Vcc ili toplinska zaštita</value>
   </data>
   <data name="Timeout" xml:space="preserve">
-    <value>TIMEOUT</value>
+    <value>ISTEKLO VRIJEME</value>
   </data>
   <data name="ToggleStepAC" xml:space="preserve">
-    <value>Toggle motor ler obrtaja autokalibracija</value>
+    <value>Uključi/isključi autokalibraciju koračnog motora praznog hoda</value>
   </data>
   <data name="ToggleTrimAC" xml:space="preserve">
-    <value>Toggle mod paljenja auokalibracija</value>
+    <value>Uključi/isključi autokalibraciju smjese</value>
   </data>
   <data name="TooMuchAir" xml:space="preserve">
-    <value>Visak zraka</value>
+    <value>Previše zraka</value>
   </data>
   <data name="TRIMRAM" xml:space="preserve">
-    <value>Pozicija trimera</value>
+    <value>Položaj trimera</value>
   </data>
   <data name="TrimReset" xml:space="preserve">
-    <value>Mod paljenja auokalibracija</value>
+    <value>Poništavanje autokalibracije smjese</value>
   </data>
   <data name="TrimSet" xml:space="preserve">
-    <value>Postavi poziciju (TRIMRAM)</value>
+    <value>Postavi položaj trimera (TRIMRAM)</value>
   </data>
   <data name="TurnOFF" xml:space="preserve">
-    <value>Molim iskljuci kontakt...</value>
+    <value>ISKLJUČITE kontakt...</value>
   </data>
   <data name="T_INJ_AP" xml:space="preserve">
-    <value>Interval paljenja</value>
+    <value>Vrijeme ubrizgavanja</value>
   </data>
   <data name="T_VAE" xml:space="preserve">
-    <value>VAE kapacitet (upravljanje ler obrtajima)</value>
+    <value>Faktor ispune VAE (regulacija praznog hoda)</value>
   </data>
   <data name="UnknownISO" xml:space="preserve">
     <value>Nepoznato</value>
   </data>
   <data name="UnrecECU" xml:space="preserve">
-    <value>Ne prepoznajem motorni procesor, molim iskljuci kontakt...</value>
+    <value>Upravljačka jedinica nije prepoznata, ISKLJUČITE kontakt...</value>
   </data>
   <data name="VAE" xml:space="preserve">
-    <value>Ventil ler obrtaja  (VAE)</value>
+    <value>Ventil regulacije praznog hoda (VAE)</value>
   </data>
   <data name="Ver" xml:space="preserve">
     <value>[V]</value>

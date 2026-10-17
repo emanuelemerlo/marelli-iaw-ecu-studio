@@ -43,7 +43,7 @@
     ],
     "notes": {
       "en": "Motorcycles use the same module family with their own software and connector; not tested with this program.",
-      "it": "Le moto usano la stessa famiglia di moduli con software e connettore propri; non provate con questo programma."
+      "it": "Le moto usano la stessa famiglia di moduli con software e connettore propri; non sono state provate con questo programma."
     },
     "compatibilityVerified": false
   },

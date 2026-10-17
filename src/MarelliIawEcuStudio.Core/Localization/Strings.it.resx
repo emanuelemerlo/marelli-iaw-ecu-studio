@@ -121,16 +121,16 @@
     <value>Relè compressore A/C</value>
   </data>
   <data name="ADGAIN" xml:space="preserve">
-    <value>Parametro guadagno A/C (carico medio)</value>
+    <value>Guadagno autoadattamento (carico medio)</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Parametro offset A/C (carico minimo)</value>
+    <value>Offset autoadattamento (carico minimo)</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>Parametro offset A/C (carico minimo, EVAP attiva)</value>
+    <value>Offset autoadattamento (carico minimo, EVAP attiva)</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>Parametro offset A/C (carico minimo, EVAP non attiva)</value>
+    <value>Offset autoadattamento (carico minimo, EVAP non attiva)</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
     <value>Correzione stepper da FLT</value>
@@ -217,7 +217,7 @@
     <value>Relè pompa carburante</value>
   </data>
   <data name="GenericRelay" xml:space="preserve">
-    <value>Relè generico</value>
+    <value>Relè principale</value>
   </data>
   <data name="ErrTPS" xml:space="preserve">
     <value>Sensore posizione farfalla</value>
@@ -256,19 +256,19 @@
     <value>Pressione assoluta collettore</value>
   </data>
   <data name="MT_AIR_L" xml:space="preserve">
-    <value>Temperatura Aria</value>
+    <value>Temperatura aria</value>
   </data>
   <data name="MT_EAU_L" xml:space="preserve">
-    <value>Temperatura Acqua</value>
+    <value>Temperatura acqua</value>
   </data>
   <data name="ErrInj" xml:space="preserve">
     <value>Iniettore</value>
   </data>
   <data name="ErrCoil1" xml:space="preserve">
-    <value>Bobina accensione 1</value>
+    <value>Bobina di accensione 1</value>
   </data>
   <data name="ErrCoil2" xml:space="preserve">
-    <value>Bobina accensione 2</value>
+    <value>Bobina di accensione 2</value>
   </data>
   <data name="ErrIAV" xml:space="preserve">
     <value>Motorino passo-passo del minimo</value>
@@ -283,7 +283,7 @@
     <value>Pompa carburante</value>
   </data>
   <data name="ErrGenRel" xml:space="preserve">
-    <value>Relè generale di sistema</value>
+    <value>Relè principale</value>
   </data>
   <data name="OFNNTR" xml:space="preserve">
     <value>Offset regime del minimo</value>
@@ -364,7 +364,7 @@
     <value>Corto a +Vcc</value>
   </data>
   <data name="Therm" xml:space="preserve">
-    <value>Corto a massa/+Vcc/Therm</value>
+    <value>Corto a massa/+Vcc o protezione termica</value>
   </data>
   <data name="Act" xml:space="preserve">
     <value>[A]</value>
@@ -439,7 +439,7 @@
     <value>Spia avaria motore (MIL)</value>
   </data>
   <data name="NoAir" xml:space="preserve">
-    <value>Aria assente</value>
+    <value>Aria insufficiente</value>
   </data>
   <data name="ErrO1a" xml:space="preserve">
     <value>Errore di uscita sconosciuto (1a)</value>
@@ -601,7 +601,7 @@
     <value>ABS attivo</value>
   </data>
   <data name="StaVAESC" xml:space="preserve">
-    <value>VAE Autopulizia in corso</value>
+    <value>Autopulizia VAE in corso</value>
   </data>
   <data name="VAE" xml:space="preserve">
     <value>Valvola di controllo del minimo (VAE)</value>

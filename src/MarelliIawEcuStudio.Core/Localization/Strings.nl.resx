@@ -118,61 +118,61 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ACrelay" xml:space="preserve">
-    <value>AC relais</value>
+    <value>Relais aircocompressor</value>
   </data>
   <data name="ADGAIN" xml:space="preserve">
-    <value>AC Opbrengst Parameter (gemiddelde belasting)</value>
+    <value>Versterking autokalibratie (middelste belasting)</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>AC Compensatie Parameter (min belasting)</value>
+    <value>Offset autokalibratie (minimale belasting)</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>AC Compensatie Parameter (min belasting, EVAP aan)</value>
+    <value>Offset autokalibratie (minimale belasting, EVAP aan)</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>AC Compensatie Parameter (min belasting, EVAP uit)</value>
+    <value>Offset autokalibratie (minimale belasting, EVAP uit)</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
-    <value>Stappen Correctie van FLT</value>
+    <value>Stappenmotorcorrectie uit FLT</value>
   </data>
   <data name="ALFAR" xml:space="preserve">
-    <value>Stationair Stappen Motor Positie</value>
+    <value>Positie stappenmotor stationair</value>
   </data>
   <data name="ALFAU" xml:space="preserve">
-    <value>Automatische Calibratie Correctie</value>
+    <value>Correctie autokalibratie</value>
   </data>
   <data name="ALFAUC" xml:space="preserve">
-    <value>Automatische Calibratie Correctie met Airco</value>
+    <value>Correctie autokalibratie met airco</value>
   </data>
   <data name="ANG_PAP0" xml:space="preserve">
-    <value>Gasklep Opening Hoek</value>
+    <value>Openingshoek gasklep</value>
   </data>
   <data name="AVANCE" xml:space="preserve">
-    <value>Ontsteking Vervroeging</value>
+    <value>Ontstekingsvervroeging</value>
   </data>
   <data name="ErrNoSync" xml:space="preserve">
-    <value>ECU is in 'Maagdelijke' Staat</value>
+    <value>Regeleenheid niet gesynchroniseerd met CODE</value>
   </data>
   <data name="ErrStartDis" xml:space="preserve">
-    <value>ECU verbiedt de motor te starten</value>
+    <value>Regeleenheid staat starten van de motor niet toe</value>
   </data>
   <data name="ErrUniCode" xml:space="preserve">
-    <value>ECU heeft de 'Universele Code' ontvangen</value>
+    <value>Regeleenheid heeft de 'universele code' ontvangen</value>
   </data>
   <data name="ErrC4" xml:space="preserve">
-    <value>Onbekende CODE FOUT (4)</value>
+    <value>Onbekende CODE-fout (4)</value>
   </data>
   <data name="ErrBackdoor" xml:space="preserve">
-    <value>Achterdeur Geactiveerd</value>
+    <value>Backdoor geactiveerd</value>
   </data>
   <data name="ErrKeyCode" xml:space="preserve">
-    <value>Sleutel Code Fout</value>
+    <value>Fout sleutelcode</value>
   </data>
   <data name="ErrUnrCode" xml:space="preserve">
-    <value>Foute of Onbekende Code</value>
+    <value>Onjuiste of niet herkende code</value>
   </data>
   <data name="ErrLinkDown" xml:space="preserve">
-    <value>Geen Code Ontvangen of Geen Verbinding</value>
+    <value>Geen code ontvangen of verbinding verbroken</value>
   </data>
   <data name="Coil1" xml:space="preserve">
     <value>Bobine 1</value>
@@ -181,16 +181,16 @@
     <value>Bobine 2</value>
   </data>
   <data name="CONS_REG" xml:space="preserve">
-    <value>Stationair Toerental</value>
+    <value>Stationair toerental</value>
   </data>
   <data name="DELREG" xml:space="preserve">
-    <value>Stappen Correctie (Delta)</value>
+    <value>Stappenmotorcorrectie (delta)</value>
   </data>
   <data name="EVAP" xml:space="preserve">
-    <value>EVAP Klep</value>
+    <value>Koolfilterklep (EVAP)</value>
   </data>
   <data name="ErrACParam" xml:space="preserve">
-    <value>Automatische Callibratie Parameter</value>
+    <value>Autokalibratieparameter</value>
   </data>
   <data name="ErrRAM" xml:space="preserve">
     <value>RAM</value>
@@ -205,61 +205,61 @@
     <value>CPU</value>
   </data>
   <data name="ErrRPMSens" xml:space="preserve">
-    <value>BDP/TPM Sensor</value>
+    <value>BDP-/toerentalsensor</value>
   </data>
   <data name="ErrF7" xml:space="preserve">
-    <value>Onbekende FUNC FOUT (7)</value>
+    <value>Onbekende functiefout (7)</value>
   </data>
   <data name="ErrF8" xml:space="preserve">
-    <value>Onbekende FUNC FOUT (8)</value>
+    <value>Onbekende functiefout (8)</value>
   </data>
   <data name="FuelPump" xml:space="preserve">
-    <value>Brandstofpomp Relais</value>
+    <value>Relais brandstofpomp</value>
   </data>
   <data name="GenericRelay" xml:space="preserve">
-    <value>Algemeen Relais</value>
+    <value>Hoofdrelais</value>
   </data>
   <data name="ErrTPS" xml:space="preserve">
-    <value>Gasklep Positie Sensor</value>
+    <value>Gasklepstandsensor</value>
   </data>
   <data name="ErrMAP" xml:space="preserve">
-    <value>MAP Sensor</value>
+    <value>Inlaatdruksensor (MAP)</value>
   </data>
   <data name="ErrLambda" xml:space="preserve">
-    <value>Lambda Sensor</value>
+    <value>Lambdasonde</value>
   </data>
   <data name="ErrECT" xml:space="preserve">
-    <value>Water Temperatuur Sensor</value>
+    <value>Koelvloeistoftemperatuursensor</value>
   </data>
   <data name="ErrIAT" xml:space="preserve">
-    <value>Lucht Temperatuur Sensor</value>
+    <value>Inlaatluchttemperatuursensor</value>
   </data>
   <data name="ErrBattV" xml:space="preserve">
-    <value>Accu Voltage</value>
+    <value>Accuspanning</value>
   </data>
   <data name="ErrIdleReg" xml:space="preserve">
-    <value>Stationair Regeling</value>
+    <value>Stationairregeling</value>
   </data>
   <data name="ErrI8" xml:space="preserve">
-    <value>Onbekende INVOER FOUT (8)</value>
+    <value>Onbekende ingangsfout (8)</value>
   </data>
   <data name="Injector" xml:space="preserve">
     <value>Injector</value>
   </data>
   <data name="INTEGR" xml:space="preserve">
-    <value>Stationair Stappen Integrale Toename</value>
+    <value>Integrale versterking stappenmotor stationair</value>
   </data>
   <data name="K_O2" xml:space="preserve">
-    <value>Lambda Sensor Correctie</value>
+    <value>Lambdacorrectie</value>
   </data>
   <data name="MP2_MP8" xml:space="preserve">
-    <value>Spruitstuk Absolute Druk</value>
+    <value>Absolute inlaatspruitstukdruk</value>
   </data>
   <data name="MT_AIR_L" xml:space="preserve">
-    <value>Lucht Temperatuur</value>
+    <value>Inlaatluchttemperatuur</value>
   </data>
   <data name="MT_EAU_L" xml:space="preserve">
-    <value>Water Temperatuur</value>
+    <value>Koelvloeistoftemperatuur</value>
   </data>
   <data name="ErrInj" xml:space="preserve">
     <value>Injector</value>
@@ -271,10 +271,10 @@
     <value>Bobine 2</value>
   </data>
   <data name="ErrIAV" xml:space="preserve">
-    <value>Stationair Stappen Motor</value>
+    <value>Stappenmotor stationair</value>
   </data>
   <data name="ErrEVAP" xml:space="preserve">
-    <value>EVAP Klep</value>
+    <value>Koolfilterklep (EVAP)</value>
   </data>
   <data name="ErrAirCo" xml:space="preserve">
     <value>Airco</value>
@@ -283,55 +283,55 @@
     <value>Brandstofpomp</value>
   </data>
   <data name="ErrGenRel" xml:space="preserve">
-    <value>Algemeen Systeem Relais</value>
+    <value>Hoofdrelais</value>
   </data>
   <data name="OFNNTR" xml:space="preserve">
-    <value>Stationair Toerental Compensatie</value>
+    <value>Offset stationair toerental</value>
   </data>
   <data name="PERIODE" xml:space="preserve">
-    <value>Toerental</value>
+    <value>Motortoerental</value>
   </data>
   <data name="PROP" xml:space="preserve">
-    <value>Stationair Stappen Proportionele Toename</value>
+    <value>Proportionele versterking stappenmotor stationair</value>
   </data>
   <data name="REVmeter" xml:space="preserve">
-    <value>BDP sensor (toerenteller)</value>
+    <value>Toerenteller</value>
   </data>
   <data name="StaEngRun" xml:space="preserve">
-    <value>Motor Loopt</value>
+    <value>Motor draait</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Stappen Automatische Callibratie AAN</value>
+    <value>Autokalibratie stappenmotor AAN</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
-    <value>Stroomtoevoer Schakeldraad OK</value>
+    <value>Power-latch-lijn OK</value>
   </data>
   <data name="StaSensOK" xml:space="preserve">
-    <value>Sensor Signalen OK</value>
+    <value>Sensorsignalen OK</value>
   </data>
   <data name="StaThrMM" xml:space="preserve">
-    <value>Gasklep op Min/Max</value>
+    <value>Gasklep op min./max.</value>
   </data>
   <data name="StaClLoop" xml:space="preserve">
-    <value>Lambda Sensor in Closed Loop</value>
+    <value>Lambdaregeling actief (gesloten regelkring)</value>
   </data>
   <data name="StaAirCoON" xml:space="preserve">
     <value>Airco AAN</value>
   </data>
   <data name="StaMixACOK" xml:space="preserve">
-    <value>Mengsel Automatische Callibratie AAN</value>
+    <value>Autokalibratie mengsel AAN</value>
   </data>
   <data name="steps" xml:space="preserve">
     <value>stappen</value>
   </data>
   <data name="TRIMRAM" xml:space="preserve">
-    <value>Trimmer Positie</value>
+    <value>Trimmerpositie</value>
   </data>
   <data name="T_INJ_AP" xml:space="preserve">
-    <value>Injectie Duur</value>
+    <value>Inspuittijd</value>
   </data>
   <data name="V_BATT" xml:space="preserve">
-    <value>Accu Voltage</value>
+    <value>Accuspanning</value>
   </data>
   <data name="yes_no" xml:space="preserve">
     <value>JA;;NEE</value>
@@ -343,28 +343,28 @@
     <value>Onder MIN</value>
   </data>
   <data name="MaxLEAN" xml:space="preserve">
-    <value>Max ARM</value>
+    <value>Max. ARM</value>
   </data>
   <data name="MaxRICH" xml:space="preserve">
-    <value>Max RIJK</value>
+    <value>Max. RIJK</value>
   </data>
   <data name="OpenCircuit" xml:space="preserve">
-    <value>Open Circuit</value>
+    <value>Onderbreking</value>
   </data>
   <data name="rpm" xml:space="preserve">
-    <value>TPM</value>
+    <value>tpm</value>
   </data>
   <data name="ShortToGND" xml:space="preserve">
-    <value>Kortsluiting naar Aarde</value>
+    <value>Kortsluiting naar massa</value>
   </data>
   <data name="ShortToGNDorOpen" xml:space="preserve">
-    <value>Kortsluiting naar Aarde/Open</value>
+    <value>Kortsluiting naar massa/onderbreking</value>
   </data>
   <data name="ShortToVcc" xml:space="preserve">
     <value>Kortsluiting naar +Vcc</value>
   </data>
   <data name="Therm" xml:space="preserve">
-    <value>Kortsluiting naar Aarde/+Vcc/Therm</value>
+    <value>Kortsluiting naar massa/+Vcc of thermische beveiliging</value>
   </data>
   <data name="Act" xml:space="preserve">
     <value>[A]</value>
@@ -376,10 +376,10 @@
     <value>[V]</value>
   </data>
   <data name="autodetect" xml:space="preserve">
-    <value>Automatische Detectie (alleen IAW-x6F/x8F(D))</value>
+    <value>Automatische detectie</value>
   </data>
   <data name="Connecting" xml:space="preserve">
-    <value>Zet het contact aan, aub...</value>
+    <value>Zet het contact AAN...</value>
   </data>
   <data name="UnknownISO" xml:space="preserve">
     <value>Onbekend</value>
@@ -394,10 +394,10 @@
     <value>GEANNULEERD</value>
   </data>
   <data name="ClearingErrors" xml:space="preserve">
-    <value>Verwijderen fout codes...</value>
+    <value>Foutcodes wissen...</value>
   </data>
   <data name="EnsureIgnOnEngStop" xml:space="preserve">
-    <value>Het contact moet AAN zijn, en de motor UIT</value>
+    <value>Zorg dat het contact AAN staat en de motor UIT.</value>
   </data>
   <data name="Failed" xml:space="preserve">
     <value>MISLUKT</value>
@@ -409,25 +409,25 @@
     <value>GESLAAGD</value>
   </data>
   <data name="TestDuration" xml:space="preserve">
-    <value>Als de test langer duur dan {0}s zet dan het contact UITen sluit de applicatie, aub!</value>
+    <value>Duurt de test langer dan {0} s, zet dan het contact UIT en sluit het programma!</value>
   </data>
   <data name="Testing" xml:space="preserve">
     <value>TESTEN: {0}...</value>
   </data>
   <data name="Timeout" xml:space="preserve">
-    <value>TIMEOUT</value>
+    <value>TIME-OUT</value>
   </data>
   <data name="ConMeter" xml:space="preserve">
-    <value>Verbruik Meter</value>
+    <value>Verbruiksmeter</value>
   </data>
   <data name="EGR" xml:space="preserve">
-    <value>EGR Klep</value>
+    <value>EGR-klep</value>
   </data>
   <data name="ErrAutoTrans" xml:space="preserve">
-    <value>Automatische Versnellingsbak</value>
+    <value>Automatische versnellingsbak</value>
   </data>
   <data name="ErrEGRVal" xml:space="preserve">
-    <value>EGR Klep</value>
+    <value>EGR-klep</value>
   </data>
   <data name="ErrKnockS" xml:space="preserve">
     <value>Klopsensor</value>
@@ -436,85 +436,82 @@
     <value>Injectoren</value>
   </data>
   <data name="MIL" xml:space="preserve">
-    <value>MIL Lampje</value>
+    <value>Motorstoringslampje (MIL)</value>
   </data>
   <data name="NoAir" xml:space="preserve">
-    <value>Geen Lucht</value>
+    <value>Te weinig lucht</value>
   </data>
   <data name="ErrO1a" xml:space="preserve">
-    <value>Onbekende UITVOER Fout (1a)</value>
+    <value>Onbekende uitgangsfout (1a)</value>
   </data>
   <data name="ErrInjs" xml:space="preserve">
     <value>Injectoren</value>
   </data>
   <data name="ErrO2a" xml:space="preserve">
-    <value>Onbekende UITVOER Fout (2a)</value>
+    <value>Onbekende uitgangsfout (2a)</value>
   </data>
   <data name="ErrO3a" xml:space="preserve">
-    <value>Onbekende UITVOER Fout (3a)</value>
+    <value>Onbekende uitgangsfout (3a)</value>
   </data>
   <data name="ErrO4a" xml:space="preserve">
-    <value>Onbekende UITVOER Fout (4a)</value>
+    <value>Onbekende uitgangsfout (4a)</value>
   </data>
   <data name="ErrMixRatio" xml:space="preserve">
-    <value>Mengsel Verhouding</value>
+    <value>Mengverhouding</value>
   </data>
   <data name="ErrWasteG" xml:space="preserve">
-    <value>Waste Gate</value>
-  </data>
-  <data name="ErrConMeter" xml:space="preserve">
-    <value>Verbruiks Meter</value>
+    <value>Wastegate</value>
   </data>
   <data name="ErrEGRCtrl" xml:space="preserve">
-    <value>EGR Regeling</value>
+    <value>EGR-regeling</value>
   </data>
   <data name="ErrMIL" xml:space="preserve">
-    <value>MIL Lampje</value>
+    <value>Motorstoringslampje (MIL)</value>
   </data>
   <data name="StaAdvDecr" xml:space="preserve">
-    <value>Ontsteking Vervroeging Verlaagd vanwege Kloppen</value>
+    <value>Ontstekingsvervroeging verlaagd wegens pingelen</value>
   </data>
   <data name="StaGearEng" xml:space="preserve">
-    <value>Versnelling Ingeschakeld</value>
+    <value>Versnelling ingeschakeld</value>
   </data>
   <data name="TooMuchAir" xml:space="preserve">
-    <value>Te Veel Lucht</value>
+    <value>Te veel lucht</value>
   </data>
   <data name="COMnotValid" xml:space="preserve">
-    <value>Interface poort FOUT</value>
+    <value>FOUT in de interfacepoort</value>
   </data>
   <data name="OFFSET1" xml:space="preserve">
-    <value>Automatische Callibratie Injectie Compensatie @ ZONE 1</value>
+    <value>Offset autokalibratie inspuiting @ ZONE 1</value>
   </data>
   <data name="OFFSET2" xml:space="preserve">
-    <value>Automatische Callibratie Injectie Compensatie @ ZONE 2</value>
+    <value>Offset autokalibratie inspuiting @ ZONE 2</value>
   </data>
   <data name="OFFSET3" xml:space="preserve">
-    <value>Automatische Callibratie Injectie Compensatie @ ZONE 3</value>
+    <value>Offset autokalibratie inspuiting @ ZONE 3</value>
   </data>
   <data name="OFFSET4" xml:space="preserve">
-    <value>Automatische Callibratie Injectie Compensatie @ ZONE 4</value>
+    <value>Offset autokalibratie inspuiting @ ZONE 4</value>
   </data>
   <data name="OFFSET5" xml:space="preserve">
-    <value>Automatische Callibratie Injectie Compensatie @ ZONE 5</value>
+    <value>Offset autokalibratie inspuiting @ ZONE 5</value>
   </data>
   <data name="OFFSET6" xml:space="preserve">
-    <value>Automatische Callibratie Injectie Compensatie@ ZONE 6</value>
+    <value>Offset autokalibratie inspuiting @ ZONE 6</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Automatische Callibratie Injectie Compensatie@ IDLE</value>
+    <value>Offset autokalibratie inspuiting @ STATIONAIR</value>
   </data>
   <data name="PreviouslySelectedPort" xml:space="preserve">
-    <value>De eerder geselcteerde poort {0} is niet meer beschikbaar. Selecteer een andere poort aub.</value>
+    <value>De eerder gekozen poort {0} is niet meer beschikbaar. Kies een andere poort.</value>
   </data>
   <data name="ErrI2" xml:space="preserve">
-    <value>Onbekend INVOER FOUT (2)</value>
+    <value>Onbekende ingangsfout (2)</value>
   </data>
   <data name="ErrInj1" xml:space="preserve">
-    <value>Injectoren 1</value>
+    <value>Injectoren (groep 1)</value>
   </data>
   <data name="ErrInj2" xml:space="preserve">
-    <value>Injectoren 2</value>
+    <value>Injectoren (groep 2)</value>
   </data>
   <data name="ConnectedTo" xml:space="preserve">
     <value>VERBONDEN MET:</value>
@@ -526,10 +523,10 @@
     <value>PARAMETERS:</value>
   </data>
   <data name="Simulation" xml:space="preserve">
-    <value>SIMULATIE MODUS!!!</value>
+    <value>SIMULATIEMODUS!!!</value>
   </data>
   <data name="K_O2_RAW" xml:space="preserve">
-    <value>Lambda Sensor Voltage</value>
+    <value>Spanning lambdasonde</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>&amp;Start</value>
@@ -538,37 +535,37 @@
     <value>&amp;Stop</value>
   </data>
   <data name="EscCancel" xml:space="preserve">
-    <value>Druk [Esc] om te Annuleren</value>
+    <value>Druk op [Esc] om te annuleren</value>
   </data>
   <data name="CommLost" xml:space="preserve">
-    <value>ECU Antwoord Niet</value>
+    <value>Geen antwoord van de regeleenheid</value>
   </data>
   <data name="Press_F10" xml:space="preserve">
-    <value>Druk [F10] om de verbinding te sluiten of [F12] om opnieuw te verbinden</value>
+    <value>Druk op [F10] om de verbinding te sluiten of op [F12] om opnieuw te verbinden</value>
   </data>
   <data name="F11_Confirm" xml:space="preserve">
-    <value>Druk [F11] om te Bevestigen</value>
+    <value>Druk op [F11] om te bevestigen</value>
   </data>
   <data name="TurnOFF" xml:space="preserve">
-    <value>Zet het contact UIT aub...</value>
+    <value>Zet het contact UIT...</value>
   </data>
   <data name="UnrecECU" xml:space="preserve">
-    <value>ECU wordt niet herkend, zet het contact UIT aub...</value>
+    <value>Regeleenheid niet herkend, zet het contact UIT...</value>
   </data>
   <data name="FABEEAT" xml:space="preserve">
-    <value>Zelf-Stellend Geactiveerd in EEPROM</value>
+    <value>Zelfaanpassing geactiveerd in EEPROM</value>
   </data>
   <data name="FABEEATi" xml:space="preserve">
-    <value>Stationair Zelf-Stellend Geactiveerd in EEPROM</value>
+    <value>Zelfaanpassing stationair geactiveerd in EEPROM</value>
   </data>
   <data name="FABEPAT" xml:space="preserve">
-    <value>Zelf-Stellend Geactiveerd in EPROM</value>
+    <value>Zelfaanpassing geactiveerd in EPROM</value>
   </data>
   <data name="FABEPATi" xml:space="preserve">
-    <value>Stationair Zelf-Stellend Geactiveerd in EPROM</value>
+    <value>Zelfaanpassing stationair geactiveerd in EPROM</value>
   </data>
   <data name="FLGSMA" xml:space="preserve">
-    <value>Lambda in Closed Loop</value>
+    <value>Lambdaregeling actief (gesloten regelkring)</value>
   </data>
   <data name="Injector1" xml:space="preserve">
     <value>Injector 1</value>
@@ -583,27 +580,87 @@
     <value>Injector 4</value>
   </data>
   <data name="INJ_AVA" xml:space="preserve">
-    <value>Injectie Timing Hoek</value>
+    <value>Inspuithoek</value>
   </data>
   <data name="MP2_MP8t" xml:space="preserve">
-    <value>Spruitstuk Absolute Druk (TURBO)</value>
+    <value>Absolute inlaatspruitstukdruk (TURBO)</value>
   </data>
   <data name="OverB" xml:space="preserve">
-    <value>Over Boost</value>
+    <value>Overboost</value>
   </data>
   <data name="T_VAE" xml:space="preserve">
-    <value>VAE Werk Cyclus (Stationair Regeling)</value>
+    <value>Duty cycle VAE (stationairregeling)</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Controle Lampjes OK</value>
+    <value>Signal panel OK</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
-    <value>ABS aktief</value>
+    <value>ABS actief</value>
   </data>
   <data name="StaVAESC" xml:space="preserve">
-    <value>VAE Zelf Reiniging bezig</value>
+    <value>Zelfreiniging VAE bezig</value>
   </data>
   <data name="VAE" xml:space="preserve">
-    <value>Stationair Regeling Klep (VAE)</value>
+    <value>Stationairregelklep (VAE)</value>
+  </data>
+  <data name="ErrConMet" xml:space="preserve">
+    <value>Verbruiksmeter</value>
+  </data>
+  <data name="ErrCam" xml:space="preserve">
+    <value>Nokkenassensor</value>
+  </data>
+  <data name="ErrDigimatic" xml:space="preserve">
+    <value>Digimatic-signaal</value>
+  </data>
+  <data name="ErrEPROM" xml:space="preserve">
+    <value>EPROM</value>
+  </data>
+  <data name="ErrKnock" xml:space="preserve">
+    <value>Klopsensor</value>
+  </data>
+  <data name="ErrNeutralGear" xml:space="preserve">
+    <value>Signaal neutraal/rijstand</value>
+  </data>
+  <data name="ErrSMOT" xml:space="preserve">
+    <value>SMOT-sensor</value>
+  </data>
+  <data name="ErrSPS" xml:space="preserve">
+    <value>Signal-panel-reeks</value>
+  </data>
+  <data name="ErrVAE" xml:space="preserve">
+    <value>VAE vastgelopen open of dicht</value>
+  </data>
+  <data name="StepReset" xml:space="preserve">
+    <value>Autokalibratie stappenmotor stationair resetten</value>
+  </data>
+  <data name="TrimReset" xml:space="preserve">
+    <value>Autokalibratie mengsel resetten</value>
+  </data>
+  <data name="COMopenError" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het openen van poort {0}.</value>
+  </data>
+  <data name="ErrCnt" xml:space="preserve">
+    <value>Foutenteller</value>
+  </data>
+  <data name="ToggleStepAC" xml:space="preserve">
+    <value>Autokalibratie stappenmotor stationair aan/uit</value>
+  </data>
+  <data name="ToggleTrimAC" xml:space="preserve">
+    <value>Autokalibratie mengsel aan/uit</value>
+  </data>
+  <data name="InProceed" xml:space="preserve">
+    <value>BEZIG...</value>
+  </data>
+  <data name="Stepper" xml:space="preserve">
+    <value>Stappenmotor (stationairregelaar)</value>
+  </data>
+  <data name="StepSet" xml:space="preserve">
+    <value>Stappenmotorcorrectie instellen (ALFAFTR)</value>
+  </data>
+  <data name="TrimSet" xml:space="preserve">
+    <value>Trimmerpositie instellen (TRIMRAM)</value>
+  </data>
+  <data name="Adjusting" xml:space="preserve">
+    <value>INSTELLEN: {0}...</value>
   </data>
 </root>
