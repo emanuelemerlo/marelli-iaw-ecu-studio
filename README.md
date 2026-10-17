@@ -111,6 +111,10 @@ Actuator tests, clear codes and adjustments drive real components (fuel pump, in
 
 The four libraries (Core, the two transports, Simulator) are published as NuGet packages: see [src/PACKAGE.md](src/PACKAGE.md) for examples.
 
+## Contributing
+
+Sessions on real cars are the most useful help right now: run `identify`, `read` and `errors` with `--trace` and open a [real car report](https://github.com/emanuelemerlo/marelli-iaw-ecu-studio/issues/new?template=car_report.yml). For code, definitions and translations see [CONTRIBUTING.md](CONTRIBUTING.md); for help, [SUPPORT.md](SUPPORT.md); for security problems, [SECURITY.md](SECURITY.md). Everyone taking part follows the [Code of Conduct](CODE_OF_CONDUCT.md).
+
 ## Origin and license
 
 This project continues IES2 by Tomasz Orczyk, keeping its full history. The code is released under the [GNU GPL v3](LICENSE). Parts derived from IES2 remain also under its BSD 3-Clause license ([LICENSE-IES2](LICENSE-IES2)); see [NOTICE](NOTICE) for attribution, translator credits and trademarks. Not affiliated with Marelli, FIAT or their successors.

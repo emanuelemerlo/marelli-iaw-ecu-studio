@@ -1,0 +1,85 @@
+name: Bug report
+description: Something does not work as expected in the application, the command line tool or the libraries.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Questions are welcome in English or Italian.
+        For a security problem do not use this form: see [SECURITY.md](https://github.com/emanuelemerlo/marelli-iaw-ecu-studio/blob/main/SECURITY.md).
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The commands you ran, or the clicks in the application. Say whether it also happens with the simulator.
+      placeholder: |
+        1. iaw-cli read --port /dev/ttyUSB0 --count 20
+        2. ...
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      multiple: true
+      options:
+        - Desktop application
+        - iaw-cli (command line)
+        - Network bridge (RFC 2217)
+        - OBD-II / EOBD
+        - ECU definitions
+        - NuGet libraries
+        - Build / CI
+        - Documentation
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Release number (for example 0.2.0-beta.1) or commit hash if built from source.
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows
+        - Linux x64
+        - Linux arm64 (Raspberry Pi)
+        - macOS
+    validations:
+      required: true
+  - type: input
+    id: connection
+    attributes:
+      label: Connection
+      description: Simulator, or cable model and chip (FTDI, CH340...), adapter, network bridge.
+      placeholder: KKL 409.1 FTDI FT232R + OBD2 to FIAT 3-pin adapter
+  - type: input
+    id: ecu
+    attributes:
+      label: Car and ECU
+      description: If a car is involved. Model, year, engine, ECU label code (for example IAW 4WF.P8), ISO code if detected.
+  - type: textarea
+    id: trace
+    attributes:
+      label: Line trace and logs
+      description: |
+        For anything that involves communication, attach a line trace (`--trace file.txt`, or the line trace option in the application) and paste the output of `iaw-cli trace file.txt`. Error messages or stack traces go here too.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched the existing issues and this is not a duplicate.
+          required: true

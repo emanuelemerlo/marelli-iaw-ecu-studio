@@ -96,6 +96,10 @@ Test attuatori, cancellazione errori e regolazioni comandano componenti reali (p
 
 Le quattro librerie (Core, i due trasporti, Simulator) sono pubblicate come pacchetti NuGet: esempi in [src/PACKAGE.md](src/PACKAGE.md).
 
+## Contribuire
+
+L'aiuto più utile adesso sono le prove su auto vere: lancia `identify`, `read` ed `errors` con `--trace` e apri un [real car report](https://github.com/emanuelemerlo/marelli-iaw-ecu-studio/issues/new?template=car_report.yml) (va bene anche in italiano). Per codice, definizioni e traduzioni vedi [CONTRIBUTING.md](CONTRIBUTING.md) (in inglese); per chiedere aiuto [SUPPORT.md](SUPPORT.md); per problemi di sicurezza [SECURITY.md](SECURITY.md). Chi partecipa segue il [Codice di condotta](CODE_OF_CONDUCT.md).
+
 ## Origine e licenza
 
 Il progetto prosegue IES2 di Tomasz Orczyk e ne conserva tutta la storia. Il codice è rilasciato sotto [GNU GPL v3](LICENSE). Le parti derivate da IES2 restano anche sotto la sua licenza BSD 3-clausole ([LICENSE-IES2](LICENSE-IES2)); attribuzioni, traduttori e marchi in [NOTICE](NOTICE). Progetto non affiliato a Marelli, FIAT o ai loro successori.
