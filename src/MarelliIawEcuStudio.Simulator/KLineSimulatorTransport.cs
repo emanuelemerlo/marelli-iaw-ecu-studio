@@ -135,14 +135,17 @@ public sealed class KLineSimulatorTransport : ITransport, ILineControl
 
     /// <summary>
     /// A single low pulse, then data: the KWP2000 fast init. A 5-baud address
-    /// has more edges before any data, and a pulse as long as a 5-baud bit is not a wake-up.
+    /// has more edges before the tester sends any data (and the ECU has decoded
+    /// it by then), so the shape tells the two apart. The length of the pulse is
+    /// only checked against the whole address: on a busy test machine the tester
+    /// can be paused in the middle of a 5 ms pulse for tens of milliseconds.
     /// </summary>
     private void DetectFastInit()
     {
         if (_edges.Count == 2 && _edges[0].Low && !_edges[1].Low && Protocol == KLineProtocol.Kwp2000Fast)
         {
             var low = _edges[1].TimeMs - _edges[0].TimeMs;
-            if (low < Timing.FiveBaudBitMs * 0.75)
+            if (low < Timing.FiveBaudBitMs * 9)
             {
                 _fastWake = true;
                 _request.Clear();
