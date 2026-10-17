@@ -28,9 +28,20 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: Test
-        run: dotnet test --configuration Release --no-build
+        shell: bash
+        run: |
+          set -o pipefail
+          dotnet test --configuration Release --no-build 2>&1 | tee test-output.txt
         env:
           SCREENSHOT_DIR: ${{ github.workspace }}/screenshots
+
+      # The failed tests as one annotation, readable on the run summary page and through the API.
+      - name: Report failed tests
+        if: failure()
+        shell: bash
+        run: |
+          details=$(grep -E -A14 '^[[:space:]]*failed ' test-output.txt | head -120 | tr -d '\r' | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }')
+          echo "::error title=Failed tests on ${{ matrix.os }}::${details:-see the Test step}"
 
       - name: Upload UI screenshots
         if: always() && matrix.os == 'ubuntu-latest'
