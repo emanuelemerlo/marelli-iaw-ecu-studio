@@ -1,8 +1,11 @@
+using System.Globalization;
+using System.Text.RegularExpressions;
 using MarelliIawEcuStudio.Core.KLine;
 using MarelliIawEcuStudio.Core.Logging;
 using MarelliIawEcuStudio.Core.Obd;
 using MarelliIawEcuStudio.Core.Protocol;
 using MarelliIawEcuStudio.Core.Session;
+using MarelliIawEcuStudio.Core.Transport;
 using MarelliIawEcuStudio.Simulator;
 
 namespace MarelliIawEcuStudio.Tests;
@@ -256,6 +259,92 @@ public class ObdTests
         var line = new KLineSimulatorTransport(KLineProtocol.Kwp2000Fast, Fast);
         using var session = new Obd2Session(line, new Obd2Options { Timing = Fast with { FastInitLowMs = 35 } });
         Assert.Equal(KLineProtocol.Kwp2000Fast, Connect(session, KLineProtocol.Kwp2000Fast).Protocol);
+    }
+
+    /// <summary>
+    /// The simulated K-Line, with one line change held back as if the operating
+    /// system had paused the tester (what happens on a busy macOS CI machine).
+    /// </summary>
+    private sealed class LateLine(KLineSimulatorTransport line, int lateChange, int lateMs) : ITransport, ILineControl
+    {
+        private int _changes;
+
+        public KLineSimulatorTransport Line => line;
+
+        public void SetBreak(bool on)
+        {
+            if (++_changes == lateChange)
+                Thread.Sleep(lateMs);
+            line.SetBreak(on);
+        }
+
+        public bool DtrEnable { get => line.DtrEnable; set => line.DtrEnable = value; }
+
+        public string Name => line.Name;
+
+        public bool IsOpen => line.IsOpen;
+
+        public void Open() => line.Open();
+
+        public void Close() => line.Close();
+
+        public int BaudRate { get => line.BaudRate; set => line.BaudRate = value; }
+
+        public int ReadTimeout { get => line.ReadTimeout; set => line.ReadTimeout = value; }
+
+        public int BytesToRead => line.BytesToRead;
+
+        public void Write(ReadOnlySpan<byte> data) => line.Write(data);
+
+        public byte ReadByte() => line.ReadByte();
+
+        public void DiscardInBuffer() => line.DiscardInBuffer();
+
+        public void Dispose() => line.Dispose();
+    }
+
+    private static List<string> Markers(KLineLink link)
+    {
+        var notes = new List<string>();
+        link.Monitor += e =>
+        {
+            if (e.Direction == LineDirection.Marker && e.Note is { } note)
+                notes.Add(note);
+        };
+        return notes;
+    }
+
+    [Theory]
+    [InlineData(KLineProtocol.Iso9141, 4, 60)]     // an edge in the middle of the address, 1.5 bits late: wrong address
+    [InlineData(KLineProtocol.Kwp2000Fast, 3, 450)] // the end of the wake-up pulse, longer than a whole address
+    public void AnInitWithALateLineChangeIsRepeated(KLineProtocol protocol, int lateChange, int lateMs)
+    {
+        // Line change 1 is the release of the idle line before the init.
+        var line = new LateLine(new KLineSimulatorTransport(protocol, Fast), lateChange, lateMs);
+        using var session = new Obd2Session(line, new Obd2Options { Timing = Fast });
+        var notes = Markers(session.Link);
+        var info = session.Connect(protocol, TestContext.Current.CancellationToken);
+        Assert.Equal(protocol, info.Protocol);
+        Assert.Single(notes, n => n.StartsWith("init repeated", StringComparison.Ordinal));
+    }
+
+    /// <summary>
+    /// With no ECU the init fails, and is repeated only for a line change that really
+    /// came late (which a loaded machine can cause by itself), never more than allowed.
+    /// </summary>
+    [Fact]
+    public void AnAbsentEcuIsNotRetriedWithoutReason()
+    {
+        var line = new KLineSimulatorTransport(KLineProtocol.Iso9141, Fast) { EcuConnected = false };
+        using var session = new Obd2Session(line, new Obd2Options { Timing = Fast });
+        var notes = Markers(session.Link);
+        Assert.Throws<KLineException>(() => session.Connect(KLineProtocol.Iso9141, TestContext.Current.CancellationToken));
+        var inits = notes.Count(n => n.StartsWith("5-baud init", StringComparison.Ordinal));
+        var repeats = notes.Where(n => n.StartsWith("init repeated", StringComparison.Ordinal)).ToList();
+        Assert.Equal(1 + repeats.Count, inits);
+        Assert.InRange(inits, 1, KLineLink.MaxInitAttempts);
+        Assert.All(repeats, n => Assert.True(
+            int.Parse(Regex.Match(n, @"came (\d+) ms late").Groups[1].Value, CultureInfo.InvariantCulture) >= Fast.FiveBaudBitMs * 0.2, n));
     }
 
     // ---- KWP2000 services ----------------------------------------------------------
