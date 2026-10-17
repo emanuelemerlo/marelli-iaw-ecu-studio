@@ -26,11 +26,15 @@ Diagnostics for the Magneti Marelli IAW engine control units of 1990s FIAT, Lanc
 - OBD-II / EOBD over the same K-Line cable for cars of 2001 and later: ISO 9141-2 and KWP2000 (5-baud and fast init), standard live data, stored and pending trouble codes, VIN (`iaw-cli obd`, command line only for now)
 - Libraries on NuGet for other programs: protocol, definitions, transports, simulator
 - Built-in simulator to try everything without a car
+- Layout that adapts to the window: the dashboard and the parameter table grow or shrink to fit the screen without scrolling, down to a size that stays readable; parameters spread over several columns on a wide screen
+- Light and dark theme, following the operating system by default; the button next to Options switches between system, light and dark
 - Windows, Linux (including Raspberry Pi) and macOS; interface in English and Italian, parameter and error names in ten languages
 
 | Vehicle card | Graphs | Log replay |
 | --- | --- | --- |
 | ![Vehicle card](docs/screenshots/vehicles.png) | ![Graphs](docs/screenshots/graphs.png) | ![Replay](docs/screenshots/replay.png) |
+
+![Dark theme](docs/screenshots/dashboard-dark.png)
 
 ## Supported ECUs
 

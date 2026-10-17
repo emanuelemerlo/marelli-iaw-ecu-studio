@@ -70,6 +70,7 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
         BridgeAddress = s.BridgeAddress ?? "";
         LogFolder = s.LogFolder;
         SelectedLanguage = Ui.Languages.FirstOrDefault(l => l.Code == s.Language) ?? Ui.Languages[0];
+        SelectedTheme = new ThemeOption(ThemeOption.Codes.Contains(s.Theme) ? s.Theme : ThemeOption.System);
 
         LoadTargets(s.Target);
         StatusText = Ui.Get("StatusDisconnected");
@@ -170,6 +171,28 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
 
     [ObservableProperty]
     public partial LanguageOption SelectedLanguage { get; set; }
+
+    /// <summary>The three theme choices, named in the current language.</summary>
+    public IReadOnlyList<ThemeOption> ThemeChoices => [.. ThemeOption.Codes.Select(c => new ThemeOption(c))];
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ThemeToolTip), nameof(IsThemeSystem), nameof(IsThemeLight), nameof(IsThemeDark))]
+    public partial ThemeOption SelectedTheme { get; set; }
+
+    public bool IsThemeSystem => SelectedTheme.Code == ThemeOption.System;
+
+    public bool IsThemeLight => SelectedTheme.Code == ThemeOption.Light;
+
+    public bool IsThemeDark => SelectedTheme.Code == ThemeOption.Dark;
+
+    public string ThemeToolTip => Ui.Format("ThemeToolTip", SelectedTheme.Name);
+
+    /// <summary>The theme button of the toolbar: system → light → dark → system.</summary>
+    [RelayCommand]
+    private void CycleTheme()
+    {
+        SelectedTheme = SelectedTheme.Next();
+    }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsConnected), nameof(IsDisconnected), nameof(IsConnecting), nameof(IsLost), nameof(IsOnline))]
@@ -742,12 +765,19 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
         Graph.SetPlotted(Parameters.Where(p => p.IsPlotted));
         OnPropertyChanged(nameof(RecordButtonText));
         OnPropertyChanged(nameof(Ecus));
+        if (SelectedTheme is not null)
+        {
+            OnPropertyChanged(nameof(ThemeChoices));
+            OnPropertyChanged(nameof(ThemeToolTip));
+        }
         if (State == ConnectionState.Disconnected && _loaded)
             LoadTargets(SelectedTarget?.Id); // the simulator entry is translated
         if (State == ConnectionState.Disconnected)
             StatusText = Ui.Get("StatusDisconnected");
         SaveSettings();
     }
+
+    partial void OnSelectedThemeChanged(ThemeOption value) => SaveSettings();
 
     partial void OnCompatibilityChanged(bool value) => SaveSettings();
 
@@ -788,6 +818,7 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
             TraceLine = TraceLine,
             BridgeAddress = string.IsNullOrWhiteSpace(BridgeAddress) ? null : BridgeAddress.Trim(),
             Language = SelectedLanguage?.Code,
+            Theme = SelectedTheme?.Code ?? ThemeOption.System,
             LogFolder = LogFolder,
             SeparateScales = Graph.SeparateScales,
             GraphWindowSeconds = Graph.WindowSecondsChoice,

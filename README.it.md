@@ -26,11 +26,15 @@ Diagnosi per le centraline motore Magneti Marelli IAW delle FIAT, Lancia e Alfa 
 - OBD-II / EOBD con lo stesso cavo K-Line per le auto dal 2001: ISO 9141-2 e KWP2000 (init a 5 baud e fast init), dati in tempo reale standard, errori memorizzati e in attesa, VIN (`iaw-cli obd`, per ora solo da riga di comando)
 - Librerie su NuGet per altri programmi: protocollo, definizioni, trasporti, simulatore
 - Simulatore integrato per provare tutto senza auto
+- Layout che si adatta alla finestra: cruscotto e tabella dei parametri si ingrandiscono o si riducono per stare nello schermo senza scroll, fino a una dimensione che resta leggibile; su uno schermo largo i parametri si dispongono su più colonne
+- Tema chiaro e scuro, che di default segue quello del sistema operativo; il pulsante accanto a Opzioni passa tra sistema, chiaro e scuro
 - Windows, Linux (anche Raspberry Pi) e macOS; interfaccia in italiano e inglese, nomi di parametri ed errori in dieci lingue
 
 | Scheda veicolo | Grafici | Riproduzione log |
 | --- | --- | --- |
 | ![Scheda veicolo](docs/screenshots/vehicles.png) | ![Grafici](docs/screenshots/graphs.png) | ![Riproduzione](docs/screenshots/replay.png) |
+
+![Tema scuro](docs/screenshots/dashboard-dark.png)
 
 ## Centraline supportate
 

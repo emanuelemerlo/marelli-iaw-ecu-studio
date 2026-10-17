@@ -1,6 +1,9 @@
 using System.Diagnostics;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Styling;
 using Avalonia.Threading;
+using MarelliIawEcuStudio.Presentation.Localization;
 using MarelliIawEcuStudio.Presentation.ViewModels;
 
 namespace MarelliIawEcuStudio.App.Views;
@@ -20,12 +23,30 @@ public partial class MainWindow : Window
         DataContextChanged += (_, _) =>
         {
             if (DataContext is MainViewModel vm)
+            {
+                ApplyTheme(vm.SelectedTheme);
                 vm.PropertyChanged += (_, e) =>
                 {
                     // Show live data as soon as the ECU answers (the replay tab is the only one enabled before).
                     if (e.PropertyName == nameof(MainViewModel.State) && vm.State == ConnectionState.Connected && Tabs.SelectedItem == ReplayTab)
                         Tabs.SelectedItem = DashboardTab;
+                    if (e.PropertyName == nameof(MainViewModel.SelectedTheme))
+                        ApplyTheme(vm.SelectedTheme);
                 };
+            }
+        };
+    }
+
+    /// <summary>"system" leaves the choice to the operating system, and follows it when it changes.</summary>
+    private static void ApplyTheme(ThemeOption? theme)
+    {
+        if (Application.Current is not { } app)
+            return;
+        app.RequestedThemeVariant = theme?.Code switch
+        {
+            ThemeOption.Light => ThemeVariant.Light,
+            ThemeOption.Dark => ThemeVariant.Dark,
+            _ => ThemeVariant.Default,
         };
     }
 
