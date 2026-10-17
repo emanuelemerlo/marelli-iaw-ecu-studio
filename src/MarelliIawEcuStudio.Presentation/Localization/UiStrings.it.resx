@@ -14,7 +14,7 @@
   <data name="Reconnect" xml:space="preserve"><value>Riconnetti</value></data>
   <data name="Options" xml:space="preserve"><value>Opzioni</value></data>
   <data name="CompatMode" xml:space="preserve"><value>Modalità compatibilità (adattatori lenti)</value></data>
-  <data name="WaitBroadcast" xml:space="preserve"><value>Attendi il codice ISO all'accensione</value></data>
+  <data name="WaitBroadcast" xml:space="preserve"><value>Attendi il codice ISO quando porti la chiave su MAR</value></data>
   <data name="Dtr" xml:space="preserve"><value>Attiva DTR</value></data>
   <data name="AllowActive" xml:space="preserve"><value>Abilita comandi attivi (test, cancellazione errori, regolazioni)</value></data>
   <data name="Language" xml:space="preserve"><value>Lingua</value></data>
@@ -34,7 +34,7 @@
   <data name="TabTests" xml:space="preserve"><value>Test attuatori</value></data>
   <data name="TabAdjustments" xml:space="preserve"><value>Regolazioni</value></data>
   <data name="TabGraphs" xml:space="preserve"><value>Grafici</value></data>
-  <data name="TabReplay" xml:space="preserve"><value>Riproduzione registrazioni</value></data>
+  <data name="TabReplay" xml:space="preserve"><value>Riproduzione log</value></data>
   <data name="SelectAll" xml:space="preserve"><value>Seleziona tutti</value></data>
   <data name="SelectNone" xml:space="preserve"><value>Deseleziona tutti</value></data>
   <data name="ColRead" xml:space="preserve"><value>Leggi</value></data>
@@ -57,17 +57,17 @@
   <data name="StatusLegend" xml:space="preserve"><value>[A] attivo · [V] verificato · [S] memorizzato</value></data>
   <data name="Run" xml:space="preserve"><value>Esegui</value></data>
   <data name="Apply" xml:space="preserve"><value>Applica</value></data>
-  <data name="EngineRunning" xml:space="preserve"><value>motore acceso</value></data>
-  <data name="EngineStopped" xml:space="preserve"><value>quadro acceso, motore spento</value></data>
+  <data name="EngineRunning" xml:space="preserve"><value>motore in moto</value></data>
+  <data name="EngineStopped" xml:space="preserve"><value>chiave su MAR, motore spento</value></data>
   <data name="ConfirmTestTitle" xml:space="preserve"><value>Test attuatore</value></data>
   <data name="ConfirmTest" xml:space="preserve"><value>Eseguire "{0}"?
 
 L'attuatore verrà comandato per al massimo {1} s.
 Condizione: {2}.</value></data>
-  <data name="ConfirmClearTitle" xml:space="preserve"><value>Cancella codici errore</value></data>
-  <data name="ConfirmClear" xml:space="preserve"><value>Cancellare tutti i codici errore memorizzati?
+  <data name="ConfirmClearTitle" xml:space="preserve"><value>Cancella errori</value></data>
+  <data name="ConfirmClear" xml:space="preserve"><value>Cancellare tutti gli errori memorizzati?
 
-Il quadro deve essere ACCESO e il motore SPENTO.</value></data>
+Chiave su MAR e motore spento.</value></data>
   <data name="ConfirmAdjustTitle" xml:space="preserve"><value>Regolazione</value></data>
   <data name="ConfirmAdjust" xml:space="preserve"><value>Applicare "{0}"?</value></data>
   <data name="AdjustValueTitle" xml:space="preserve"><value>{0}: nuovo valore</value></data>
@@ -79,25 +79,25 @@ Il quadro deve essere ACCESO e il motore SPENTO.</value></data>
   <data name="Follow" xml:space="preserve"><value>Segui</value></data>
   <data name="ClearGraph" xml:space="preserve"><value>Pulisci</value></data>
   <data name="GraphHint" xml:space="preserve"><value>Spunta i parametri nella colonna Grafico della scheda Parametri. Rotella per ingrandire, trascina per spostarti, doppio clic per ripristinare la vista.</value></data>
-  <data name="OpenLog" xml:space="preserve"><value>Apri registrazione...</value></data>
+  <data name="OpenLog" xml:space="preserve"><value>Apri log...</value></data>
   <data name="Play" xml:space="preserve"><value>Riproduci</value></data>
   <data name="Pause" xml:space="preserve"><value>Pausa</value></data>
   <data name="Speed" xml:space="preserve"><value>Velocità</value></data>
-  <data name="ReplayEmpty" xml:space="preserve"><value>Apri una registrazione CSV fatta con questo programma o esportata da IES2.</value></data>
+  <data name="ReplayEmpty" xml:space="preserve"><value>Apri un log CSV registrato con questo programma o esportato da IES2.</value></data>
   <data name="ReplayLegacy" xml:space="preserve"><value>Esportazione IES2</value></data>
   <data name="Samples" xml:space="preserve"><value>{0} campioni</value></data>
   <data name="OpenFailed" xml:space="preserve"><value>Impossibile leggere il file: {0}</value></data>
   <data name="SimulatedEcu" xml:space="preserve"><value>Centralina simulata</value></data>
   <data name="Unverified" xml:space="preserve"><value>NON VERIFICATA</value></data>
   <data name="SimulatorName" xml:space="preserve"><value>Simulatore</value></data>
-  <data name="SimulatorDescription" xml:space="preserve"><value>prova senza cavo</value></data>
+  <data name="SimulatorDescription" xml:space="preserve"><value>demo, senza cavo</value></data>
   <data name="TabDashboard" xml:space="preserve"><value>Cruscotto</value></data>
   <data name="Group_engine" xml:space="preserve"><value>Motore</value></data>
   <data name="Group_temperatures" xml:space="preserve"><value>Temperature</value></data>
   <data name="Group_electrical" xml:space="preserve"><value>Impianto elettrico</value></data>
   <data name="Group_mixture" xml:space="preserve"><value>Miscela e sonda lambda</value></data>
   <data name="Group_idle" xml:space="preserve"><value>Farfalla e minimo</value></data>
-  <data name="Group_adaptation" xml:space="preserve"><value>Autoadattamento</value></data>
+  <data name="Group_adaptation" xml:space="preserve"><value>Autoadattività</value></data>
   <data name="Group_status" xml:space="preserve"><value>Stato</value></data>
   <data name="Group_other" xml:space="preserve"><value>Altro</value></data>
   <data name="VehicleCard" xml:space="preserve"><value>Veicolo e centralina</value></data>
@@ -113,17 +113,17 @@ Il quadro deve essere ACCESO e il motore SPENTO.</value></data>
   <data name="EcuSearch" xml:space="preserve"><value>Cerca: codice sull'etichetta, auto, marca...</value></data>
   <data name="Aliases" xml:space="preserve"><value>Nota anche come</value></data>
   <data name="AutoReconnect" xml:space="preserve"><value>Riconnetti in automatico se la comunicazione si interrompe</value></data>
-  <data name="TraceLine" xml:space="preserve"><value>Registra il traffico sulla linea a ogni connessione (da allegare alle segnalazioni)</value></data>
+  <data name="TraceLine" xml:space="preserve"><value>Salva il log della linea K a ogni connessione (da allegare alle segnalazioni)</value></data>
   <data name="Reconnecting" xml:space="preserve"><value>riconnessione, tentativo {0}...</value></data>
   <data name="Reconnected" xml:space="preserve"><value>riconnesso</value></data>
-  <data name="TraceSaved" xml:space="preserve"><value>Traffico sulla linea registrato in {0}</value></data>
+  <data name="TraceSaved" xml:space="preserve"><value>Log della linea salvato in {0}</value></data>
   <data name="LineFault_NoEcho" xml:space="preserve"><value>dall'adattatore non torna nulla, nemmeno l'eco: controlla il cavo e la porta USB</value></data>
   <data name="LineFault_EchoMismatch" xml:space="preserve"><value>l'adattatore restituisce un byte diverso: disturbi sulla linea o velocità errata; prova la modalità compatibilità</value></data>
-  <data name="LineFault_NoAnswer" xml:space="preserve"><value>l'adattatore funziona ma la centralina non risponde: controlla quadro acceso, connettore 3 pin e filo K-Line</value></data>
+  <data name="LineFault_NoAnswer" xml:space="preserve"><value>l'adattatore funziona ma la centralina non risponde: controlla chiave su MAR, connettore 3 pin e filo K-Line</value></data>
   <data name="LineFault_None" xml:space="preserve"><value>nessun guasto sulla linea</value></data>
   <data name="DifferentEcu" xml:space="preserve"><value>Risponde una centralina diversa (CODRIC cambiato): disconnetti e connetti di nuovo.</value></data>
-  <data name="BridgeAddress" xml:space="preserve"><value>Collegamento di rete (RFC 2217), indirizzo:porta</value></data>
-  <data name="BridgeDescription" xml:space="preserve"><value>collegamento di rete</value></data>
+  <data name="BridgeAddress" xml:space="preserve"><value>Bridge di rete (RFC 2217), indirizzo:porta</value></data>
+  <data name="BridgeDescription" xml:space="preserve"><value>bridge di rete</value></data>
   <data name="Theme" xml:space="preserve">
     <value>Tema</value>
   </data>
@@ -140,13 +140,13 @@ Il quadro deve essere ACCESO e il motore SPENTO.</value></data>
     <value>Tema: {0}</value>
   </data>
   <data name="LogFolder" xml:space="preserve">
-    <value>Cartella delle registrazioni</value>
+    <value>Cartella dei log</value>
   </data>
   <data name="ColType" xml:space="preserve">
     <value>Tipo</value>
   </data>
   <data name="AdjustType_toggle" xml:space="preserve">
-    <value>attiva/disattiva</value>
+    <value>abilita/disabilita</value>
   </data>
   <data name="AdjustType_onebyte" xml:space="preserve">
     <value>nuovo valore</value>
