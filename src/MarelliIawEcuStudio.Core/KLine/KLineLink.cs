@@ -100,8 +100,12 @@ public sealed class KLineException(string message) : IOException(message);
 /// </summary>
 public sealed class KLineLink
 {
+    /// <summary>An init with a late line change is tried this many times in all.</summary>
+    public const int MaxInitAttempts = 3;
+
     private readonly ILineControl _line;
     private long _lastRequest;
+    private double _worstLateMs;
 
     public KLineLink(ITransport transport, KLineTiming? timing = null, bool adapterEchoes = true)
     {
@@ -149,15 +153,48 @@ public sealed class KLineLink
         Protocol = null;
         ExpectedResponders = 0;
         Transport.BaudRate = KLineTiming.BaudRate;
-        _line.SetBreak(false);
-        Delay(Timing.IdleBeforeInitMs, cancellation);
-        var result = protocol == KLineProtocol.Kwp2000Fast ? FastInit(cancellation) : FiveBaudInit(address, cancellation);
+        var result = InitWithRetry(protocol, address, cancellation);
         Protocol = result.Protocol;
         ExpectedResponders = result.Responders.Count;
         _lastRequest = Environment.TickCount64;
         Delay(Timing.P3Ms, cancellation);
         return result;
     }
+
+    /// <summary>
+    /// The init is timed by the computer: if the operating system pauses this
+    /// thread at the wrong moment (a busy laptop, a loaded CI machine), a line
+    /// change comes late and the ECU reads a wrong address or ignores the
+    /// wake-up. The tester knows when that happened, so a failed init with a
+    /// late change is repeated, after the idle time the ECU needs to start over.
+    /// An init that fails with correct timing is not repeated: the ECU is
+    /// absent or speaks another protocol.
+    /// </summary>
+    private KLineInitResult InitWithRetry(KLineProtocol protocol, byte address, CancellationToken cancellation)
+    {
+        var tolerance = protocol == KLineProtocol.Kwp2000Fast
+            ? Math.Max(2, Timing.FastInitLowMs * 0.2)
+            : Timing.FiveBaudBitMs * 0.2;
+        for (var attempt = 1; ; attempt++)
+        {
+            _line.SetBreak(false);
+            Delay(Timing.IdleBeforeInitMs, cancellation);
+            _worstLateMs = 0;
+            try
+            {
+                return protocol == KLineProtocol.Kwp2000Fast ? FastInit(cancellation) : FiveBaudInit(address, cancellation);
+            }
+            catch (KLineException) when (_worstLateMs > tolerance && attempt < MaxInitAttempts)
+            {
+                Protocol = null;
+                Mark($"init repeated: a line change came {_worstLateMs:0} ms late (attempt {attempt + 1} of {MaxInitAttempts})");
+            }
+        }
+    }
+
+    /// <summary>Records how late a line change was, against its deadline on <paramref name="clock"/>.</summary>
+    private void NoteLateness(Stopwatch clock, double deadlineMs) =>
+        _worstLateMs = Math.Max(_worstLateMs, clock.Elapsed.TotalMilliseconds - deadlineMs);
 
     private KLineInitResult FiveBaudInit(byte address, CancellationToken cancellation)
     {
@@ -182,11 +219,13 @@ public sealed class KLineLink
                 {
                     // Only on a change: through a network bridge each change is a round trip.
                     _line.SetBreak(!bits[i]);
+                    NoteLateness(clock, i * Timing.FiveBaudBitMs);
                     level = bits[i];
                 }
                 WaitUntil(clock, (i + 1) * Timing.FiveBaudBitMs);
             }
             _line.SetBreak(false); // stop bit: the ECU answers within W1
+            NoteLateness(clock, (bits.Length - 1) * Timing.FiveBaudBitMs);
         }
         finally
         {
@@ -222,8 +261,10 @@ public sealed class KLineLink
         {
             var clock = Stopwatch.StartNew();
             _line.SetBreak(true);
+            NoteLateness(clock, 0);
             WaitUntil(clock, Timing.FastInitLowMs);
             _line.SetBreak(false);
+            NoteLateness(clock, Timing.FastInitLowMs);
             WaitUntil(clock, Timing.FastInitLowMs + Timing.FastInitHighMs);
         }
         finally
