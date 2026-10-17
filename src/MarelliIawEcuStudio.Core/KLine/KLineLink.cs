@@ -174,10 +174,16 @@ public sealed class KLineLink
         try
         {
             var clock = Stopwatch.StartNew();
+            bool? level = null;
             for (var i = 0; i < bits.Length - 1; i++)
             {
                 cancellation.ThrowIfCancellationRequested();
-                _line.SetBreak(!bits[i]);
+                if (level != bits[i])
+                {
+                    // Only on a change: through a network bridge each change is a round trip.
+                    _line.SetBreak(!bits[i]);
+                    level = bits[i];
+                }
                 WaitUntil(clock, (i + 1) * Timing.FiveBaudBitMs);
             }
             _line.SetBreak(false); // stop bit: the ECU answers within W1
@@ -352,8 +358,10 @@ public sealed class KLineLink
     /// <summary>
     /// Waits until <paramref name="clock"/> reaches <paramref name="ms"/>. The
     /// deadlines are absolute, so a late wake-up does not delay the next edge.
-    /// Sleeps in short steps and spins only for the last moment: 2 ms, or 16 ms
-    /// on Windows, where a sleep lasts at least one 15.6 ms timer tick.
+    /// Sleeps in short steps and spins only for the last moment: 2 ms on Linux,
+    /// 16 ms on Windows, where a sleep lasts at least one 15.6 ms timer tick.
+    /// macOS coalesces timers and was seen waking a sleeping thread 80-120 ms
+    /// late, longer than half a 5-baud bit, so there the whole wait spins.
     /// </summary>
     private static void WaitUntil(Stopwatch clock, int ms)
     {
@@ -376,5 +384,6 @@ public sealed class KLineLink
         }
     }
 
-    private static readonly double SpinMarginMs = OperatingSystem.IsWindows() ? 16 : 2;
+    private static readonly double SpinMarginMs =
+        OperatingSystem.IsMacOS() ? double.PositiveInfinity : OperatingSystem.IsWindows() ? 16 : 2;
 }
