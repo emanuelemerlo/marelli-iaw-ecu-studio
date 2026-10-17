@@ -49,3 +49,24 @@ public sealed record LanguageOption(string Code, string Name)
 {
     public override string ToString() => Name;
 }
+
+/// <summary>Colour theme choice; the name follows the UI language.</summary>
+public sealed record ThemeOption(string Code)
+{
+    public const string System = "system";
+    public const string Light = "light";
+    public const string Dark = "dark";
+
+    public static IReadOnlyList<string> Codes { get; } = [System, Light, Dark];
+
+    public string Name => Ui.Get("Theme_" + Code);
+
+    /// <summary>The following choice, wrapping around: system → light → dark → system.</summary>
+    public ThemeOption Next()
+    {
+        var i = Codes.ToList().IndexOf(Code);
+        return new ThemeOption(Codes[(i + 1) % Codes.Count]);
+    }
+
+    public override string ToString() => Name;
+}

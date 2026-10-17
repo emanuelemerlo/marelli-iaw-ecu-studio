@@ -34,6 +34,9 @@ public sealed record AppSettings
 
     public string? Language { get; init; }
 
+    /// <summary>Colour theme: "system" (follow the operating system), "light" or "dark".</summary>
+    public string Theme { get; init; } = Localization.ThemeOption.System;
+
     public string LogFolder { get; init; } = DefaultLogFolder;
 
     public bool SeparateScales { get; init; } = true;

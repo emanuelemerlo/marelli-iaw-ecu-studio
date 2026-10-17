@@ -370,6 +370,30 @@ public sealed class ViewModelTests : IAsyncLifetime
     }
 
     [Fact]
+    public void ThemeFollowsTheSystemByDefaultCyclesAndIsSaved()
+    {
+        var settings = new MemorySettingsStore(new AppSettings { EcuId = "IAW-8F/18F", ListenForIsoBroadcast = false, LogFolder = _logDir });
+        var vm = Create(new SimulatorFactory(), new FakeDialogs(), settings: settings);
+        Assert.True(vm.IsThemeSystem);
+        Assert.Equal(["system", "light", "dark"], vm.ThemeChoices.Select(t => t.Code));
+
+        vm.CycleThemeCommand.Execute(null);
+        Assert.True(vm.IsThemeLight);
+        vm.CycleThemeCommand.Execute(null);
+        Assert.True(vm.IsThemeDark);
+        Assert.Equal("dark", settings.Current.Theme);
+        Assert.Contains("Dark", vm.ThemeToolTip);
+        vm.CycleThemeCommand.Execute(null);
+        Assert.True(vm.IsThemeSystem);
+
+        // The choice survives a restart; an unknown value falls back to the system theme.
+        vm.SelectedTheme = new ThemeOption(ThemeOption.Dark);
+        Assert.True(new MainViewModel(Registry, new SimulatorFactory(), settings, new FakeDialogs(), _ui, ProtocolTiming.Fast).IsThemeDark);
+        var odd = new MemorySettingsStore(settings.Current with { Theme = "sepia" });
+        Assert.True(new MainViewModel(Registry, new SimulatorFactory(), odd, new FakeDialogs(), _ui, ProtocolTiming.Fast).IsThemeSystem);
+    }
+
+    [Fact]
     public async Task DashboardGroupsParametersByInstrument()
     {
         var vm = Create(new SimulatorFactory(ecu => ecu.SetValue("S2", 1)), new FakeDialogs());

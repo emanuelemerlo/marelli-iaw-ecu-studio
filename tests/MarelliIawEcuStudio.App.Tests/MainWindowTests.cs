@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
+using Avalonia.Media;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using MarelliIawEcuStudio.App.Services;
@@ -70,7 +72,7 @@ public sealed class MainWindowTests : IAsyncLifetime
         return ValueTask.CompletedTask;
     }
 
-    private (MainWindow Window, MainViewModel Vm) Open(string language = "en", string ecu = "IAW-8F/18F")
+    private (MainWindow Window, MainViewModel Vm) Open(string language = "en", string ecu = "IAW-8F/18F", int width = 1180, int height = 780)
     {
         var settings = new MemorySettingsStore(new AppSettings
         {
@@ -80,7 +82,7 @@ public sealed class MainWindowTests : IAsyncLifetime
             LogFolder = _logDir,
             Language = language,
         });
-        var window = new MainWindow { Width = 1180, Height = 780 };
+        var window = new MainWindow { Width = width, Height = height };
         var vm = new MainViewModel(DefinitionRegistry.BuiltIn(), new SimulatorOnly(), settings, new AutoDialogs(), new AvaloniaDispatcher(),
             ProtocolTiming.Fast with { PollingDelayMs = 5 });
         window.DataContext = vm;
@@ -258,6 +260,84 @@ public sealed class MainWindowTests : IAsyncLifetime
         Shot(window, "09-ricerca-4wf");
         window.Close();
         Ui.Instance.SetLanguage("en");
+        return true;
+    }, TestContext.Current.CancellationToken);
+
+    /// <summary>The dashboard fits the window without scrolling, from a small laptop to a full HD screen.</summary>
+    [Theory]
+    [InlineData(1024, 640)]
+    [InlineData(1180, 780)]
+    [InlineData(1920, 1080)]
+    public Task DashboardFitsTheWindow(int width, int height) => Session.Dispatch(async () =>
+    {
+        Ui.Instance.SetLanguage("en");
+        var (window, vm) = Open(width: width, height: height);
+        await vm.ConnectCommand.ExecuteAsync(null);
+        await Until(() => vm.Parameters.Any(p => p.ValueText.Length > 0), "live values");
+        await Settle(window, 1000);
+        var fit = window.FindControl<FitToViewport>("DashboardFit")!;
+        var viewer = fit.FindAncestorOfType<ScrollViewer>()!;
+        Assert.InRange(fit.Scale, fit.MinScale, fit.MaxScale);
+        // It scrolls only when fitting would make the text too small to read.
+        Assert.True(viewer.Extent.Height <= viewer.Viewport.Height + 1 || fit.Scale <= fit.MinScale + 0.001,
+            $"{width}x{height}: dashboard {viewer.Extent.Height:0} px high in a {viewer.Viewport.Height:0} px window (scale {fit.Scale:0.00})");
+        if (width >= 1180)
+            Assert.True(viewer.Extent.Height <= viewer.Viewport.Height + 1, $"{width}x{height}: the dashboard scrolls");
+        if (width >= 1920)
+            Assert.True(fit.Scale > 1, "a big screen enlarges the instruments");
+        Shot(window, $"10-dashboard-{width}x{height}");
+
+        window.FindControl<TabControl>("Tabs")!.SelectedIndex = 1;
+        await Settle(window);
+        var columns = window.GetVisualDescendants().OfType<BalancedColumns>().First();
+        Assert.True(columns.Columns >= 2, "parameters use more than one column on a wide window");
+        Shot(window, $"11-parameters-{width}x{height}");
+        await vm.DisconnectCommand.ExecuteAsync(null);
+        window.Close();
+        return true;
+    }, TestContext.Current.CancellationToken);
+
+    [Fact]
+    public Task DarkThemeColoursEveryPart() => Session.Dispatch(async () =>
+    {
+        Ui.Instance.SetLanguage("it");
+        var (window, vm) = Open("it", "IAW-04K.P8");
+        try
+        {
+            vm.SelectedTheme = new ThemeOption(ThemeOption.Dark);
+            await vm.ConnectCommand.ExecuteAsync(null);
+            await Until(() => vm.Parameters.Any(p => p.ValueText.Length > 0), "live values");
+            var tabs = window.FindControl<TabControl>("Tabs")!;
+            await Settle(window, 1500);
+            Assert.Equal(ThemeVariant.Dark, window.ActualThemeVariant);
+            var card = window.GetVisualDescendants().OfType<Border>().First(b => b.Classes.Contains("card"));
+            Assert.True(card.Background is ISolidColorBrush { Color.R: < 0x40 }, "cards are dark");
+            Shot(window, "12-dark-dashboard");
+
+            tabs.SelectedIndex = 1;
+            await Settle(window);
+            Shot(window, "13-dark-parameters");
+
+            vm.Graph.SetPlotted(vm.Parameters.Take(3));
+            tabs.SelectedIndex = 5;
+            await Settle(window, 2000);
+            var plot = window.FindControl<PlotView>("LivePlot")!.Plot.Plot;
+            Assert.True(plot.FigureBackground.Color.R < 0x40, "the graph follows the dark theme");
+            Shot(window, "14-dark-graphs");
+
+            // Back to light without reopening the window.
+            vm.CycleThemeCommand.Execute(null); // dark → system (light on the headless platform)
+            await Settle(window);
+            Assert.NotEqual(ThemeVariant.Dark, window.ActualThemeVariant);
+            Assert.True(plot.FigureBackground.Color.R > 0xC0, "the graph follows the light theme again");
+            await vm.DisconnectCommand.ExecuteAsync(null);
+        }
+        finally
+        {
+            vm.SelectedTheme = new ThemeOption(ThemeOption.System);
+            window.Close();
+            Ui.Instance.SetLanguage("en");
+        }
         return true;
     }, TestContext.Current.CancellationToken);
 }

@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Threading;
 using MarelliIawEcuStudio.Presentation.Live;
 using ScottPlot;
@@ -12,6 +13,7 @@ namespace MarelliIawEcuStudio.App.Views;
 /// ScottPlot view of an <see cref="IPlotSource"/>: zoom with the wheel, pan by
 /// dragging, double-click to reset. With separate scales each series gets its
 /// own Y axis, coloured like its line. Redraws at most 15 times per second.
+/// Background, axes, grid and legend follow the light or dark theme.
 /// </summary>
 public sealed class PlotView : UserControl
 {
@@ -22,12 +24,18 @@ public sealed class PlotView : UserControl
     private readonly DispatcherTimer _timer;
     private readonly List<IYAxis> _extraAxes = [];
     private VerticalLine? _cursor;
+    private IPanel? _legend;
     private bool _dirty;
     private bool _rebuild = true;
 
     public PlotView()
     {
         Content = _plot;
+        ActualThemeVariantChanged += (_, _) =>
+        {
+            OnPlotChanged(true);
+            RenderIfDirty();
+        };
         _timer = new DispatcherTimer(TimeSpan.FromMilliseconds(66), DispatcherPriority.Render, (_, _) => RenderIfDirty());
         Rebuild();
     }
@@ -93,11 +101,13 @@ public sealed class PlotView : UserControl
         plot.Clear();
         foreach (var axis in _extraAxes)
             plot.Axes.Remove(axis);
+        if (_legend is not null)
+            plot.Axes.Remove(_legend); // ShowLegend adds a new panel each time
+        _legend = null;
         _extraAxes.Clear();
         plot.Axes.Left.Label.Text = "";
         plot.Axes.Bottom.Label.Text = "s";
-        plot.Axes.Left.Label.ForeColor = Colors.Black;
-        plot.Axes.Left.TickLabelStyle.ForeColor = Colors.Black;
+        var theme = ApplyTheme();
         _cursor = null;
 
         var source = Source;
@@ -133,10 +143,31 @@ public sealed class PlotView : UserControl
         }
         if (!source.SeparateScales && source.VisibleSeries.Count == 1)
             plot.Axes.Left.Label.Text = source.VisibleSeries[0].Label;
-        plot.ShowLegend(Edge.Bottom);
+        _legend = plot.ShowLegend(Edge.Bottom);
         if (source.CursorSeconds is not null)
-            _cursor = plot.Add.VerticalLine(0, 1.5f, Colors.Black, LinePattern.Dashed);
+            _cursor = plot.Add.VerticalLine(0, 1.5f, theme.Text, LinePattern.Dashed);
         AutoScaleAll();
+    }
+
+    /// <summary>Colours of the figure for the current theme; returns them for the plottables.</summary>
+    private (ScottPlot.Color Text, ScottPlot.Color Background) ApplyTheme()
+    {
+        ScottPlot.Color Get(string key, string fallback) =>
+            this.TryFindResource(key, ActualThemeVariant, out var value) && value is ISolidColorBrush brush
+                ? new ScottPlot.Color(brush.Color.R, brush.Color.G, brush.Color.B, brush.Color.A)
+                : ScottPlot.Color.FromHex(fallback);
+        var text = Get("TextBrush", "#1C1F23");
+        var background = Get("PlotBackgroundBrush", "#FFFFFF");
+        var grid = Get("PlotGridBrush", "#E6E8EB");
+        var plot = _plot.Plot;
+        plot.FigureBackground.Color = background;
+        plot.DataBackground.Color = background;
+        plot.Axes.Color(text);
+        plot.Grid.MajorLineColor = grid;
+        plot.Legend.BackgroundColor = background;
+        plot.Legend.FontColor = text;
+        plot.Legend.OutlineColor = grid;
+        return (text, background);
     }
 
     /// <summary>Fits every Y axis (also the extra ones) to its own series, and X to all data.</summary>

@@ -29,13 +29,13 @@
           <ItemsControl ItemsSource="{Binding Bars}" IsVisible="{Binding HasBars}">
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:ParameterRowViewModel">
-                <Grid ColumnDefinitions="*,1.2*,92" ColumnSpacing="8" Margin="0,3">
+                <Grid ColumnDefinitions="1.3*,*,Auto" ColumnSpacing="10" Margin="0,3">
                   <TextBlock FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip.Tip="{Binding Name}" />
                   <views:LinearGauge Grid.Column="1" Height="14" VerticalAlignment="Center" Value="{Binding NumericValue}" Minimum="{Binding Display.Min}"
                                      Maximum="{Binding Display.Max}" Center="{Binding Display.Center}" Zones="{Binding Display.Zones}" />
-                  <TextBlock Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
+                  <TextBlock Grid.Column="2" MinWidth="84" HorizontalAlignment="Right" TextAlignment="Right" VerticalAlignment="Center">
                     <Run Classes="dashValue" Text="{Binding ValueText}" />
-                    <Run Foreground="#6B7178" FontSize="11" Text="{Binding Unit}" />
+                    <Run Classes="subtle" FontSize="11" Text="{Binding Unit}" />
                   </TextBlock>
                 </Grid>
               </DataTemplate>
@@ -47,11 +47,11 @@
               <DataTemplate x:DataType="vm:ParameterRowViewModel">
                 <Border Classes="tile" Width="128">
                   <StackPanel>
-                    <TextBlock FontSize="11" Foreground="#6B7178" TextTrimming="CharacterEllipsis" MaxLines="2" TextWrapping="Wrap"
+                    <TextBlock Classes="subtle" FontSize="11" TextTrimming="CharacterEllipsis" MaxLines="2" TextWrapping="Wrap"
                                Height="28" Text="{Binding Name}" ToolTip.Tip="{Binding Name}" />
                     <TextBlock>
                       <Run Classes="dashValue" FontSize="16" Text="{Binding ValueText}" />
-                      <Run Foreground="#6B7178" FontSize="11" Text="{Binding Unit}" />
+                      <Run Classes="subtle" FontSize="11" Text="{Binding Unit}" />
                     </TextBlock>
                   </StackPanel>
                 </Border>
@@ -59,13 +59,15 @@
             </ItemsControl.ItemTemplate>
           </ItemsControl>
           <ItemsControl ItemsSource="{Binding Leds}" IsVisible="{Binding HasLeds}">
-            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate><views:BalancedColumns MinColumnWidth="230" MaxColumns="3" ColumnSpacing="12" RowSpacing="0" /></ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:ParameterRowViewModel">
-                <StackPanel Orientation="Horizontal" Spacing="8" Width="250" Margin="0,3">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8" Margin="0,3">
                   <Border Classes="led" Classes.on="{Binding IsOn}" Classes.ledWarning="{Binding IsLedWarning}" Classes.ledInfo="{Binding IsLedInfo}" />
-                  <TextBlock FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Width="220" Text="{Binding Name}" ToolTip.Tip="{Binding Name}" />
-                </StackPanel>
+                  <TextBlock Grid.Column="1" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip.Tip="{Binding Name}" />
+                </Grid>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
@@ -77,24 +79,34 @@
   <DockPanel>
 
     <!-- Connection bar -->
-    <Border DockPanel.Dock="Top" Classes="toolbar" Background="#F6F7F9">
-      <Grid ColumnDefinitions="Auto,*,Auto,Auto,2*,Auto,Auto" ColumnSpacing="8">
+    <Border DockPanel.Dock="Top" Classes="toolbar bar">
+      <Grid ColumnDefinitions="Auto,*,Auto,Auto,2*,Auto,Auto,Auto" ColumnSpacing="8">
         <TextBlock Classes="label" Text="{Binding Ui[Interface]}" />
         <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding Targets}"
                   SelectedItem="{Binding SelectedTarget}" IsEnabled="{Binding IsDisconnected}" />
         <Button Grid.Column="2" Content="{Binding Ui[Refresh]}" Command="{Binding RefreshTargetsCommand}"
                 IsEnabled="{Binding IsDisconnected}" />
         <TextBlock Grid.Column="3" Classes="label" Margin="12,0,0,0" Text="{Binding Ui[Ecu]}" />
-        <Grid Grid.Column="4" ColumnDefinitions="150,*" ColumnSpacing="6">
-          <TextBox x:Name="EcuSearch" Text="{Binding EcuFilter}" PlaceholderText="{Binding Ui[EcuSearch]}"
+        <Grid Grid.Column="4" ColumnDefinitions="Auto,*" ColumnSpacing="6">
+          <TextBox x:Name="EcuSearch" Width="190" Text="{Binding EcuFilter}" PlaceholderText="{Binding Ui[EcuSearch]}"
                    IsEnabled="{Binding IsDisconnected}" ToolTip.Tip="{Binding Ui[EcuSearch]}" />
           <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding FilteredEcus}"
-                    SelectedItem="{Binding SelectedEcu}" IsEnabled="{Binding IsDisconnected}">
+                    SelectedItem="{Binding SelectedEcu}" IsEnabled="{Binding IsDisconnected}"
+                    ToolTip.Tip="{Binding SelectedEcu.Subtitle}">
+            <!-- One line in the box, so it is as tall as the other controls; two lines in the list. -->
+            <ComboBox.SelectionBoxItemTemplate>
+              <DataTemplate x:DataType="vm:EcuChoice">
+                <TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Center">
+                  <Run Text="{Binding Name}" />
+                  <Run Classes="subtle" FontSize="12" Text="{Binding Subtitle}" />
+                </TextBlock>
+              </DataTemplate>
+            </ComboBox.SelectionBoxItemTemplate>
             <ComboBox.ItemTemplate>
               <DataTemplate x:DataType="vm:EcuChoice">
                 <StackPanel>
                   <TextBlock Text="{Binding Name}" />
-                  <TextBlock FontSize="11" Foreground="#6B7178" TextTrimming="CharacterEllipsis" Text="{Binding Subtitle}" />
+                  <TextBlock Classes="subtle" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Subtitle}" />
                 </StackPanel>
               </DataTemplate>
             </ComboBox.ItemTemplate>
@@ -110,7 +122,19 @@
           <Button Content="{Binding Ui[Disconnect]}" Command="{Binding DisconnectCommand}"
                   IsVisible="{Binding IsOnline}" MinWidth="110" />
         </StackPanel>
-        <Button Grid.Column="6" Content="{Binding Ui[Options]}">
+        <!-- Theme: one click cycles system → light → dark. -->
+        <Button Grid.Column="6" x:Name="ThemeButton" Width="36" Padding="0" HorizontalContentAlignment="Center"
+                Command="{Binding CycleThemeCommand}" ToolTip.Tip="{Binding ThemeToolTip}">
+          <Panel>
+            <PathIcon Width="18" Height="18" IsVisible="{Binding IsThemeSystem}"
+                      Data="F0 M12,2 A10,10 0 1 0 12,22 A10,10 0 1 0 12,2 Z M12,4 A8,8 0 0 0 12,20 Z" />
+            <PathIcon Width="18" Height="18" IsVisible="{Binding IsThemeLight}"
+                      Data="M12,7 A5,5 0 1 1 11.99,7 Z M11,1 H13 V4 H11 Z M11,20 H13 V23 H11 Z M1,11 H4 V13 H1 Z M20,11 H23 V13 H20 Z M4.2,5.6 L5.6,4.2 L7.7,6.3 L6.3,7.7 Z M16.3,17.7 L17.7,16.3 L19.8,18.4 L18.4,19.8 Z M4.2,18.4 L6.3,16.3 L7.7,17.7 L5.6,19.8 Z M16.3,6.3 L18.4,4.2 L19.8,5.6 L17.7,7.7 Z" />
+            <PathIcon Width="18" Height="18" IsVisible="{Binding IsThemeDark}"
+                      Data="M21,12.8 A9,9 0 1 1 11.2,3 A7,7 0 0 0 21,12.8 Z" />
+          </Panel>
+        </Button>
+        <Button Grid.Column="7" Content="{Binding Ui[Options]}">
           <Button.Flyout>
             <Flyout Placement="BottomEdgeAlignedRight">
               <StackPanel Spacing="8" Width="380">
@@ -122,6 +146,8 @@
                 <CheckBox Content="{Binding Ui[TraceLine]}" IsChecked="{Binding TraceLine}" />
                 <TextBlock Classes="label" Text="{Binding Ui[Language]}" />
                 <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" />
+                <TextBlock Classes="label" Text="{Binding Ui[Theme]}" />
+                <ComboBox x:Name="ThemeCombo" HorizontalAlignment="Stretch" ItemsSource="{Binding ThemeChoices}" SelectedItem="{Binding SelectedTheme}" />
                 <TextBlock Classes="label" Text="{Binding Ui[BridgeAddress]}" />
                 <TextBox Text="{Binding BridgeAddress}" PlaceholderText="192.168.4.1:2217" />
                 <TextBlock Classes="label" Text="Log" />
@@ -134,45 +160,45 @@
     </Border>
 
     <!-- Port hint (e.g. FTDI latency) -->
-    <Border DockPanel.Dock="Top" Background="#FFF4E5" Padding="8,4" IsVisible="{Binding TargetHint, Converter={x:Static ObjectConverters.IsNotNull}}">
+    <Border DockPanel.Dock="Top" Classes="hint" IsVisible="{Binding TargetHint, Converter={x:Static ObjectConverters.IsNotNull}}">
       <TextBlock Text="{Binding TargetHint}" TextWrapping="Wrap" />
     </Border>
 
-    <!-- Connected ECU -->
+    <!-- Connected ECU: one line; the vehicle name gives way first on a narrow window. -->
     <Border DockPanel.Dock="Top" Classes="toolbar" IsVisible="{Binding IsOnline}">
-      <WrapPanel ItemSpacing="24" LineSpacing="4">
+      <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto" ColumnSpacing="20">
         <StackPanel Orientation="Horizontal" Spacing="6">
           <TextBlock Classes="label" Text="{Binding Ui[Ecu]}" />
-          <TextBlock FontWeight="SemiBold" Text="{Binding EcuName}" />
+          <TextBlock FontWeight="SemiBold" VerticalAlignment="Center" Text="{Binding EcuName}" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="6">
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
           <TextBlock Classes="label" Text="{Binding Ui[IsoCode]}" />
           <TextBlock Classes="value" FontSize="13" Text="{Binding Iso}" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="6">
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
           <TextBlock Classes="label" Text="{Binding Ui[Codric]}" />
           <TextBlock Classes="value" FontSize="13" Text="{Binding Codric}" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="6">
+        <Grid Grid.Column="3" ColumnDefinitions="Auto,*" ColumnSpacing="6" ClipToBounds="True">
           <TextBlock Classes="label" Text="{Binding Ui[Vehicle]}" />
-          <TextBlock Text="{Binding Vehicle}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="6">
+          <TextBlock Grid.Column="1" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Vehicle}" ToolTip.Tip="{Binding Vehicle}" />
+        </Grid>
+        <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="6">
           <TextBlock Classes="label" Text="{Binding Ui[Immobilizer]}" />
-          <TextBlock Text="{Binding Immobilizer}" />
+          <TextBlock VerticalAlignment="Center" Text="{Binding Immobilizer}" />
         </StackPanel>
-        <TextBlock Classes="label" Text="{Binding RateText}" />
-        <Border Classes="badge" IsVisible="{Binding IsSimulation}">
+        <Border Grid.Column="5" Classes="badge" IsVisible="{Binding IsSimulation}">
           <TextBlock FontWeight="SemiBold" Text="{Binding Ui[Simulation]}" />
         </Border>
-      </WrapPanel>
+      </Grid>
     </Border>
 
     <!-- Status bar -->
-    <Border DockPanel.Dock="Bottom" Background="#F6F7F9" BorderBrush="#E6E8EB" BorderThickness="0,1,0,0" Padding="8,4">
-      <Grid ColumnDefinitions="*,Auto">
+    <Border DockPanel.Dock="Bottom" Classes="bar" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="0,1,0,0" Padding="8,4">
+      <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="16">
         <TextBlock Text="{Binding StatusText}" TextTrimming="CharacterEllipsis" />
         <TextBlock Grid.Column="1" Classes="label" Text="{Binding RecordingText}" TextTrimming="CharacterEllipsis" MaxWidth="560" />
+        <TextBlock Grid.Column="2" Classes="label" Text="{Binding RateText}" IsVisible="{Binding IsOnline}" />
       </Grid>
     </Border>
 
@@ -180,7 +206,8 @@
 
       <!-- Dashboard -->
       <TabItem x:Name="DashboardTab" Header="{Binding Ui[TabDashboard]}">
-        <ScrollViewer Background="#F3F4F6">
+        <ScrollViewer Background="{DynamicResource PageBackgroundBrush}">
+          <views:FitToViewport x:Name="DashboardFit" MinScale="0.8" MaxScale="1.5">
           <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="10">
             <StackPanel Spacing="10">
               <Border Classes="card" IsVisible="{Binding VehicleInfo.HasInfo}">
@@ -199,7 +226,10 @@
                     <TextBlock Classes="label" Text="{Binding Ui[Period]}" />
                     <TextBlock Text="{Binding VehicleInfo.Period}" />
                   </StackPanel>
-                  <Expander Header="{Binding VehicleInfo.CompatibilityCaption}" HorizontalAlignment="Stretch" Margin="0,6,0,0">
+                  <Expander HorizontalAlignment="Stretch" Margin="0,6,0,0">
+                    <Expander.Header>
+                      <TextBlock TextWrapping="Wrap" Text="{Binding VehicleInfo.CompatibilityCaption}" />
+                    </Expander.Header>
                     <StackPanel Spacing="6">
                       <ItemsControl ItemsSource="{Binding VehicleInfo.Brands}">
                         <ItemsControl.ItemTemplate>
@@ -212,7 +242,7 @@
                                     <TextBlock TextWrapping="Wrap" Margin="12,1,0,0">
                                       <Run Text="{Binding Model}" />
                                       <Run Text="  " />
-                                      <Run Foreground="#6B7178" Text="{Binding Engines}" />
+                                      <Run Classes="subtle" Text="{Binding Engines}" />
                                     </TextBlock>
                                   </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -247,6 +277,7 @@
               </ItemsControl>
             </StackPanel>
           </Grid>
+          </views:FitToViewport>
         </ScrollViewer>
       </TabItem>
 
@@ -260,41 +291,52 @@
               <Button Content="{Binding RecordButtonText}" Command="{Binding ToggleRecordingCommand}" Margin="16,0,0,0" />
             </StackPanel>
           </Border>
-          <Grid DockPanel.Dock="Top" ColumnDefinitions="60,60,*,140,80" Margin="8,6,8,2">
-            <TextBlock Classes="header" Text="{Binding Ui[ColRead]}" />
-            <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColPlot]}" />
-            <TextBlock Grid.Column="2" Classes="header" Text="{Binding Ui[ColName]}" />
-            <TextBlock Grid.Column="3" Classes="header" Text="{Binding Ui[ColValue]}" HorizontalAlignment="Right" />
-            <TextBlock Grid.Column="4" Classes="header" Text="{Binding Ui[ColUnit]}" Margin="10,0,0,0" />
-          </Grid>
           <ScrollViewer>
-            <ItemsControl ItemsSource="{Binding ParameterGroups}">
-              <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="vm:DashboardGroupViewModel">
-                  <StackPanel>
-                    <Border Background="#F3F5F7" Padding="8,3">
-                      <TextBlock FontWeight="SemiBold" FontSize="12" Text="{Binding Title}" />
-                    </Border>
-                    <ItemsControl ItemsSource="{Binding Rows}">
-                      <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="vm:ParameterRowViewModel">
-                          <Border Classes="compactRow">
-                            <Grid ColumnDefinitions="60,60,*,140,80">
-                              <CheckBox IsChecked="{Binding IsSelected}" MinWidth="0" MinHeight="0" Padding="0" />
-                              <CheckBox Grid.Column="1" IsChecked="{Binding IsPlotted}" MinWidth="0" MinHeight="0" Padding="0" />
-                              <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Name}" />
-                              <TextBlock Grid.Column="3" Classes="value" FontSize="14" Classes.invalid="{Binding !IsValid}" VerticalAlignment="Center"
-                                         HorizontalAlignment="Right" Text="{Binding ValueText}" />
-                              <TextBlock Grid.Column="4" Classes="label" Margin="10,0,0,0" Text="{Binding Unit}" />
-                            </Grid>
-                          </Border>
-                        </DataTemplate>
-                      </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                  </StackPanel>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <views:FitToViewport x:Name="ParametersFit" MinScale="0.9" MaxScale="1.3">
+              <ItemsControl ItemsSource="{Binding ParameterGroups}" Margin="8">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <views:BalancedColumns MinColumnWidth="440" MaxColumns="3" ColumnSpacing="16" RowSpacing="10" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:DashboardGroupViewModel">
+                    <StackPanel>
+                      <!-- The group title doubles as the column header, so headers line up in every column. -->
+                      <Border Classes="groupHeader">
+                        <Grid ColumnDefinitions="48,56,*,96,56">
+                          <TextBlock Classes="header" FontWeight="Normal" FontSize="11"
+                                     Text="{Binding #Root.((vm:MainViewModel)DataContext).Ui[ColRead]}" />
+                          <TextBlock Grid.Column="1" Classes="header" FontWeight="Normal" FontSize="11"
+                                     Text="{Binding #Root.((vm:MainViewModel)DataContext).Ui[ColPlot]}" />
+                          <TextBlock Grid.Column="2" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Center" Text="{Binding Title}" />
+                          <TextBlock Grid.Column="3" Classes="header" FontWeight="Normal" FontSize="11" HorizontalAlignment="Right"
+                                     Text="{Binding #Root.((vm:MainViewModel)DataContext).Ui[ColValue]}" />
+                          <TextBlock Grid.Column="4" Classes="header" FontWeight="Normal" FontSize="11" Margin="8,0,0,0"
+                                     Text="{Binding #Root.((vm:MainViewModel)DataContext).Ui[ColUnit]}" />
+                        </Grid>
+                      </Border>
+                      <ItemsControl ItemsSource="{Binding Rows}">
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate x:DataType="vm:ParameterRowViewModel">
+                            <Border Classes="compactRow">
+                              <Grid ColumnDefinitions="48,56,*,96,56">
+                                <CheckBox IsChecked="{Binding IsSelected}" />
+                                <CheckBox Grid.Column="1" IsChecked="{Binding IsPlotted}" />
+                                <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip.Tip="{Binding Name}" />
+                                <TextBlock Grid.Column="3" Classes="value" FontSize="14" Classes.invalid="{Binding !IsValid}"
+                                           HorizontalAlignment="Right" Text="{Binding ValueText}" />
+                                <TextBlock Grid.Column="4" Classes="label" Margin="8,0,0,0" TextTrimming="CharacterEllipsis" Text="{Binding Unit}" />
+                              </Grid>
+                            </Border>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                    </StackPanel>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </views:FitToViewport>
           </ScrollViewer>
         </DockPanel>
       </TabItem>
@@ -309,11 +351,13 @@
               <TextBlock Classes="label" Text="{Binding Ui[StatusLegend]}" />
             </StackPanel>
           </Border>
-          <Grid DockPanel.Dock="Top" ColumnDefinitions="*,90,*" Margin="8,6,8,2">
-            <TextBlock Classes="header" Text="{Binding Ui[ColName]}" />
-            <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColStatus]}" />
-            <TextBlock Grid.Column="2" Classes="header" Text="{Binding Ui[ColReason]}" />
-          </Grid>
+          <Border DockPanel.Dock="Top" Padding="8,6,8,4">
+            <Grid ColumnDefinitions="*,90,*">
+              <TextBlock Classes="header" Text="{Binding Ui[ColName]}" />
+              <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColStatus]}" />
+              <TextBlock Grid.Column="2" Classes="header" Text="{Binding Ui[ColReason]}" />
+            </Grid>
+          </Border>
           <Panel>
             <TextBlock Classes="label" Margin="12" VerticalAlignment="Top" Text="{Binding Ui[NoErrors]}" IsVisible="{Binding !HasErrors}" />
             <ScrollViewer>
@@ -338,20 +382,22 @@
       <!-- Actuator tests -->
       <TabItem Header="{Binding Ui[TabTests]}" IsEnabled="{Binding IsOnline}">
         <DockPanel>
-          <Grid DockPanel.Dock="Top" ColumnDefinitions="*,220,110,110,120" Margin="8,10,8,2">
-            <TextBlock Classes="header" Text="{Binding Ui[ColName]}" />
-            <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColCondition]}" />
-            <TextBlock Grid.Column="2" Classes="header" Text="{Binding Ui[ColDuration]}" />
-            <TextBlock Grid.Column="4" Classes="header" Text="{Binding Ui[ColResult]}" />
-          </Grid>
+          <Border DockPanel.Dock="Top" Padding="8,8,8,4" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="*,220,110,110,120">
+              <TextBlock Classes="header" Text="{Binding Ui[ColName]}" />
+              <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColCondition]}" />
+              <TextBlock Grid.Column="2" Classes="header" Text="{Binding Ui[ColDuration]}" />
+              <TextBlock Grid.Column="4" Classes="header" Margin="8,0,0,0" Text="{Binding Ui[ColResult]}" />
+            </Grid>
+          </Border>
           <ScrollViewer>
             <ItemsControl ItemsSource="{Binding Tests}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="vm:ActiveItemViewModel">
                   <Border Classes="row">
                     <Grid ColumnDefinitions="*,220,110,110,120">
-                      <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-                      <TextBlock Grid.Column="1" Classes="label" Text="{Binding Condition}" />
+                      <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip.Tip="{Binding Name}" />
+                      <TextBlock Grid.Column="1" Classes="label" TextTrimming="CharacterEllipsis" Text="{Binding Condition}" />
                       <TextBlock Grid.Column="2" Classes="label" Text="{Binding Detail}" />
                       <Button Grid.Column="3" Content="{Binding #Root.((vm:MainViewModel)DataContext).Ui[Run]}"
                               Command="{Binding #Root.((vm:MainViewModel)DataContext).RunTestCommand}"
@@ -370,19 +416,21 @@
       <!-- Adjustments -->
       <TabItem Header="{Binding Ui[TabAdjustments]}" IsEnabled="{Binding IsOnline}">
         <DockPanel>
-          <Grid DockPanel.Dock="Top" ColumnDefinitions="*,220,110,110,120" Margin="8,10,8,2">
-            <TextBlock Classes="header" Text="{Binding Ui[ColName]}" />
-            <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColCondition]}" />
-            <TextBlock Grid.Column="4" Classes="header" Text="{Binding Ui[ColResult]}" />
-          </Grid>
+          <Border DockPanel.Dock="Top" Padding="8,8,8,4" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="*,220,110,110,120">
+              <TextBlock Classes="header" Text="{Binding Ui[ColName]}" />
+              <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColCondition]}" />
+              <TextBlock Grid.Column="4" Classes="header" Margin="8,0,0,0" Text="{Binding Ui[ColResult]}" />
+            </Grid>
+          </Border>
           <ScrollViewer>
             <ItemsControl ItemsSource="{Binding Adjustments}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="vm:ActiveItemViewModel">
                   <Border Classes="row">
                     <Grid ColumnDefinitions="*,220,110,110,120">
-                      <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-                      <TextBlock Grid.Column="1" Classes="label" Text="{Binding Condition}" />
+                      <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip.Tip="{Binding Name}" />
+                      <TextBlock Grid.Column="1" Classes="label" TextTrimming="CharacterEllipsis" Text="{Binding Condition}" />
                       <TextBlock Grid.Column="2" Classes="label" Text="{Binding Detail}" />
                       <Button Grid.Column="3" Content="{Binding #Root.((vm:MainViewModel)DataContext).Ui[Apply]}"
                               Command="{Binding #Root.((vm:MainViewModel)DataContext).RunAdjustmentCommand}"
@@ -458,7 +506,7 @@
                     <DataTemplate x:DataType="vm:ReplayColumnViewModel">
                       <Border Classes="row">
                         <Grid ColumnDefinitions="40,*,80,50">
-                          <CheckBox IsChecked="{Binding IsPlotted}" MinWidth="0" />
+                          <CheckBox IsChecked="{Binding IsPlotted}" />
                           <TextBlock Grid.Column="1" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
                           <TextBlock Grid.Column="2" Classes="value" FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding ValueText}" />
                           <TextBlock Grid.Column="3" Classes="label" Margin="6,0,0,0" Text="{Binding Unit}" />

@@ -1,58 +1,195 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MarelliIawEcuStudio.App.App"
-             RequestedThemeVariant="Light">
+             RequestedThemeVariant="Default">
+
+  <!--
+    Colours of the application, one set per theme. Views use them through
+    DynamicResource, so switching between light and dark (or following the
+    operating system) updates everything at once. The instruments and the
+    graphs read the same keys (see GaugePalette and PlotView).
+  -->
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+          <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFFFFF" />
+          <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F3F4F6" />
+          <SolidColorBrush x:Key="BarBackgroundBrush" Color="#F6F7F9" />
+          <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF" />
+          <SolidColorBrush x:Key="CardBorderBrush" Color="#E1E4E8" />
+          <SolidColorBrush x:Key="DividerBrush" Color="#E6E8EB" />
+          <SolidColorBrush x:Key="RowDividerBrush" Color="#EEF0F2" />
+          <SolidColorBrush x:Key="GroupHeaderBrush" Color="#EEF1F4" />
+          <SolidColorBrush x:Key="TileBackgroundBrush" Color="#F3F5F7" />
+          <SolidColorBrush x:Key="TextBrush" Color="#1C1F23" />
+          <SolidColorBrush x:Key="TitleTextBrush" Color="#3A3F45" />
+          <SolidColorBrush x:Key="LabelTextBrush" Color="#5A5F66" />
+          <SolidColorBrush x:Key="SubtleTextBrush" Color="#6B7178" />
+          <SolidColorBrush x:Key="DangerTextBrush" Color="#B3261E" />
+          <SolidColorBrush x:Key="SuccessTextBrush" Color="#1B7F3B" />
+          <SolidColorBrush x:Key="BadgeBackgroundBrush" Color="#FDE7B0" />
+          <SolidColorBrush x:Key="BadgeTextBrush" Color="#5C4300" />
+          <SolidColorBrush x:Key="HintBackgroundBrush" Color="#FFF4E5" />
+          <SolidColorBrush x:Key="LedOffBrush" Color="#D5D9DE" />
+          <SolidColorBrush x:Key="LedOffBorderBrush" Color="#B8BEC5" />
+          <SolidColorBrush x:Key="GaugeTrackBrush" Color="#E4E7EB" />
+          <SolidColorBrush x:Key="GaugeFillBrush" Color="#1F6FB2" />
+          <SolidColorBrush x:Key="GaugeNeedleBrush" Color="#C62828" />
+          <SolidColorBrush x:Key="GaugeHubBrush" Color="#3A3F45" />
+          <SolidColorBrush x:Key="GaugeDangerBrush" Color="#D93025" />
+          <SolidColorBrush x:Key="GaugeWarningBrush" Color="#F2A100" />
+          <SolidColorBrush x:Key="GaugeColdBrush" Color="#5B9BD5" />
+          <SolidColorBrush x:Key="PlotBackgroundBrush" Color="#FFFFFF" />
+          <SolidColorBrush x:Key="PlotGridBrush" Color="#E6E8EB" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+          <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#1A1D21" />
+          <SolidColorBrush x:Key="PageBackgroundBrush" Color="#15171A" />
+          <SolidColorBrush x:Key="BarBackgroundBrush" Color="#1D2024" />
+          <SolidColorBrush x:Key="CardBackgroundBrush" Color="#212429" />
+          <SolidColorBrush x:Key="CardBorderBrush" Color="#33383E" />
+          <SolidColorBrush x:Key="DividerBrush" Color="#33383E" />
+          <SolidColorBrush x:Key="RowDividerBrush" Color="#2A2E33" />
+          <SolidColorBrush x:Key="GroupHeaderBrush" Color="#2A2E34" />
+          <SolidColorBrush x:Key="TileBackgroundBrush" Color="#2A2E34" />
+          <SolidColorBrush x:Key="TextBrush" Color="#E8EAED" />
+          <SolidColorBrush x:Key="TitleTextBrush" Color="#D6DADF" />
+          <SolidColorBrush x:Key="LabelTextBrush" Color="#A9AFB6" />
+          <SolidColorBrush x:Key="SubtleTextBrush" Color="#959CA4" />
+          <SolidColorBrush x:Key="DangerTextBrush" Color="#FF8A80" />
+          <SolidColorBrush x:Key="SuccessTextBrush" Color="#6FD58A" />
+          <SolidColorBrush x:Key="BadgeBackgroundBrush" Color="#5A4512" />
+          <SolidColorBrush x:Key="BadgeTextBrush" Color="#FDE7B0" />
+          <SolidColorBrush x:Key="HintBackgroundBrush" Color="#4A3714" />
+          <SolidColorBrush x:Key="LedOffBrush" Color="#3A3F45" />
+          <SolidColorBrush x:Key="LedOffBorderBrush" Color="#535960" />
+          <SolidColorBrush x:Key="GaugeTrackBrush" Color="#373C42" />
+          <SolidColorBrush x:Key="GaugeFillBrush" Color="#4A9BE0" />
+          <SolidColorBrush x:Key="GaugeNeedleBrush" Color="#FF5A4F" />
+          <SolidColorBrush x:Key="GaugeHubBrush" Color="#C9CED4" />
+          <SolidColorBrush x:Key="GaugeDangerBrush" Color="#F06257" />
+          <SolidColorBrush x:Key="GaugeWarningBrush" Color="#F5B731" />
+          <SolidColorBrush x:Key="GaugeColdBrush" Color="#6FA8DC" />
+          <SolidColorBrush x:Key="PlotBackgroundBrush" Color="#212429" />
+          <SolidColorBrush x:Key="PlotGridBrush" Color="#33383E" />
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
 
   <Application.Styles>
-    <FluentTheme />
+    <FluentTheme DensityStyle="Compact" />
+
+    <Style Selector="Window">
+      <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush}" />
+    </Style>
+
+    <!-- Tabs: Fluent's 28 px headers take a tenth of a laptop screen. -->
+    <Style Selector="TabItem">
+      <Setter Property="FontSize" Value="15" />
+      <Setter Property="MinHeight" Value="36" />
+      <Setter Property="Padding" Value="12,0" />
+    </Style>
+
+    <!-- Every control of a toolbar has the same height, centred on the labels. -->
+    <Style Selector="Border.toolbar :is(Button)">
+      <Setter Property="Height" Value="32" />
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.toolbar ComboBox">
+      <Setter Property="Height" Value="32" />
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.toolbar TextBox">
+      <Setter Property="Height" Value="32" />
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.toolbar CheckBox, Border.toolbar Slider">
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
 
     <Style Selector="TextBlock.header">
       <Setter Property="FontWeight" Value="SemiBold" />
-      <Setter Property="Foreground" Value="#5A5F66" />
+      <Setter Property="Foreground" Value="{DynamicResource LabelTextBrush}" />
       <Setter Property="FontSize" Value="12" />
+      <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     <Style Selector="TextBlock.label">
-      <Setter Property="Foreground" Value="#5A5F66" />
+      <Setter Property="Foreground" Value="{DynamicResource LabelTextBrush}" />
       <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="TextBlock.subtle">
+      <Setter Property="Foreground" Value="{DynamicResource SubtleTextBrush}" />
+    </Style>
+    <Style Selector="Run.subtle">
+      <Setter Property="Foreground" Value="{DynamicResource SubtleTextBrush}" />
     </Style>
     <Style Selector="TextBlock.value">
       <Setter Property="FontFeatures" Value="+tnum" />
       <Setter Property="FontWeight" Value="SemiBold" />
       <Setter Property="FontSize" Value="15" />
+      <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     <Style Selector="TextBlock.invalid">
-      <Setter Property="Foreground" Value="#B3261E" />
+      <Setter Property="Foreground" Value="{DynamicResource DangerTextBrush}" />
     </Style>
     <Style Selector="TextBlock.passed">
-      <Setter Property="Foreground" Value="#1B7F3B" />
+      <Setter Property="Foreground" Value="{DynamicResource SuccessTextBrush}" />
       <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
     <Style Selector="TextBlock.failed">
-      <Setter Property="Foreground" Value="#B3261E" />
+      <Setter Property="Foreground" Value="{DynamicResource DangerTextBrush}" />
       <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
     <Style Selector="TextBlock.active">
-      <Setter Property="Foreground" Value="#B3261E" />
+      <Setter Property="Foreground" Value="{DynamicResource DangerTextBrush}" />
       <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
     <Style Selector="Border.badge">
-      <Setter Property="Background" Value="#FDE7B0" />
+      <Setter Property="Background" Value="{DynamicResource BadgeBackgroundBrush}" />
       <Setter Property="CornerRadius" Value="4" />
       <Setter Property="Padding" Value="8,2" />
+      <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.row">
-      <Setter Property="BorderBrush" Value="#E6E8EB" />
-      <Setter Property="BorderThickness" Value="0,0,0,1" />
+    <Style Selector="Border.badge TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource BadgeTextBrush}" />
+    </Style>
+    <Style Selector="Border.hint">
+      <Setter Property="Background" Value="{DynamicResource HintBackgroundBrush}" />
       <Setter Property="Padding" Value="8,4" />
     </Style>
+    <Style Selector="Border.row">
+      <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}" />
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+      <Setter Property="Padding" Value="8,3" />
+      <Setter Property="MinHeight" Value="36" />
+    </Style>
+    <Style Selector="Border.row TextBlock">
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.row Button">
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="MinWidth" Value="90" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
     <Style Selector="Border.toolbar">
-      <Setter Property="Padding" Value="8" />
-      <Setter Property="BorderBrush" Value="#E6E8EB" />
+      <Setter Property="Padding" Value="8,6" />
+      <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}" />
       <Setter Property="BorderThickness" Value="0,0,0,1" />
     </Style>
+    <Style Selector="Border.bar">
+      <Setter Property="Background" Value="{DynamicResource BarBackgroundBrush}" />
+    </Style>
     <Style Selector="Border.card">
-      <Setter Property="Background" Value="White" />
-      <Setter Property="BorderBrush" Value="#E1E4E8" />
+      <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="8" />
       <Setter Property="Padding" Value="12,10" />
@@ -60,10 +197,10 @@
     <Style Selector="TextBlock.cardTitle">
       <Setter Property="FontWeight" Value="SemiBold" />
       <Setter Property="FontSize" Value="13" />
-      <Setter Property="Foreground" Value="#3A3F45" />
+      <Setter Property="Foreground" Value="{DynamicResource TitleTextBrush}" />
     </Style>
     <Style Selector="Border.tile">
-      <Setter Property="Background" Value="#F6F7F9" />
+      <Setter Property="Background" Value="{DynamicResource TileBackgroundBrush}" />
       <Setter Property="CornerRadius" Value="6" />
       <Setter Property="Padding" Value="8,5" />
       <Setter Property="Margin" Value="0,0,6,6" />
@@ -72,25 +209,34 @@
       <Setter Property="FontWeight" Value="SemiBold" />
       <Setter Property="FontFeatures" Value="+tnum" />
     </Style>
+    <Style Selector="Border.groupHeader">
+      <Setter Property="Background" Value="{DynamicResource GroupHeaderBrush}" />
+      <Setter Property="Padding" Value="8,4" />
+      <Setter Property="CornerRadius" Value="4,4,0,0" />
+    </Style>
     <Style Selector="Border.compactRow">
-      <Setter Property="BorderBrush" Value="#EEF0F2" />
+      <Setter Property="BorderBrush" Value="{DynamicResource RowDividerBrush}" />
       <Setter Property="BorderThickness" Value="0,0,0,1" />
       <Setter Property="Padding" Value="8,0" />
       <Setter Property="MinHeight" Value="28" />
     </Style>
-    <Style Selector="Border.compactRow CheckBox">
+    <Style Selector="Border.compactRow CheckBox, Border.groupHeader CheckBox, Border.row CheckBox">
       <Setter Property="MinHeight" Value="0" />
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="Padding" Value="0" />
       <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
     <Style Selector="Border.compactRow TextBlock">
       <Setter Property="FontSize" Value="13" />
+      <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     <Style Selector="Border.led">
       <Setter Property="Width" Value="14" />
       <Setter Property="Height" Value="14" />
       <Setter Property="CornerRadius" Value="7" />
-      <Setter Property="Background" Value="#D5D9DE" />
-      <Setter Property="BorderBrush" Value="#B8BEC5" />
+      <Setter Property="Background" Value="{DynamicResource LedOffBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource LedOffBorderBrush}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
