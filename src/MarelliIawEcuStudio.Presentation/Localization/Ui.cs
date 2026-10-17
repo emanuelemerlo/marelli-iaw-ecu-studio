@@ -20,7 +20,29 @@ public sealed class Ui : INotifyPropertyChanged
 
     /// <summary>Languages offered in the UI: English plus the IES2 translations.</summary>
     public static IReadOnlyList<LanguageOption> Languages { get; } =
-        [.. new[] { "en" }.Concat(Localizer.Translations).Select(c => new LanguageOption(c, CultureInfo.GetCultureInfo(c).NativeName))];
+        [.. new[] { "en" }.Concat(Localizer.Translations).Select(c => new LanguageOption(c, NativeName(c)))];
+
+    /// <summary>
+    /// The name of a language in that language, capitalised as a menu entry. The
+    /// operating system's names are not used: some are lower case ("italiano",
+    /// "español"), and Serbian comes out in Cyrillic while the translation is Latin.
+    /// </summary>
+    public static string NativeName(string code) => code switch
+    {
+        "en" => "English",
+        "de" => "Deutsch",
+        "es" => "Español",
+        "hr" => "Hrvatski",
+        "hu" => "Magyar",
+        "it" => "Italiano",
+        "nl" => "Nederlands",
+        "pl" => "Polski",
+        "pt" => "Português",
+        "sr" => "Srpski",
+        _ => CultureInfo.GetCultureInfo(code) is var c && c.NativeName.Length > 0
+            ? char.ToUpper(c.NativeName[0], c) + c.NativeName[1..]
+            : code,
+    };
 
     public event PropertyChangedEventHandler? PropertyChanged;
 

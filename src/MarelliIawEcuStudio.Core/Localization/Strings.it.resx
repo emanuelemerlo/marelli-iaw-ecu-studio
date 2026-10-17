@@ -124,16 +124,16 @@
     <value>Guadagno autoadattamento (carico medio)</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Offset autoadattamento (carico minimo)</value>
+    <value>Correzione autoadattamento (carico minimo)</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>Offset autoadattamento (carico minimo, EVAP attiva)</value>
+    <value>Correzione autoadattamento (carico minimo, EVAP attiva)</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>Offset autoadattamento (carico minimo, EVAP non attiva)</value>
+    <value>Correzione autoadattamento (carico minimo, EVAP non attiva)</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
-    <value>Correzione stepper da FLT</value>
+    <value>Correzione motorino del minimo da FLT</value>
   </data>
   <data name="ALFAR" xml:space="preserve">
     <value>Posizione motorino passo-passo del minimo</value>
@@ -163,7 +163,7 @@
     <value>Errore CODE sconosciuto (4)</value>
   </data>
   <data name="ErrBackdoor" xml:space="preserve">
-    <value>Backdoor attivata</value>
+    <value>Esclusione del codice (backdoor) attiva</value>
   </data>
   <data name="ErrKeyCode" xml:space="preserve">
     <value>Errore codice chiave</value>
@@ -184,7 +184,7 @@
     <value>Regime del minimo</value>
   </data>
   <data name="DELREG" xml:space="preserve">
-    <value>Correzione stepper (delta)</value>
+    <value>Correzione motorino del minimo (delta)</value>
   </data>
   <data name="EVAP" xml:space="preserve">
     <value>Elettrovalvola canister (EVAP)</value>
@@ -247,7 +247,7 @@
     <value>Iniettore</value>
   </data>
   <data name="INTEGR" xml:space="preserve">
-    <value>Guadagno integrale stepper del minimo</value>
+    <value>Guadagno integrale del minimo</value>
   </data>
   <data name="K_O2" xml:space="preserve">
     <value>Correzione sonda lambda</value>
@@ -286,13 +286,13 @@
     <value>Relè principale</value>
   </data>
   <data name="OFNNTR" xml:space="preserve">
-    <value>Offset regime del minimo</value>
+    <value>Correzione regime del minimo</value>
   </data>
   <data name="PERIODE" xml:space="preserve">
     <value>Regime motore</value>
   </data>
   <data name="PROP" xml:space="preserve">
-    <value>Guadagno proporzionale stepper del minimo</value>
+    <value>Guadagno proporzionale del minimo</value>
   </data>
   <data name="REVmeter" xml:space="preserve">
     <value>Contagiri</value>
@@ -301,10 +301,10 @@
     <value>Motore avviato</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Autoadattamento stepper ABILITATO</value>
+    <value>Autoadattamento motorino del minimo ABILITATO</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
-    <value>Linea power latch OK</value>
+    <value>Linea di autoritenuta alimentazione OK</value>
   </data>
   <data name="StaSensOK" xml:space="preserve">
     <value>Segnali dei sensori OK</value>
@@ -325,7 +325,7 @@
     <value>passi</value>
   </data>
   <data name="TRIMRAM" xml:space="preserve">
-    <value>Posizione trimmer</value>
+    <value>Regolazione CO (trimmer)</value>
   </data>
   <data name="T_INJ_AP" xml:space="preserve">
     <value>Tempo di iniezione</value>
@@ -337,22 +337,22 @@
     <value>SÌ;;NO</value>
   </data>
   <data name="AtMAX" xml:space="preserve">
-    <value>Oltre il MAX</value>
+    <value>Oltre il massimo</value>
   </data>
   <data name="AtMIN" xml:space="preserve">
-    <value>Sotto il MIN</value>
+    <value>Sotto il minimo</value>
   </data>
   <data name="MaxLEAN" xml:space="preserve">
-    <value>Max MAGRA</value>
+    <value>Limite magro</value>
   </data>
   <data name="MaxRICH" xml:space="preserve">
-    <value>Max RICCA</value>
+    <value>Limite ricco</value>
   </data>
   <data name="OpenCircuit" xml:space="preserve">
     <value>Circuito aperto</value>
   </data>
   <data name="rpm" xml:space="preserve">
-    <value>RPM</value>
+    <value>giri/min</value>
   </data>
   <data name="ShortToGND" xml:space="preserve">
     <value>Corto a massa</value>
@@ -460,7 +460,7 @@
     <value>Titolo della miscela</value>
   </data>
   <data name="ErrWasteG" xml:space="preserve">
-    <value>Valvola wastegate</value>
+    <value>Valvola di regolazione sovralimentazione (wastegate)</value>
   </data>
   <data name="ErrConMet" xml:space="preserve">
     <value>Indicatore consumi</value>
@@ -484,25 +484,25 @@
     <value>ERRORE sulla porta dell'interfaccia</value>
   </data>
   <data name="OFFSET1" xml:space="preserve">
-    <value>Offset autoadattamento iniezione @ ZONA 1</value>
+    <value>Correzione autoadattamento iniezione, zona 1</value>
   </data>
   <data name="OFFSET2" xml:space="preserve">
-    <value>Offset autoadattamento iniezione @ ZONA 2</value>
+    <value>Correzione autoadattamento iniezione, zona 2</value>
   </data>
   <data name="OFFSET3" xml:space="preserve">
-    <value>Offset autoadattamento iniezione @ ZONA 3</value>
+    <value>Correzione autoadattamento iniezione, zona 3</value>
   </data>
   <data name="OFFSET4" xml:space="preserve">
-    <value>Offset autoadattamento iniezione @ ZONA 4</value>
+    <value>Correzione autoadattamento iniezione, zona 4</value>
   </data>
   <data name="OFFSET5" xml:space="preserve">
-    <value>Offset autoadattamento iniezione @ ZONA 5</value>
+    <value>Correzione autoadattamento iniezione, zona 5</value>
   </data>
   <data name="OFFSET6" xml:space="preserve">
-    <value>Offset autoadattamento iniezione @ ZONA 6</value>
+    <value>Correzione autoadattamento iniezione, zona 6</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Offset autoadattamento iniezione @ MINIMO</value>
+    <value>Correzione autoadattamento iniezione, minimo</value>
   </data>
   <data name="PreviouslySelectedPort" xml:space="preserve">
     <value>La porta {0} scelta in precedenza non è più disponibile. Scegli un'altra porta.</value>
@@ -589,13 +589,13 @@
     <value>Pressione assoluta collettore (TURBO)</value>
   </data>
   <data name="OverB" xml:space="preserve">
-    <value>Sovralimentazione eccessiva (overboost)</value>
+    <value>Pressione di sovralimentazione eccessiva</value>
   </data>
   <data name="T_VAE" xml:space="preserve">
-    <value>Duty cycle VAE (controllo del minimo)</value>
+    <value>Comando valvola VAE (regolazione del minimo)</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Segnale signal panel OK</value>
+    <value>Segnale pannello spie OK</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
     <value>ABS attivo</value>
@@ -625,13 +625,13 @@
     <value>Sensore SMOT</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Sequenza signal panel</value>
+    <value>Sequenza pannello spie</value>
   </data>
   <data name="ErrVAE" xml:space="preserve">
     <value>VAE bloccata aperta o chiusa</value>
   </data>
   <data name="StepReset" xml:space="preserve">
-    <value>Azzeramento autoadattamento stepper del minimo</value>
+    <value>Azzeramento autoadattamento motorino del minimo</value>
   </data>
   <data name="TrimReset" xml:space="preserve">
     <value>Azzeramento autoadattamento correzione carburante</value>
@@ -643,7 +643,7 @@
     <value>Contatore errori</value>
   </data>
   <data name="ToggleStepAC" xml:space="preserve">
-    <value>Attiva/disattiva autoadattamento stepper del minimo</value>
+    <value>Attiva/disattiva autoadattamento motorino del minimo</value>
   </data>
   <data name="ToggleTrimAC" xml:space="preserve">
     <value>Attiva/disattiva autoadattamento correzione carburante</value>
@@ -655,10 +655,10 @@
     <value>Motorino passo-passo (attuatore del minimo)</value>
   </data>
   <data name="StepSet" xml:space="preserve">
-    <value>Imposta correzione stepper (ALFAFTR)</value>
+    <value>Imposta correzione motorino del minimo (ALFAFTR)</value>
   </data>
   <data name="TrimSet" xml:space="preserve">
-    <value>Imposta posizione trimmer (TRIMRAM)</value>
+    <value>Imposta regolazione CO (TRIMRAM)</value>
   </data>
   <data name="Adjusting" xml:space="preserve">
     <value>REGOLAZIONE IN CORSO: {0}...</value>

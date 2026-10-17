@@ -385,6 +385,20 @@ public sealed class ViewModelTests : IAsyncLifetime
         Assert.Contains("Dark", vm.ThemeToolTip);
         vm.CycleThemeCommand.Execute(null);
         Assert.True(vm.IsThemeSystem);
+        vm.SelectThemeCommand.Execute("dark");
+        Assert.True(vm.IsThemeDark);
+        vm.SelectThemeCommand.Execute("sepia"); // ignored
+        Assert.True(vm.IsThemeDark);
+        vm.SelectThemeCommand.Execute("system");
+        Assert.Equal("Theme: Same as the system", vm.ThemeToolTip);
+
+        // The window opens maximised the first time, then as it was left.
+        Assert.True(vm.WindowMaximized);
+        vm.RememberWindow(false, 1000, 700);
+        Assert.Equal((false, 1000.0, 700.0), (settings.Current.WindowMaximized, settings.Current.WindowWidth, settings.Current.WindowHeight));
+        vm.RememberWindow(true, 1920, 1080);
+        Assert.True(settings.Current.WindowMaximized);
+        Assert.Equal(1000.0, settings.Current.WindowWidth); // the size to restore after un-maximising stays
 
         // The choice survives a restart; an unknown value falls back to the system theme.
         vm.SelectedTheme = new ThemeOption(ThemeOption.Dark);
@@ -404,6 +418,7 @@ public sealed class ViewModelTests : IAsyncLifetime
         var engine = vm.DashboardLeft.Single(g => g.Key == "engine");
         Assert.Equal(["PERIODE", "MP2_MP8"], engine.Gauges.Select(r => r.Id));
         Assert.Equal(["temperatures", "electrical"], vm.DashboardRightPair.Select(g => g.Key));
+        Assert.Equal(["mixture", "idle", "adaptation", "status"], vm.DashboardRight.Select(g => g.Key)); // status under the bars, balancing the columns
         var running = vm.ParameterGroups.Single(g => g.Key == "status").Leds.Single(r => r.Decoder.Definition.NameKey == "StaEngRun");
         WaitFor(() => running.IsOn, "engine running LED");
         var knock = vm.ParameterGroups.Single(g => g.Key == "status").Leds.Single(r => r.Decoder.Definition.NameKey == "StaAdvDecr");

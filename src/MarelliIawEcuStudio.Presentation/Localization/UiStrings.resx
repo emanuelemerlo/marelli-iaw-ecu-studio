@@ -137,6 +137,24 @@ The ignition must be ON and the engine STOPPED.</value></data>
     <value>Dark</value>
   </data>
   <data name="ThemeToolTip" xml:space="preserve">
-    <value>Theme: {0}. Click to change.</value>
+    <value>Theme: {0}</value>
+  </data>
+  <data name="LogFolder" xml:space="preserve">
+    <value>Folder for logs and line traces</value>
+  </data>
+  <data name="ColType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="AdjustType_toggle" xml:space="preserve">
+    <value>on/off</value>
+  </data>
+  <data name="AdjustType_onebyte" xml:space="preserve">
+    <value>new value</value>
+  </data>
+  <data name="AdjustType_code" xml:space="preserve">
+    <value>code</value>
+  </data>
+  <data name="ThemeMenuTitle" xml:space="preserve">
+    <value>Theme</value>
   </data>
 </root>

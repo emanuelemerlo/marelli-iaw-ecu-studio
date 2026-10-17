@@ -55,6 +55,41 @@ jobs:
           path: screenshots
           if-no-files-found: ignore
 
+      # The real application, not the headless test host: with the system set to
+      # dark, the window must open dark (the theme setting defaults to "system").
+      - name: Follow the dark system theme (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v AppsUseLightTheme /t REG_DWORD /d 0 /f
+          $report = Join-Path $env:RUNNER_TEMP "theme.txt"
+          $p = Start-Process -FilePath "src/MarelliIawEcuStudio.App/bin/Release/net10.0/marelli-iaw-ecu-studio.exe" -ArgumentList "--report-theme", $report -PassThru
+          if (-not $p.WaitForExit(90000)) { $p.Kill(); throw "the application did not exit" }
+          Get-Content $report
+          Write-Output "::notice title=Theme on Windows::$((Get-Content $report) -join ' ')"
+          if (-not (Select-String -Path $report -Pattern "^window=Dark$" -Quiet)) { throw "the window does not follow the dark system theme" }
+
+      - name: Follow the dark system theme (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          # Switch the whole system to dark as System Settings does; the defaults key alone
+          # is not noticed by the running session.
+          osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to true' \
+            || defaults write -g AppleInterfaceStyle Dark
+          report="$RUNNER_TEMP/theme.txt"
+          ./src/MarelliIawEcuStudio.App/bin/Release/net10.0/marelli-iaw-ecu-studio --report-theme "$report" > "$RUNNER_TEMP/app.log" 2>&1 &
+          pid=$!
+          for i in $(seq 1 90); do kill -0 "$pid" 2>/dev/null || break; sleep 1; done
+          kill "$pid" 2>/dev/null || true
+          if [ -f "$report" ]; then
+            echo "::notice title=Theme on macOS::$(tr '\n' ' ' < "$report")"
+            grep -qx 'window=Dark' "$report"
+          else
+            echo "::error title=Theme on macOS::no report; the application wrote: $(tail -c 600 "$RUNNER_TEMP/app.log" | tr '\n' ' ')"
+            exit 1
+          fi
+
       - name: Validate built-in definitions
         run: dotnet run --project src/MarelliIawEcuStudio.Cli --configuration Release --no-build -- validate src/MarelliIawEcuStudio.Core/Definitions
 
