@@ -58,6 +58,9 @@ public sealed class KLineSimulatorTransport : ITransport, ILineControl
     /// <summary>Address decoded from the last 5-baud init, for tests.</summary>
     public byte? LastAddress { get; private set; }
 
+    /// <summary>What the ECU saw of the last init (edge times, decoded address), to explain a failed test.</summary>
+    public string InitLog { get; private set; } = "no init yet";
+
     public bool IsAwake => _state == State.Awake;
 
     public string Name => $"obd-simulator:{Protocol}";
@@ -176,6 +179,8 @@ public sealed class KLineSimulatorTransport : ITransport, ILineControl
                 if (!low[i + 1])
                     address |= (byte)(1 << i);
             }
+            InitLog = $"bit {bit} ms, edges {string.Join(" ", _edges.Select(e => $"{(e.Low ? "L" : "H")}@{e.TimeMs - start:0.0}"))}, " +
+                      $"decoded 0x{address:X2}, baud {BaudRate}, read at {Now - start:0.0} ms";
             _edges.Clear();
             LastAddress = address;
             if (address == KLineFraming.ObdFunctionalAddress && Protocol != KLineProtocol.Kwp2000Fast && BaudRate == KLineTiming.BaudRate)

@@ -21,6 +21,19 @@ public class ObdTests
         return (new Obd2Session(line, (options ?? new Obd2Options()) with { Timing = Fast }), line);
     }
 
+    /// <summary>Connects, adding what the simulated ECU saw of the init to a failure.</summary>
+    private static ObdConnectionInfo Connect(Obd2Session session, KLineProtocol? protocol = null)
+    {
+        try
+        {
+            return session.Connect(protocol, TestContext.Current.CancellationToken);
+        }
+        catch (KLineException ex)
+        {
+            throw new KLineException($"{ex.Message} Simulator: {((KLineSimulatorTransport)session.Link.Transport).InitLog}");
+        }
+    }
+
     // ---- framing -------------------------------------------------------------------
 
     [Fact]
@@ -73,7 +86,7 @@ public class ObdTests
         var (session, line) = Create(protocol);
         using (session)
         {
-            var c = session.Connect(cancellation: TestContext.Current.CancellationToken);
+            var c = Connect(session);
             Assert.Equal(protocol, c.Protocol);
             Assert.Equal([(byte)0x10], c.Ecus);
             Assert.Contains((byte)0x0C, c.SupportedPids);
@@ -90,7 +103,7 @@ public class ObdTests
         var (session, line) = Create(protocol);
         using (session)
         {
-            session.Connect(protocol, TestContext.Current.CancellationToken);
+            Connect(session, protocol);
             line.Ecus[0].SetValue("RPM", 2125.5);
             line.Ecus[0].SetValue("ECT", 92);
             var values = session.Read([ObdPids.Find("RPM")!, ObdPids.Find("ECT")!, ObdPids.Find("VPWR")!]).ToDictionary(r => r.Pid.Id, r => r.Value);
@@ -106,7 +119,7 @@ public class ObdTests
         var (session, _) = Create(KLineProtocol.Iso9141);
         using (session)
         {
-            var c = session.Connect(cancellation: TestContext.Current.CancellationToken);
+            var c = Connect(session);
             Assert.Contains((byte)0x42, c.SupportedPids); // second block (0x21-0x40) says the third exists
             Assert.DoesNotContain((byte)0x10, c.SupportedPids); // no MAF on a MAP engine
             Assert.Equal(c.SupportedPids.Count(p => ObdPids.Get(p) is not null), session.SupportedKnownPids().Count);
@@ -122,7 +135,7 @@ public class ObdTests
         var (session, _) = Create(KLineProtocol.Kwp2000Fast, null, ecu);
         using (session)
         {
-            session.Connect(cancellation: TestContext.Current.CancellationToken);
+            Connect(session);
             var report = session.ReadDtcs();
             Assert.True(report.Mil);
             Assert.Equal(4, report.ReportedCount);
@@ -141,14 +154,14 @@ public class ObdTests
         var (readOnly, _) = Create(KLineProtocol.Iso9141, null, ecu);
         using (readOnly)
         {
-            readOnly.Connect(cancellation: TestContext.Current.CancellationToken);
+            Connect(readOnly);
             Assert.Throws<ActiveCommandNotAllowedException>(() => readOnly.ClearDtcs());
             Assert.Single(ecu.StoredCodes);
         }
         var (allowed, _) = Create(KLineProtocol.Iso9141, new Obd2Options { AllowClear = true }, ecu);
         using (allowed)
         {
-            allowed.Connect(cancellation: TestContext.Current.CancellationToken);
+            Connect(allowed);
             Assert.True(allowed.ClearDtcs());
             Assert.Empty(allowed.ReadDtcs().Stored);
             Assert.False(ecu.Mil);
@@ -168,7 +181,7 @@ public class ObdTests
         line.InterEcuDelayMs = 3;
         using (session)
         {
-            var c = session.Connect(protocol, TestContext.Current.CancellationToken);
+            var c = Connect(session, protocol);
             Assert.Equal([(byte)0x10, (byte)0x18], c.Ecus);
             Assert.Equal(2, session.Link.ExpectedResponders);
             var rpm = session.Read([ObdPids.Find("RPM")!]);
@@ -183,7 +196,7 @@ public class ObdTests
         var (session, _) = Create(KLineProtocol.Kwp2000Fast, null, ecu);
         using (session)
         {
-            session.Connect(cancellation: TestContext.Current.CancellationToken);
+            Connect(session);
             ecu.RespondPendingOnce(0x09);
             Assert.Equal("ZFA18800000123456", session.ReadVin());
         }
@@ -196,7 +209,7 @@ public class ObdTests
         line.EcuConnected = false;
         using (session)
         {
-            var ex = Assert.Throws<KLineException>(() => session.Connect(cancellation: TestContext.Current.CancellationToken));
+            var ex = Assert.Throws<KLineException>(() => Connect(session));
             Assert.Contains("No OBD ECU answered", ex.Message);
             Assert.Contains("Iso9141", ex.Message);
             Assert.Contains("Kwp2000Fast", ex.Message);
@@ -209,7 +222,7 @@ public class ObdTests
         var (session, line) = Create(KLineProtocol.Iso9141);
         using (session)
         {
-            session.Connect(cancellation: TestContext.Current.CancellationToken);
+            Connect(session);
             line.EcuConnected = false;
             Assert.Throws<CommunicationLostException>(() => session.Read([ObdPids.Find("RPM")!, ObdPids.Find("ECT")!]));
         }
@@ -224,7 +237,7 @@ public class ObdTests
         using (var trace = new LineTraceWriter(text))
         {
             session.Link.Monitor += trace.Write;
-            session.Connect(cancellation: TestContext.Current.CancellationToken);
+            Connect(session);
             session.Read([ObdPids.Find("RPM")!]);
         }
         var events = LineTraceReader.Read(new StringReader(text.ToString())).Events;
@@ -241,7 +254,7 @@ public class ObdTests
         var (session, _) = Create(KLineProtocol.Kwp2000Fast);
         using (session)
         {
-            session.Connect(cancellation: TestContext.Current.CancellationToken);
+            Connect(session);
             var kwp = new Kwp2000Client(session.Link);
             kwp.TesterPresent();
             Assert.Throws<KLineException>(() => kwp.ReadDataByLocalIdentifier(0x01)); // the OBD simulator does not answer it
