@@ -149,7 +149,7 @@ public sealed partial class ActiveItemViewModel : ObservableObject
         else if (Adjustment is not null)
         {
             Name = Localizer.Text(Adjustment.NameKey, Adjustment.Name);
-            Detail = Adjustment.Type;
+            Detail = Ui.Get("AdjustType_" + Adjustment.Type);
             Condition = Ui.Get("EngineStopped");
         }
     }

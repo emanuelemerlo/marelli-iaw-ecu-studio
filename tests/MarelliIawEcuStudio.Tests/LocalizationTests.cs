@@ -68,4 +68,39 @@ public partial class LocalizationTests
         foreach (var (key, en) in english)
             Assert.Equal(Tokens().Matches(en).Select(m => m.Value).Order(), Tokens().Matches(italian[key]).Select(m => m.Value).Order());
     }
+
+    /// <summary>English words that crept into the Italian texts; acronyms and accepted terms (CSV, EGR, canister, wastegate) are fine.</summary>
+    [Theory]
+    [InlineData("stepper")]
+    [InlineData("offset")]
+    [InlineData("power latch")]
+    [InlineData("duty cycle")]
+    [InlineData("signal panel")]
+    [InlineData("toggle")]
+    [InlineData("trace")]
+    [InlineData("overboost")]
+    [InlineData("bridge")]
+    public void ItalianHasNoEnglishWords(string word)
+    {
+        var italian = Strings(CultureInfo.GetCultureInfo("it")).Concat(Strings(CultureInfo.GetCultureInfo("it"), UiResources));
+        Assert.DoesNotContain(italian, e => e.Value.Contains(word, StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Fact]
+    public void LanguageNamesAreWrittenAsMenuEntries()
+    {
+        Assert.All(Ui.Languages, l => Assert.True(char.IsUpper(l.Name[0]), l.Name));
+        Assert.Equal("Italiano", Ui.Languages.Single(l => l.Code == "it").Name);
+        Assert.Equal("Srpski", Ui.Languages.Single(l => l.Code == "sr").Name); // Latin, like the translation
+    }
+
+    [Theory]
+    [InlineData("toggle")]
+    [InlineData("onebyte")]
+    [InlineData("code")]
+    public void EveryAdjustmentTypeHasAName(string type)
+    {
+        Assert.True(UiResources.GetString("AdjustType_" + type, CultureInfo.InvariantCulture) is { Length: > 0 });
+        Assert.NotEqual(UiResources.GetString("AdjustType_" + type, CultureInfo.InvariantCulture), UiResources.GetString("AdjustType_" + type, CultureInfo.GetCultureInfo("it")));
+    }
 }

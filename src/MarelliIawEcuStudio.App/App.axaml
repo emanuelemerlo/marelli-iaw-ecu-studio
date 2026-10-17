@@ -13,6 +13,11 @@
     <ResourceDictionary>
       <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
+          <!-- Fluent's expander header is near black in the dark theme: match the cards. -->
+          <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#F3F5F7" />
+          <SolidColorBrush x:Key="ExpanderHeaderBackgroundPointerOver" Color="#EBEEF1" />
+          <SolidColorBrush x:Key="ExpanderHeaderBackgroundPressed" Color="#EBEEF1" />
+          <SolidColorBrush x:Key="ExpanderContentBackground" Color="#F3F5F7" />
           <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFFFFF" />
           <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F3F4F6" />
           <SolidColorBrush x:Key="BarBackgroundBrush" Color="#F6F7F9" />
@@ -44,6 +49,11 @@
           <SolidColorBrush x:Key="PlotGridBrush" Color="#E6E8EB" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
+          <!-- Fluent's expander header is near black in the dark theme: match the cards. -->
+          <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#2A2E34" />
+          <SolidColorBrush x:Key="ExpanderHeaderBackgroundPointerOver" Color="#33383F" />
+          <SolidColorBrush x:Key="ExpanderHeaderBackgroundPressed" Color="#33383F" />
+          <SolidColorBrush x:Key="ExpanderContentBackground" Color="#2A2E34" />
           <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#1A1D21" />
           <SolidColorBrush x:Key="PageBackgroundBrush" Color="#15171A" />
           <SolidColorBrush x:Key="BarBackgroundBrush" Color="#1D2024" />
@@ -109,6 +119,14 @@
       <Setter Property="Height" Value="32" />
       <Setter Property="MinHeight" Value="32" />
       <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <!-- The options panel opens from the toolbar but is not part of it: its check boxes
+         wrap their text and must not take the fixed toolbar height. -->
+    <Style Selector="StackPanel.options CheckBox">
+      <Setter Property="Height" Value="NaN" />
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="VerticalAlignment" Value="Top" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
     <Style Selector="Border.toolbar CheckBox, Border.toolbar Slider">

@@ -71,6 +71,9 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
         LogFolder = s.LogFolder;
         SelectedLanguage = Ui.Languages.FirstOrDefault(l => l.Code == s.Language) ?? Ui.Languages[0];
         SelectedTheme = new ThemeOption(ThemeOption.Codes.Contains(s.Theme) ? s.Theme : ThemeOption.System);
+        WindowMaximized = s.WindowMaximized;
+        WindowWidth = s.WindowWidth;
+        WindowHeight = s.WindowHeight;
 
         LoadTargets(s.Target);
         StatusText = Ui.Get("StatusDisconnected");
@@ -179,6 +182,22 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
     [NotifyPropertyChangedFor(nameof(ThemeToolTip), nameof(IsThemeSystem), nameof(IsThemeLight), nameof(IsThemeDark))]
     public partial ThemeOption SelectedTheme { get; set; }
 
+    /// <summary>Window placement of the last session, restored at start-up by the application.</summary>
+    public bool WindowMaximized { get; private set; }
+
+    public double? WindowWidth { get; private set; }
+
+    public double? WindowHeight { get; private set; }
+
+    /// <summary>Called when the window closes, so the next start opens it the same way.</summary>
+    public void RememberWindow(bool maximized, double width, double height)
+    {
+        WindowMaximized = maximized;
+        if (!maximized)
+            (WindowWidth, WindowHeight) = (width, height);
+        SaveSettings();
+    }
+
     public bool IsThemeSystem => SelectedTheme.Code == ThemeOption.System;
 
     public bool IsThemeLight => SelectedTheme.Code == ThemeOption.Light;
@@ -187,7 +206,15 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
 
     public string ThemeToolTip => Ui.Format("ThemeToolTip", SelectedTheme.Name);
 
-    /// <summary>The theme button of the toolbar: system → light → dark → system.</summary>
+    /// <summary>The theme menu of the toolbar: "system", "light" or "dark".</summary>
+    [RelayCommand]
+    private void SelectTheme(string code)
+    {
+        if (ThemeOption.Codes.Contains(code))
+            SelectedTheme = new ThemeOption(code);
+    }
+
+    /// <summary>Next theme: system → light → dark → system.</summary>
     [RelayCommand]
     private void CycleTheme()
     {
@@ -244,13 +271,13 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
     /// <summary>Parameters grouped logically, for the dashboard and the table.</summary>
     public ObservableCollection<DashboardGroupViewModel> ParameterGroups { get; } = [];
 
-    /// <summary>Dashboard left column (under the vehicle card): engine and status lights.</summary>
+    /// <summary>Dashboard left column (under the vehicle card): engine.</summary>
     public ObservableCollection<DashboardGroupViewModel> DashboardLeft { get; } = [];
 
     /// <summary>Dashboard right column, first row: temperatures and electrical side by side.</summary>
     public ObservableCollection<DashboardGroupViewModel> DashboardRightPair { get; } = [];
 
-    /// <summary>Dashboard right column: mixture, idle, adaptation, other.</summary>
+    /// <summary>Dashboard right column: mixture, idle, adaptation, other, status.</summary>
     public ObservableCollection<DashboardGroupViewModel> DashboardRight { get; } = [];
 
     /// <summary>The recognised vehicle and the ECU family information.</summary>
@@ -388,7 +415,9 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
             ParameterGroups.Add(g);
             (g.Key switch
             {
-                DisplaySpec.GroupEngine or DisplaySpec.GroupStatus => DashboardLeft,
+                // The vehicle card sits above the engine on the left; status lights go on the
+                // right, under the bars, so the two columns come out about the same height.
+                DisplaySpec.GroupEngine => DashboardLeft,
                 DisplaySpec.GroupTemperatures or DisplaySpec.GroupElectrical => DashboardRightPair,
                 _ => DashboardRight,
             }).Add(g);
@@ -819,6 +848,9 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
             BridgeAddress = string.IsNullOrWhiteSpace(BridgeAddress) ? null : BridgeAddress.Trim(),
             Language = SelectedLanguage?.Code,
             Theme = SelectedTheme?.Code ?? ThemeOption.System,
+            WindowMaximized = WindowMaximized,
+            WindowWidth = WindowWidth,
+            WindowHeight = WindowHeight,
             LogFolder = LogFolder,
             SeparateScales = Graph.SeparateScales,
             GraphWindowSeconds = Graph.WindowSecondsChoice,

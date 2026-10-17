@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Data.Converters;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.VisualTree;
@@ -276,4 +277,12 @@ public sealed class BalancedColumns : Panel
         }
         return finalSize;
     }
+}
+
+/// <summary>Small converters used by the views.</summary>
+public static class Converters
+{
+    /// <summary>The options panel may use most of the window height, and scrolls beyond it.</summary>
+    public static readonly IValueConverter OptionsHeight =
+        new FuncValueConverter<Rect, double>(bounds => Math.Max(240, bounds.Height - 90));
 }

@@ -45,7 +45,7 @@
             <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:ParameterRowViewModel">
-                <Border Classes="tile" Width="128">
+                <Border Classes="tile" Width="150">
                   <StackPanel>
                     <TextBlock Classes="subtle" FontSize="11" TextTrimming="CharacterEllipsis" MaxLines="2" TextWrapping="Wrap"
                                Height="28" Text="{Binding Name}" ToolTip.Tip="{Binding Name}" />
@@ -60,7 +60,7 @@
           </ItemsControl>
           <ItemsControl ItemsSource="{Binding Leds}" IsVisible="{Binding HasLeds}">
             <ItemsControl.ItemsPanel>
-              <ItemsPanelTemplate><views:BalancedColumns MinColumnWidth="230" MaxColumns="3" ColumnSpacing="12" RowSpacing="0" /></ItemsPanelTemplate>
+              <ItemsPanelTemplate><views:BalancedColumns MinColumnWidth="300" MaxColumns="3" ColumnSpacing="12" RowSpacing="0" /></ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:ParameterRowViewModel">
@@ -122,37 +122,58 @@
           <Button Content="{Binding Ui[Disconnect]}" Command="{Binding DisconnectCommand}"
                   IsVisible="{Binding IsOnline}" MinWidth="110" />
         </StackPanel>
-        <!-- Theme: one click cycles system → light → dark. -->
-        <Button Grid.Column="6" x:Name="ThemeButton" Width="36" Padding="0" HorizontalContentAlignment="Center"
-                Command="{Binding CycleThemeCommand}" ToolTip.Tip="{Binding ThemeToolTip}">
-          <Panel>
-            <PathIcon Width="18" Height="18" IsVisible="{Binding IsThemeSystem}"
-                      Data="F0 M12,2 A10,10 0 1 0 12,22 A10,10 0 1 0 12,2 Z M12,4 A8,8 0 0 0 12,20 Z" />
-            <PathIcon Width="18" Height="18" IsVisible="{Binding IsThemeLight}"
-                      Data="M12,7 A5,5 0 1 1 11.99,7 Z M11,1 H13 V4 H11 Z M11,20 H13 V23 H11 Z M1,11 H4 V13 H1 Z M20,11 H23 V13 H20 Z M4.2,5.6 L5.6,4.2 L7.7,6.3 L6.3,7.7 Z M16.3,17.7 L17.7,16.3 L19.8,18.4 L18.4,19.8 Z M4.2,18.4 L6.3,16.3 L7.7,17.7 L5.6,19.8 Z M16.3,6.3 L18.4,4.2 L19.8,5.6 L17.7,7.7 Z" />
-            <PathIcon Width="18" Height="18" IsVisible="{Binding IsThemeDark}"
-                      Data="M21,12.8 A9,9 0 1 1 11.2,3 A7,7 0 0 0 21,12.8 Z" />
-          </Panel>
+        <!-- Theme: shows the current choice; the menu offers the three. -->
+        <Button Grid.Column="6" x:Name="ThemeButton" Padding="8,0" ToolTip.Tip="{Binding ThemeToolTip}">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <Panel Width="16" Height="16">
+              <PathIcon Width="16" Height="16" IsVisible="{Binding IsThemeSystem}"
+                        Data="F0 M12,2 A10,10 0 1 0 12,22 A10,10 0 1 0 12,2 Z M12,4 A8,8 0 0 0 12,20 Z" />
+              <PathIcon Width="16" Height="16" IsVisible="{Binding IsThemeLight}"
+                        Data="M12,7 A5,5 0 1 1 11.99,7 Z M11,1 H13 V4 H11 Z M11,20 H13 V23 H11 Z M1,11 H4 V13 H1 Z M20,11 H23 V13 H20 Z M4.2,5.6 L5.6,4.2 L7.7,6.3 L6.3,7.7 Z M16.3,17.7 L17.7,16.3 L19.8,18.4 L18.4,19.8 Z M4.2,18.4 L6.3,16.3 L7.7,17.7 L5.6,19.8 Z M16.3,6.3 L18.4,4.2 L19.8,5.6 L17.7,7.7 Z" />
+              <PathIcon Width="16" Height="16" IsVisible="{Binding IsThemeDark}"
+                        Data="M21,12.8 A9,9 0 1 1 11.2,3 A7,7 0 0 0 21,12.8 Z" />
+            </Panel>
+            <TextBlock VerticalAlignment="Center" Text="{Binding SelectedTheme.Name}" />
+          </StackPanel>
+          <Button.Flyout>
+            <MenuFlyout Placement="BottomEdgeAlignedRight">
+              <MenuItem Header="{Binding Ui[Theme_system]}" ToggleType="Radio" GroupName="theme" IsChecked="{Binding IsThemeSystem, Mode=OneWay}"
+                        Command="{Binding SelectThemeCommand}" CommandParameter="system" />
+              <MenuItem Header="{Binding Ui[Theme_light]}" ToggleType="Radio" GroupName="theme" IsChecked="{Binding IsThemeLight, Mode=OneWay}"
+                        Command="{Binding SelectThemeCommand}" CommandParameter="light" />
+              <MenuItem Header="{Binding Ui[Theme_dark]}" ToggleType="Radio" GroupName="theme" IsChecked="{Binding IsThemeDark, Mode=OneWay}"
+                        Command="{Binding SelectThemeCommand}" CommandParameter="dark" />
+            </MenuFlyout>
+          </Button.Flyout>
         </Button>
         <Button Grid.Column="7" Content="{Binding Ui[Options]}">
           <Button.Flyout>
             <Flyout Placement="BottomEdgeAlignedRight">
-              <StackPanel Spacing="8" Width="380">
-                <CheckBox Content="{Binding Ui[WaitBroadcast]}" IsChecked="{Binding ListenForIsoBroadcast}" />
-                <CheckBox Content="{Binding Ui[CompatMode]}" IsChecked="{Binding Compatibility}" />
-                <CheckBox Content="{Binding Ui[Dtr]}" IsChecked="{Binding DtrEnable}" />
-                <CheckBox Content="{Binding Ui[AllowActive]}" IsChecked="{Binding AllowActiveCommands}" />
-                <CheckBox Content="{Binding Ui[AutoReconnect]}" IsChecked="{Binding AutoReconnect}" />
-                <CheckBox Content="{Binding Ui[TraceLine]}" IsChecked="{Binding TraceLine}" />
-                <TextBlock Classes="label" Text="{Binding Ui[Language]}" />
-                <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" />
-                <TextBlock Classes="label" Text="{Binding Ui[Theme]}" />
-                <ComboBox x:Name="ThemeCombo" HorizontalAlignment="Stretch" ItemsSource="{Binding ThemeChoices}" SelectedItem="{Binding SelectedTheme}" />
-                <TextBlock Classes="label" Text="{Binding Ui[BridgeAddress]}" />
-                <TextBox Text="{Binding BridgeAddress}" PlaceholderText="192.168.4.1:2217" />
-                <TextBlock Classes="label" Text="Log" />
-                <TextBox Text="{Binding LogFolder}" />
-              </StackPanel>
+              <!-- Scrolls on a short screen; long texts wrap instead of being cut. -->
+              <ScrollViewer MaxHeight="{Binding #Root.Bounds.Height, Converter={x:Static views:Converters.OptionsHeight}}">
+                <StackPanel Spacing="8" Width="400" Classes="options">
+                  <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <StackPanel Spacing="4">
+                      <TextBlock Classes="label" Text="{Binding Ui[Language]}" />
+                      <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="4">
+                      <TextBlock Classes="label" Text="{Binding Ui[Theme]}" />
+                      <ComboBox x:Name="ThemeCombo" HorizontalAlignment="Stretch" ItemsSource="{Binding ThemeChoices}" SelectedItem="{Binding SelectedTheme}" />
+                    </StackPanel>
+                  </Grid>
+                  <CheckBox HorizontalAlignment="Stretch" IsChecked="{Binding ListenForIsoBroadcast}"><TextBlock TextWrapping="Wrap" MaxWidth="356" Text="{Binding Ui[WaitBroadcast]}" /></CheckBox>
+                  <CheckBox HorizontalAlignment="Stretch" IsChecked="{Binding Compatibility}"><TextBlock TextWrapping="Wrap" MaxWidth="356" Text="{Binding Ui[CompatMode]}" /></CheckBox>
+                  <CheckBox HorizontalAlignment="Stretch" IsChecked="{Binding DtrEnable}"><TextBlock TextWrapping="Wrap" MaxWidth="356" Text="{Binding Ui[Dtr]}" /></CheckBox>
+                  <CheckBox HorizontalAlignment="Stretch" IsChecked="{Binding AllowActiveCommands}"><TextBlock TextWrapping="Wrap" MaxWidth="356" Text="{Binding Ui[AllowActive]}" /></CheckBox>
+                  <CheckBox HorizontalAlignment="Stretch" IsChecked="{Binding AutoReconnect}"><TextBlock TextWrapping="Wrap" MaxWidth="356" Text="{Binding Ui[AutoReconnect]}" /></CheckBox>
+                  <CheckBox HorizontalAlignment="Stretch" IsChecked="{Binding TraceLine}"><TextBlock TextWrapping="Wrap" MaxWidth="356" Text="{Binding Ui[TraceLine]}" /></CheckBox>
+                  <TextBlock Classes="label" TextWrapping="Wrap" Text="{Binding Ui[BridgeAddress]}" />
+                  <TextBox Text="{Binding BridgeAddress}" PlaceholderText="192.168.4.1:2217" />
+                  <TextBlock Classes="label" Text="{Binding Ui[LogFolder]}" />
+                  <TextBox Text="{Binding LogFolder}" />
+                </StackPanel>
+              </ScrollViewer>
             </Flyout>
           </Button.Flyout>
         </Button>
@@ -296,7 +317,7 @@
               <ItemsControl ItemsSource="{Binding ParameterGroups}" Margin="8">
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <views:BalancedColumns MinColumnWidth="440" MaxColumns="3" ColumnSpacing="16" RowSpacing="10" />
+                    <views:BalancedColumns MinColumnWidth="540" MaxColumns="3" ColumnSpacing="16" RowSpacing="10" />
                   </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -321,7 +342,7 @@
                           <DataTemplate x:DataType="vm:ParameterRowViewModel">
                             <Border Classes="compactRow">
                               <Grid ColumnDefinitions="48,56,*,96,56">
-                                <CheckBox IsChecked="{Binding IsSelected}" />
+                                <CheckBox HorizontalAlignment="Stretch" IsChecked="{Binding IsSelected}" />
                                 <CheckBox Grid.Column="1" IsChecked="{Binding IsPlotted}" />
                                 <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip.Tip="{Binding Name}" />
                                 <TextBlock Grid.Column="3" Classes="value" FontSize="14" Classes.invalid="{Binding !IsValid}"
@@ -420,6 +441,7 @@
             <Grid ColumnDefinitions="*,220,110,110,120">
               <TextBlock Classes="header" Text="{Binding Ui[ColName]}" />
               <TextBlock Grid.Column="1" Classes="header" Text="{Binding Ui[ColCondition]}" />
+              <TextBlock Grid.Column="2" Classes="header" Text="{Binding Ui[ColType]}" />
               <TextBlock Grid.Column="4" Classes="header" Margin="8,0,0,0" Text="{Binding Ui[ColResult]}" />
             </Grid>
           </Border>
@@ -506,7 +528,7 @@
                     <DataTemplate x:DataType="vm:ReplayColumnViewModel">
                       <Border Classes="row">
                         <Grid ColumnDefinitions="40,*,80,50">
-                          <CheckBox IsChecked="{Binding IsPlotted}" />
+                          <CheckBox HorizontalAlignment="Stretch" IsChecked="{Binding IsPlotted}" />
                           <TextBlock Grid.Column="1" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
                           <TextBlock Grid.Column="2" Classes="value" FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding ValueText}" />
                           <TextBlock Grid.Column="3" Classes="label" Margin="6,0,0,0" Text="{Binding Unit}" />

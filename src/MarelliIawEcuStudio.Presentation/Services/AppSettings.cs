@@ -41,6 +41,13 @@ public sealed record AppSettings
 
     public bool SeparateScales { get; init; } = true;
 
+    /// <summary>Main window: maximised (the default, so everything fits the screen), or its last size.</summary>
+    public bool WindowMaximized { get; init; } = true;
+
+    public double? WindowWidth { get; init; }
+
+    public double? WindowHeight { get; init; }
+
     /// <summary>Visible time window of the live graph, in seconds (0 = everything).</summary>
     public int GraphWindowSeconds { get; init; } = 30;
 
