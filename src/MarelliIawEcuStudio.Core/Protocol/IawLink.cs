@@ -45,8 +45,14 @@ public sealed class IawLink
     /// </summary>
     public bool AdapterEchoes { get; }
 
-    /// <summary>Optional observer of every byte on the line, for capture files.</summary>
+    /// <summary>
+    /// Optional observers of every byte on the line, for trace files
+    /// (<see cref="Logging.LineTraceWriter"/>). Add with <c>+=</c>.
+    /// </summary>
     public Action<LineEvent>? Monitor { get; set; }
+
+    /// <summary>Outcome counters of every request sent through <see cref="Exchange"/>.</summary>
+    public LineStatistics Statistics { get; } = new();
 
     /// <summary>
     /// Sends one request and reads the answer. Returns false on timeout, like
@@ -54,24 +60,71 @@ public sealed class IawLink
     /// </summary>
     public bool Query(byte request, out byte response)
     {
+        var r = Exchange(request);
+        response = r.Response;
+        return r.Answered;
+    }
+
+    /// <summary>
+    /// Sends one request and reads echo and answer, telling apart what went
+    /// wrong. As in IES2, an echo that differs from the request does not stop
+    /// the answer from being read.
+    /// </summary>
+    public QueryResult Exchange(byte request)
+    {
         Transport.DiscardInBuffer();
         Transport.Write([request]);
-        Monitor?.Invoke(new LineEvent(LineDirection.Sent, request, Transport.BaudRate));
+        Emit(LineDirection.Sent, request);
+        byte? echo = null;
+        var fault = LineFault.None;
+        if (AdapterEchoes)
+        {
+            try
+            {
+                echo = Transport.ReadByte();
+                Emit(LineDirection.Echo, echo.Value);
+                if (echo != request)
+                    fault = LineFault.EchoMismatch;
+            }
+            catch (TimeoutException)
+            {
+                Emit(LineDirection.Timeout, request);
+                return Record(new QueryResult(false, 0, LineFault.NoEcho, null));
+            }
+        }
         try
         {
-            if (AdapterEchoes)
-                Transport.ReadByte();
-            response = Transport.ReadByte();
-            Monitor?.Invoke(new LineEvent(LineDirection.Received, response, Transport.BaudRate));
-            return true;
+            var response = Transport.ReadByte();
+            Emit(LineDirection.Received, response);
+            return Record(new QueryResult(true, response, fault, echo));
         }
         catch (TimeoutException)
         {
-            Monitor?.Invoke(new LineEvent(LineDirection.Timeout, request, Transport.BaudRate));
-            response = 0;
-            return false;
+            Emit(LineDirection.Timeout, request);
+            return Record(new QueryResult(false, 0, fault == LineFault.None ? LineFault.NoAnswer : fault, echo));
         }
     }
+
+    private QueryResult Record(QueryResult r)
+    {
+        Statistics.Record(r);
+        return r;
+    }
+
+    /// <summary>Reads a byte the ECU sent without a request (a test result), recording it.</summary>
+    public byte ReadPending()
+    {
+        var b = Transport.ReadByte();
+        Emit(LineDirection.Received, b);
+        return b;
+    }
+
+    /// <summary>Writes a note into the trace, for example "connect" or "reconnect".</summary>
+    public void Mark(string note) =>
+        Monitor?.Invoke(new LineEvent(LineDirection.Marker, 0, Transport.BaudRate) { Note = note });
+
+    private void Emit(LineDirection direction, byte value, int? baudRate = null) =>
+        Monitor?.Invoke(new LineEvent(direction, value, baudRate ?? Transport.BaudRate));
 
     /// <summary>Enters passive diagnostic mode (IES2 <c>InitPasvDiag</c>).</summary>
     public void InitPassiveDiagnostics(IdentificationProfile profile)
@@ -82,11 +135,11 @@ public sealed class IawLink
             for (var i = 0; i < SlowInitSequence.Length; i++)
             {
                 Transport.Write([SlowInitSequence[i]]);
-                Monitor?.Invoke(new LineEvent(LineDirection.Sent, SlowInitSequence[i], InitBaudRate));
+                Emit(LineDirection.Sent, SlowInitSequence[i], InitBaudRate);
                 Sleep(Timing.SlowInitDelaysMs[i]);
             }
             while (Transport.BytesToRead != 0)
-                Transport.ReadByte();
+                Emit(LineDirection.Discarded, Transport.ReadByte(), InitBaudRate);
         }
         Transport.BaudRate = CommunicationBaudRate;
     }
@@ -178,13 +231,30 @@ public sealed class IawLink
 
 public enum LineDirection
 {
+    /// <summary>A byte sent by the tester.</summary>
     Sent,
+
+    /// <summary>A byte from the ECU (an answer, the key-on broadcast or a test result).</summary>
     Received,
+
+    /// <summary>Nothing arrived in time after the request in <see cref="LineEvent.Value"/>.</summary>
     Timeout,
+
+    /// <summary>The adapter echo of a sent byte.</summary>
+    Echo,
+
+    /// <summary>A byte read and thrown away, such as the echoes of the slow init.</summary>
+    Discarded,
+
+    /// <summary>A note from the software, in <see cref="LineEvent.Note"/>; no byte on the line.</summary>
+    Marker,
 }
 
 /// <summary>One byte seen on the line.</summary>
 public readonly record struct LineEvent(LineDirection Direction, byte Value, int BaudRate)
 {
     public DateTimeOffset Timestamp { get; } = DateTimeOffset.UtcNow;
+
+    /// <summary>Text of a <see cref="LineDirection.Marker"/>.</summary>
+    public string? Note { get; init; }
 }

@@ -5,7 +5,7 @@ internal sealed class CliArguments
 {
     private static readonly HashSet<string> Flags =
     [
-        "compat", "no-echo", "no-broadcast", "allow-active", "allow-unverified", "yes", "dtr", "raw", "help",
+        "compat", "no-echo", "no-broadcast", "allow-active", "allow-unverified", "yes", "dtr", "raw", "help", "no-reconnect",
     ];
 
     private readonly Dictionary<string, string> _options = new(StringComparer.Ordinal);
@@ -15,9 +15,12 @@ internal sealed class CliArguments
 
     public List<string> Positional { get; } = [];
 
+    /// <summary>The arguments as given, for the trace header.</summary>
+    public IReadOnlyList<string> Raw { get; private set; } = [];
+
     public static CliArguments Parse(IReadOnlyList<string> args)
     {
-        var result = new CliArguments();
+        var result = new CliArguments { Raw = [.. args] };
         var commandSet = false;
         for (var i = 0; i < args.Count; i++)
         {

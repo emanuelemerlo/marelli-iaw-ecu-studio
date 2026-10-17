@@ -19,6 +19,9 @@ Diagnostics for the Magneti Marelli IAW engine control units of 1990s FIAT, Lanc
 - Actuator tests and adjustments, each with a confirmation
 - Interactive graphs: zoom, pan, one scale per signal, time window
 - CSV recording, and replay of recorded logs (also IES2 exports) with play, pause, scrubbing and 1x/2x/5x/10x speed
+- Line trace: every byte on the K-Line saved to a text file, to report problems; `iaw-cli trace` summarises it
+- Trace replay: a recorded session answers in place of the car, for regression tests or to try the software with real values
+- Automatic reconnection after a communication loss (ignition cycled, loose connector), with the likely cause of the loss: no echo from the adapter, wrong echo, or no answer from the ECU
 - Built-in simulator to try everything without a car
 - Windows, Linux (including Raspberry Pi) and macOS; interface in English and Italian, parameter and error names in ten languages
 
@@ -64,6 +67,11 @@ dotnet run --project src/MarelliIawEcuStudio.Cli -- ports
 dotnet run --project src/MarelliIawEcuStudio.Cli -- identify --port /dev/ttyUSB0
 dotnet run --project src/MarelliIawEcuStudio.Cli -- read --port /dev/ttyUSB0 --params PERIODE,MT_EAU_L --count 0 --csv drive.csv
 dotnet run --project src/MarelliIawEcuStudio.Cli -- errors --port /dev/ttyUSB0
+
+# Save a line trace, look at it, replay it without the car
+dotnet run --project src/MarelliIawEcuStudio.Cli -- read --port /dev/ttyUSB0 --count 20 --trace punto.trace.txt
+dotnet run --project src/MarelliIawEcuStudio.Cli -- trace punto.trace.txt
+dotnet run --project src/MarelliIawEcuStudio.Cli -- read --replay punto.trace.txt --count 20
 ```
 
 Ready-made executables for Windows, Linux x64, Linux arm64 (Raspberry Pi) and macOS are attached to each [release](https://github.com/emanuelemerlo/marelli-iaw-ecu-studio/releases); the CI also builds them on every change (GitHub Actions → artifacts).

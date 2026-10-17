@@ -288,11 +288,13 @@ public sealed class ViewModelTests : IAsyncLifetime
     public async Task LostConnectionCanBeRecovered()
     {
         var factory = new SimulatorFactory();
-        var vm = Create(factory, new FakeDialogs());
+        var settings = new MemorySettingsStore(new AppSettings { EcuId = "IAW-8F/18F", ListenForIsoBroadcast = false, LogFolder = _logDir, AutoReconnect = false });
+        var vm = Create(factory, new FakeDialogs(), settings: settings);
         await vm.ConnectCommand.ExecuteAsync(null);
         factory.Last!.EcuConnected = false;
         WaitFor(() => vm.State == ConnectionState.Lost, "connection loss");
-        Assert.Equal("No ECU Response", vm.StatusText);
+        Assert.StartsWith("No ECU Response", vm.StatusText);
+        Assert.Contains("ECU does not answer", vm.StatusText);
         Assert.True(vm.ReconnectCommand.CanExecute(null));
 
         factory.Last.EcuConnected = true;
@@ -301,6 +303,45 @@ public sealed class ViewModelTests : IAsyncLifetime
         Assert.Equal(ConnectionState.Connected, vm.State);
         var rpm = vm.Parameters.Single(p => p.Id == "PERIODE");
         WaitFor(() => rpm.IsValid && rpm.ValueText != "#ERR", "values after reconnect");
+    }
+
+    [Fact]
+    public async Task LostConnectionIsRestoredAutomatically()
+    {
+        var factory = new SimulatorFactory();
+        var vm = Create(factory, new FakeDialogs());
+        Assert.True(vm.AutoReconnect); // on by default
+        await vm.ConnectCommand.ExecuteAsync(null);
+        var rpm = vm.Parameters.Single(p => p.Id == "PERIODE");
+
+        factory.Last!.EcuConnected = false;
+        WaitFor(() => vm.State == ConnectionState.Lost, "connection loss");
+        WaitFor(() => vm.StatusText.Contains("reconnecting, attempt", StringComparison.Ordinal), "reconnection attempts");
+
+        factory.Last.Ecu.Reset(); // ignition cycled
+        factory.Last.Ecu.SetValue("PERIODE", 3000);
+        factory.Last.EcuConnected = true;
+        WaitFor(() => vm.State == ConnectionState.Connected, "automatic reconnection");
+        Assert.Contains("reconnected", vm.StatusText);
+        WaitFor(() => rpm.ValueText == "3000", "values after reconnection");
+    }
+
+    [Fact]
+    public async Task LineTraceIsSavedForEachConnection()
+    {
+        var settings = new MemorySettingsStore(new AppSettings { EcuId = "IAW-8F/18F", ListenForIsoBroadcast = false, LogFolder = _logDir, TraceLine = true });
+        var vm = Create(new SimulatorFactory(), new FakeDialogs(), settings: settings);
+        await vm.ConnectCommand.ExecuteAsync(null);
+        var file = vm.TraceFile;
+        Assert.NotNull(file);
+        Assert.Contains(file, vm.RecordingText);
+        WaitFor(() => vm.RateText.Length > 0, "polling");
+        await vm.DisconnectCommand.ExecuteAsync(null);
+
+        var trace = Core.Logging.LineTraceReader.Read(file);
+        Assert.True(trace.RequestCount > 10);
+        Assert.Contains(trace.Events, e => e.Note?.StartsWith("identified", StringComparison.Ordinal) == true);
+        Assert.Contains("# line:", File.ReadAllText(file));
     }
 
     [Fact]

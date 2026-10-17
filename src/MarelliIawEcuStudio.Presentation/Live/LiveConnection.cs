@@ -46,6 +46,22 @@ public sealed class LiveConnection : IAsyncDisposable
     /// <summary>Raised on the polling thread when the loop stops because of an error.</summary>
     public event Action<Exception>? Faulted;
 
+    /// <summary>
+    /// After a communication loss, try to restore the connection instead of
+    /// stopping (<see cref="DiagnosticSession.Recover"/>). Polling resumes on
+    /// its own when the ECU answers again.
+    /// </summary>
+    public bool AutoReconnect { get; set; } = true;
+
+    /// <summary>Raised on the polling thread when communication is lost and reconnection starts.</summary>
+    public event Action<CommunicationLostException>? ConnectionLost;
+
+    /// <summary>Raised on the polling thread before each reconnection attempt, with its number.</summary>
+    public event Action<int>? Reconnecting;
+
+    /// <summary>Raised on the polling thread when the connection is restored and polling resumes.</summary>
+    public event Action? Reconnected;
+
     public void SetSelection(IEnumerable<ParameterDecoder> parameters) => _selected = [.. parameters];
 
     public void Start()
@@ -72,6 +88,16 @@ public sealed class LiveConnection : IAsyncDisposable
                 try
                 {
                     Session.PollOnce(new PollRequest { Parameters = selected, Errors = ReadErrors });
+                }
+                catch (CommunicationLostException lost) when (AutoReconnect && !token.IsCancellationRequested)
+                {
+                    ConnectionLost?.Invoke(lost);
+                    var outcome = Session.Recover(token, attempting: n => Reconnecting?.Invoke(n));
+                    if (outcome != ReconnectOutcome.Restored)
+                        throw new DifferentEcuException();
+                    Rate.Reset();
+                    Reconnected?.Invoke();
+                    continue;
                 }
                 finally
                 {
@@ -117,6 +143,9 @@ public sealed class LiveConnection : IAsyncDisposable
 
     /// <summary>Runs a session command on a background thread.</summary>
     public Task<T> RunAsync<T>(Func<DiagnosticSession, T> command) => Task.Run(() => command(Session));
+
+    /// <summary>Reconnection stopped because another ECU answers.</summary>
+    public sealed class DifferentEcuException() : Exception("A different ECU answers (its CODRIC changed). Disconnect and connect again.");
 
     public async ValueTask DisposeAsync()
     {
