@@ -3,12 +3,15 @@ using System.Globalization;
 using System.Reflection;
 using MarelliIawEcuStudio.Core.Decoding;
 using MarelliIawEcuStudio.Core.Definitions;
+using MarelliIawEcuStudio.Core.KLine;
+using MarelliIawEcuStudio.Core.Obd;
 using MarelliIawEcuStudio.Core.Localization;
 using MarelliIawEcuStudio.Core.Logging;
 using MarelliIawEcuStudio.Core.Protocol;
 using MarelliIawEcuStudio.Core.Session;
 using MarelliIawEcuStudio.Core.Transport;
 using MarelliIawEcuStudio.Simulator;
+using MarelliIawEcuStudio.Transport.Network;
 using MarelliIawEcuStudio.Transport.Serial;
 
 namespace MarelliIawEcuStudio.Cli;
@@ -34,9 +37,12 @@ internal sealed class CliApp(TextWriter output, TextReader input)
           clear-codes                  Clear stored errors           (needs --allow-active)
           validate <file|folder>       Check ECU definition files
           trace <file>                 Summarise a line trace written with --trace
+          bridge                       Share the cable (or the simulator) on the network with RFC 2217
+          obd <identify|read|dtc|clear>  OBD-II / EOBD over the K-Line, for cars of 2001 and later
 
         Connection:
-          --port <name>                Serial port, e.g. COM3, /dev/ttyUSB0
+          --port <name>                Serial port, e.g. COM3, /dev/ttyUSB0, or a network
+                                       bridge: rfc2217://192.168.4.1:2217
           --simulate [ecu]             Use the built-in simulator instead of a cable
           --replay <trace>             Answer with the bytes of a line trace instead of a cable
           --replay-mode <strict|lookup>  strict: same requests in the same order (default);
@@ -56,6 +62,16 @@ internal sealed class CliApp(TextWriter output, TextReader input)
           --csv <file>                 Also write a CSV log
           --no-reconnect               Stop when communication is lost instead of reconnecting
           --reconnect-attempts <n>     Give up after n attempts (default: 0, keep trying)
+
+        obd:
+          --protocol <auto|iso9141|kwp-slow|kwp-fast>  K-Line protocol (default: auto)
+          --simulate [iso9141|kwp-slow|kwp-fast]      Simulated OBD car
+          --params <id,id|all>         read: PIDs such as RPM,ECT,MAP or 0C,05 (default: all supported)
+          --count <n>                  read: number of cycles, 0 = until Ctrl+C (default: 1)
+
+        bridge:
+          --listen <[address:]port>    Where to listen (default 127.0.0.1:2217; use 0.0.0.0:2217
+                                       to accept other computers on the network)
 
         Safety:
           --allow-active               Allow actuator tests and clear codes
@@ -86,6 +102,8 @@ internal sealed class CliApp(TextWriter output, TextReader input)
                 "clear-codes" => WithSession(a, cancellation, s => ClearCodes(a, s, cancellation)),
                 "validate" => Validate(a),
                 "trace" => TraceSummary(a),
+                "bridge" => Bridge(a, cancellation),
+                "obd" => Obd(a, cancellation),
                 _ => throw new CliException($"Unknown command '{a.Command}'. Run 'iaw-cli help'."),
             };
         }
@@ -96,7 +114,7 @@ internal sealed class CliApp(TextWriter output, TextReader input)
         }
         catch (Exception ex) when (ex is UnrecognizedEcuException or CommunicationLostException or ActiveCommandNotAllowedException
                                        or UnauthorizedAccessException or IOException or NotSupportedException or KeyNotFoundException
-                                       or DefinitionException or InvalidDataException)
+                                       or DefinitionException or InvalidDataException or KLineException)
         {
             output.WriteLine("Error: " + ex.Message);
             return 1;
@@ -189,8 +207,7 @@ internal sealed class CliApp(TextWriter output, TextReader input)
         }
         else
         {
-            var port = a.Get("port") ?? throw new CliException("Give --port <name> (see 'iaw-cli ports') or --simulate.");
-            transport = new SerialTransport(port, dtrEnable: a.Has("dtr"));
+            transport = OpenPort(a);
         }
 
         var policy = !a.Has("allow-active") ? ActiveCommandPolicy.Disabled
@@ -226,6 +243,169 @@ internal sealed class CliApp(TextWriter output, TextReader input)
         {
             trace?.Comment("line: " + session.Link.Statistics);
         }
+    }
+
+    private static ITransport OpenPort(CliArguments a)
+    {
+        var port = a.Get("port") ?? throw new CliException("Give --port <name> (see 'iaw-cli ports') or --simulate.");
+        if (port.StartsWith(Rfc2217Transport.Scheme, StringComparison.OrdinalIgnoreCase))
+        {
+            if (!Rfc2217Transport.TryParseAddress(port, out var host, out var tcpPort))
+                throw new CliException($"Bad bridge address '{port}': use rfc2217://host:port.");
+            return new Rfc2217Transport(host, tcpPort) { DtrEnable = a.Has("dtr") };
+        }
+        return new SerialTransport(port, dtrEnable: a.Has("dtr"));
+    }
+
+    private int Bridge(CliArguments a, CancellationToken cancellation)
+    {
+        var listen = a.Get("listen") ?? "127.0.0.1:2217";
+        var colon = listen.LastIndexOf(':');
+        var address = colon > 0 ? listen[..colon] : "127.0.0.1";
+        if (!int.TryParse(colon >= 0 ? listen[(colon + 1)..] : listen, out var tcpPort) || tcpPort is < 0 or > 65535
+            || !System.Net.IPAddress.TryParse(address.Trim('[', ']'), out var ip))
+            throw new CliException($"Bad --listen '{listen}': use port or address:port, e.g. 0.0.0.0:2217.");
+
+        Func<ITransport> open;
+        if (a.IsSet("simulate"))
+        {
+            var registry = LoadRegistry(a);
+            var definition = registry.Get(a.Get("simulate") is { Length: > 0 } s ? s : "IAW-6F/16F");
+            var broadcast = !a.Has("no-broadcast");
+            open = () => new SimulatorTransport(new SimulatedEcu(definition, new SimulatedEcuOptions { BroadcastIso = broadcast }))
+            {
+                Scenario = EngineScenario.Drive(),
+            };
+            output.WriteLine($"Sharing the simulator ({definition.LongName})");
+        }
+        else
+        {
+            var port = a.Get("port") ?? throw new CliException("Give --port <name> or --simulate.");
+            if (port.StartsWith(Rfc2217Transport.Scheme, StringComparison.OrdinalIgnoreCase))
+                throw new CliException("The bridge shares a local cable: give a serial port.");
+            open = () => new SerialTransport(port, dtrEnable: a.Has("dtr"));
+            output.WriteLine($"Sharing {port}");
+        }
+
+        var log = TextWriter.Synchronized(output);
+        using var server = new Rfc2217Server(open, new System.Net.IPEndPoint(ip, tcpPort))
+        {
+            Log = m => log.WriteLine($"{DateTime.Now:HH:mm:ss} {m}"),
+        };
+        server.Start();
+        var endpoint = server.LocalEndpoint;
+        log.WriteLine($"Listening on {endpoint}. Connect with --port {Rfc2217Transport.Scheme}<this computer>:{endpoint.Port}. Ctrl+C to stop.");
+        if (!System.Net.IPAddress.IsLoopback(ip))
+            log.WriteLine("Warning: anyone on this network can now talk to the car. Use a private network.");
+        cancellation.WaitHandle.WaitOne();
+        log.WriteLine("Bridge stopped.");
+        return 0;
+    }
+
+    private static KLineProtocol? ParseKLineProtocol(string? name, string option) => name switch
+    {
+        null or "" or "auto" => null,
+        "iso9141" => KLineProtocol.Iso9141,
+        "kwp-slow" => KLineProtocol.Kwp2000Slow,
+        "kwp-fast" => KLineProtocol.Kwp2000Fast,
+        _ => throw new CliException($"Unknown {option} '{name}': use iso9141, kwp-slow or kwp-fast."),
+    };
+
+    private int Obd(CliArguments a, CancellationToken cancellation)
+    {
+        var sub = a.Positional.Count > 0 ? a.Positional[0] : "identify";
+        if (sub is not ("identify" or "read" or "dtc" or "clear"))
+            throw new CliException($"Unknown obd command '{sub}': use identify, read, dtc or clear.");
+        ITransport transport;
+        var timing = KLineTiming.Default;
+        if (a.IsSet("simulate"))
+        {
+            var simulated = ParseKLineProtocol(a.Get("simulate"), "--simulate") ?? KLineProtocol.Iso9141;
+            timing = KLineTiming.Fast;
+            var ecu = new SimulatedObdEcu();
+            ecu.StoredCodes.Add(Dtc.Parse("P0420"));
+            transport = new KLineSimulatorTransport(simulated, timing, ecu) { Echo = !a.Has("no-echo") };
+            output.WriteLine($"OBD simulator ({simulated})");
+        }
+        else
+        {
+            transport = OpenPort(a);
+        }
+
+        using var session = new Obd2Session(transport, new Obd2Options
+        {
+            Timing = timing,
+            AdapterEchoes = !a.Has("no-echo"),
+            AllowClear = a.Has("allow-active"),
+        });
+        using var trace = a.Get("trace") is { } tracePath ? CreateTrace(tracePath, a, transport) : null;
+        if (trace is not null)
+            session.Link.Monitor += trace.Write;
+
+        output.WriteLine("Waking up the ECU (the 5-baud init takes about 2 seconds)...");
+        var c = session.Connect(ParseKLineProtocol(a.Get("protocol"), "--protocol"), cancellation);
+        output.WriteLine($"Protocol:  {c.ProtocolName}, keywords {c.Keywords}");
+        output.WriteLine($"ECUs:      {string.Join(", ", c.Ecus.Select(e => $"0x{e:X2}"))}");
+        output.WriteLine($"PIDs:      {c.SupportedPids.Count} supported, {session.SupportedKnownPids().Count} known to this program");
+        output.WriteLine();
+
+        switch (sub)
+        {
+            case "identify":
+                output.WriteLine($"VIN:         {session.ReadVin() ?? "not reported"}");
+                output.WriteLine($"Calibration: {session.ReadCalibrationId() ?? "not reported"}");
+                foreach (var p in session.SupportedKnownPids())
+                    output.WriteLine($"  {p.Pid:X2}  {p.Id,-9} {p.GetName()}");
+                return 0;
+            case "read":
+                return ObdRead(a, session, cancellation);
+            case "dtc":
+                var report = session.ReadDtcs();
+                output.WriteLine($"MIL: {(report.Mil ? "ON" : "off")}, {report.ReportedCount} stored code(s) reported");
+                foreach (var d in report.Stored)
+                    output.WriteLine($"  stored   {d}{(d.IsGeneric ? "" : "  (manufacturer specific)")}");
+                foreach (var d in report.Pending)
+                    output.WriteLine($"  pending  {d}{(d.IsGeneric ? "" : "  (manufacturer specific)")}");
+                if (report.Stored.Count == 0 && report.Pending.Count == 0)
+                    output.WriteLine("No trouble codes.");
+                return 0;
+            default:
+                if (!Confirm(a, "Clear OBD codes and freeze frames? The readiness monitors are reset too. Ignition on, engine stopped."))
+                    return 1;
+                var cleared = session.ClearDtcs();
+                output.WriteLine(cleared ? "Codes cleared." : "The ECU did not confirm.");
+                return cleared ? 0 : 1;
+        }
+    }
+
+    private int ObdRead(CliArguments a, Obd2Session session, CancellationToken cancellation)
+    {
+        var list = a.Get("params");
+        var pids = list is null or "all"
+            ? session.SupportedKnownPids()
+            : [.. list.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(k => ObdPids.Find(k) ?? throw new CliException($"Unknown PID '{k}'. Known: {string.Join(", ", ObdPids.All.Select(p => p.Id))}"))];
+        if (pids.Count == 0)
+            throw new CliException("The car reports none of the PIDs this program knows.");
+        var count = a.GetInt("count", 1);
+        var width = pids.Max(p => p.GetName().Length);
+        var several = session.Connection!.Ecus.Count > 1;
+        var clock = Stopwatch.StartNew();
+        for (var cycle = 0; count == 0 || cycle < count; cycle++)
+        {
+            cancellation.ThrowIfCancellationRequested();
+            var readings = session.Read(pids);
+            if (count != 1)
+                output.WriteLine($"--- {clock.Elapsed.TotalSeconds:0.0} s");
+            foreach (var r in readings)
+            {
+                var ecu = several ? $"  [ECU 0x{r.Ecu:X2}]" : "";
+                output.WriteLine($"{r.Pid.GetName().PadRight(width)}  {r.Text,10} {r.Pid.Unit}{ecu}");
+            }
+            foreach (var missing in pids.Where(p => readings.All(r => r.Pid != p)))
+                output.WriteLine($"{missing.GetName().PadRight(width)}  {"-",10} (no answer)");
+        }
+        return 0;
     }
 
     private static LineTraceWriter CreateTrace(string path, CliArguments a, ITransport transport) =>

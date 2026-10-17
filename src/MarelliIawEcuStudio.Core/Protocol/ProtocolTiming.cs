@@ -10,6 +10,12 @@ public sealed record ProtocolTiming
     /// <summary>Delays after each of the three slow-init bytes (0x0F, 0xAA, 0xCC).</summary>
     public int[] SlowInitDelaysMs { get; init; } = [110, 110, 150];
 
+    /// <summary>
+    /// Longest wait for the adapter echoes of the three slow-init bytes. They
+    /// arrive at once on a cable; a network bridge adds its latency.
+    /// </summary>
+    public int InitEchoWaitMs { get; init; } = 500;
+
     /// <summary>Pause before each identification request.</summary>
     public int IdentificationDelayMs { get; init; } = 5;
 
@@ -61,6 +67,7 @@ public sealed record ProtocolTiming
     public static ProtocolTiming Fast { get; } = new()
     {
         SlowInitDelaysMs = [0, 0, 0],
+        InitEchoWaitMs = 200,
         IdentificationDelayMs = 0,
         PollingDelayMs = 0,
         IdleDelayMs = 1,

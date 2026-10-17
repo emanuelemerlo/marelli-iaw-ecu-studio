@@ -2,6 +2,7 @@ using MarelliIawEcuStudio.Cli;
 
 namespace MarelliIawEcuStudio.Tests;
 
+[Collection(nameof(TimingCollection))]
 public class CliTests
 {
     private static (int Code, string Output) Run(string stdin, params string[] args)
@@ -87,6 +88,42 @@ public class CliTests
         {
             File.Delete(file);
         }
+    }
+
+    [Theory]
+    [InlineData("iso9141", "ISO 9141-2")]
+    [InlineData("kwp-slow", "5-baud init")]
+    [InlineData("kwp-fast", "fast init")]
+    public void ReadsObdCars(string protocol, string expected)
+    {
+        var (code, output) = Run("", "obd", "read", "--simulate", protocol, "--params", "RPM,ECT");
+        Assert.Equal(0, code);
+        Assert.Contains(expected, output);
+        Assert.Contains("Engine speed", output);
+        Assert.Contains("850 rpm", output);
+
+        var (dtcCode, dtc) = Run("", "obd", "dtc", "--simulate", protocol);
+        Assert.Equal(0, dtcCode);
+        Assert.Contains("stored   P0420", dtc);
+    }
+
+    [Fact]
+    public void ObdClearNeedsPermissionAndConfirmation()
+    {
+        var (denied, deniedOutput) = Run("", "obd", "clear", "--simulate");
+        Assert.Equal(1, denied);
+        Assert.Contains("--allow-active", deniedOutput);
+        var (accepted, output) = Run("y\n", "obd", "clear", "--simulate", "--allow-active");
+        Assert.Equal(0, accepted);
+        Assert.Contains("Codes cleared.", output);
+    }
+
+    [Fact]
+    public void UnknownObdPidIsReported()
+    {
+        var (code, output) = Run("", "obd", "read", "--simulate", "--params", "NOPE");
+        Assert.Equal(2, code);
+        Assert.Contains("Unknown PID 'NOPE'", output);
     }
 
     [Fact]

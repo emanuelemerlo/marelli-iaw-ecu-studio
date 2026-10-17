@@ -12,7 +12,7 @@ namespace MarelliIawEcuStudio.Transport.Serial;
 /// macOS; whether the adapter really produces it depends on its driver.
 /// FTDI chips are the reference.
 /// </remarks>
-public sealed class SerialTransport : ITransport
+public sealed class SerialTransport : ITransport, ILineControl
 {
     private readonly SerialPort _port;
 
@@ -97,6 +97,14 @@ public sealed class SerialTransport : ITransport
     }
 
     public void DiscardInBuffer() => _port.DiscardInBuffer();
+
+    public void SetBreak(bool on) => _port.BreakState = on;
+
+    public bool DtrEnable
+    {
+        get => _port.DtrEnable;
+        set => _port.DtrEnable = value;
+    }
 
     public void Dispose()
     {

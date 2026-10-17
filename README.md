@@ -22,6 +22,9 @@ Diagnostics for the Magneti Marelli IAW engine control units of 1990s FIAT, Lanc
 - Line trace: every byte on the K-Line saved to a text file, to report problems; `iaw-cli trace` summarises it
 - Trace replay: a recorded session answers in place of the car, for regression tests or to try the software with real values
 - Automatic reconnection after a communication loss (ignition cycled, loose connector), with the likely cause of the loss: no echo from the adapter, wrong echo, or no answer from the ECU
+- Network bridge (RFC 2217): `iaw-cli bridge` turns a Raspberry Pi with the cable into a Wi-Fi adapter; ser2net and esp-link should work too
+- OBD-II / EOBD over the same K-Line cable for cars of 2001 and later: ISO 9141-2 and KWP2000 (5-baud and fast init), standard live data, stored and pending trouble codes, VIN (`iaw-cli obd`, command line only for now)
+- Libraries on NuGet for other programs: protocol, definitions, transports, simulator
 - Built-in simulator to try everything without a car
 - Windows, Linux (including Raspberry Pi) and macOS; interface in English and Italian, parameter and error names in ten languages
 
@@ -72,6 +75,13 @@ dotnet run --project src/MarelliIawEcuStudio.Cli -- errors --port /dev/ttyUSB0
 dotnet run --project src/MarelliIawEcuStudio.Cli -- read --port /dev/ttyUSB0 --count 20 --trace punto.trace.txt
 dotnet run --project src/MarelliIawEcuStudio.Cli -- trace punto.trace.txt
 dotnet run --project src/MarelliIawEcuStudio.Cli -- read --replay punto.trace.txt --count 20
+
+# Through a network bridge (on the Pi in the car: iaw-cli bridge --port /dev/ttyUSB0 --listen 0.0.0.0:2217)
+dotnet run --project src/MarelliIawEcuStudio.Cli -- read --port rfc2217://192.168.4.1:2217
+
+# OBD-II car (2001 and later), or --simulate kwp-fast without a car
+dotnet run --project src/MarelliIawEcuStudio.Cli -- obd read --port /dev/ttyUSB0 --params RPM,ECT,MAP
+dotnet run --project src/MarelliIawEcuStudio.Cli -- obd dtc --port /dev/ttyUSB0
 ```
 
 Ready-made executables for Windows, Linux x64, Linux arm64 (Raspberry Pi) and macOS are attached to each [release](https://github.com/emanuelemerlo/marelli-iaw-ecu-studio/releases); the CI also builds them on every change (GitHub Actions → artifacts).
@@ -86,9 +96,10 @@ Actuator tests, clear codes and adjustments drive real components (fuel pump, in
 
 | Path | Content |
 | --- | --- |
-| `src/MarelliIawEcuStudio.Core` | Protocol, ECU definitions, decoding, diagnostic session, CSV logs. No UI. |
+| `src/MarelliIawEcuStudio.Core` | IAW protocol, ECU definitions, decoding, diagnostic session, line traces, CSV logs; framed K-Line (ISO 9141-2, KWP2000) and OBD-II. No UI. |
 | `src/MarelliIawEcuStudio.Transport.Serial` | Serial transport and port discovery for Windows, Linux, macOS |
-| `src/MarelliIawEcuStudio.Simulator` | Simulated ECU, driven by the same definitions |
+| `src/MarelliIawEcuStudio.Transport.Network` | RFC 2217 network transport and bridge server |
+| `src/MarelliIawEcuStudio.Simulator` | Simulated IAW ECUs (driven by the same definitions), simulated OBD cars, trace replay |
 | `src/MarelliIawEcuStudio.Presentation` | View models (MVVM) of the application, without UI framework dependencies |
 | `src/MarelliIawEcuStudio.App` | Desktop application (Avalonia, ScottPlot) |
 | `src/MarelliIawEcuStudio.Cli` | `iaw-cli` command line tool |
@@ -97,6 +108,8 @@ Actuator tests, clear codes and adjustments drive real components (fuel pump, in
 | `legacy/IES2` | Original IES2 source, unchanged, kept as reference |
 | `tools/generate-definitions` | Script that generated the JSON definitions from the IES2 source |
 | `schemas/` | JSON Schema for definition files |
+
+The four libraries (Core, the two transports, Simulator) are published as NuGet packages: see [src/PACKAGE.md](src/PACKAGE.md) for examples.
 
 ## Origin and license
 

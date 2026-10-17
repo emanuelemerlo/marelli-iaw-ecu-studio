@@ -67,6 +67,7 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
         AllowActiveCommands = s.AllowActiveCommands;
         AutoReconnect = s.AutoReconnect;
         TraceLine = s.TraceLine;
+        BridgeAddress = s.BridgeAddress ?? "";
         LogFolder = s.LogFolder;
         SelectedLanguage = Ui.Languages.FirstOrDefault(l => l.Code == s.Language) ?? Ui.Languages[0];
 
@@ -141,6 +142,22 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
     /// <summary>Write every byte on the line to a trace file in the log folder, for each connection.</summary>
     [ObservableProperty]
     public partial bool TraceLine { get; set; }
+
+    /// <summary>
+    /// Address of a network bridge (<c>host:port</c>, RFC 2217: <c>iaw-cli bridge</c>,
+    /// ser2net, esp-link); shown as a connection target when valid.
+    /// </summary>
+    [ObservableProperty]
+    public partial string BridgeAddress { get; set; } = "";
+
+    partial void OnBridgeAddressChanged(string value)
+    {
+        if (!_loaded)
+            return;
+        if (State == ConnectionState.Disconnected)
+            LoadTargets(SelectedTarget?.Id);
+        SaveSettings();
+    }
 
     /// <summary>Path of the line trace of the current or last connection.</summary>
     [ObservableProperty]
@@ -253,6 +270,8 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
     private void LoadTargets(string? keep)
     {
         Targets.Clear();
+        if (ConnectionTarget.Bridge(BridgeAddress) is { } bridge)
+            Targets.Add(bridge);
         foreach (var t in _transports.ListTargets())
             Targets.Add(t);
         SelectedTarget = Targets.FirstOrDefault(t => t.Id == keep) ?? Targets.FirstOrDefault(t => !t.IsSimulator) ?? Targets.FirstOrDefault();
@@ -767,6 +786,7 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
             AllowActiveCommands = AllowActiveCommands,
             AutoReconnect = AutoReconnect,
             TraceLine = TraceLine,
+            BridgeAddress = string.IsNullOrWhiteSpace(BridgeAddress) ? null : BridgeAddress.Trim(),
             Language = SelectedLanguage?.Code,
             LogFolder = LogFolder,
             SeparateScales = Graph.SeparateScales,

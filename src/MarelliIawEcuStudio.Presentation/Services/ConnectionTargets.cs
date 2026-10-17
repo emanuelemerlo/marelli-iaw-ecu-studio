@@ -2,6 +2,7 @@ using MarelliIawEcuStudio.Core.Definitions;
 using MarelliIawEcuStudio.Core.Transport;
 using MarelliIawEcuStudio.Presentation.Localization;
 using MarelliIawEcuStudio.Simulator;
+using MarelliIawEcuStudio.Transport.Network;
 using MarelliIawEcuStudio.Transport.Serial;
 
 namespace MarelliIawEcuStudio.Presentation.Services;
@@ -10,6 +11,19 @@ namespace MarelliIawEcuStudio.Presentation.Services;
 public sealed record ConnectionTarget(string Id, string Name, string Description, bool IsSimulator, string? Hint = null)
 {
     public const string SimulatorId = "simulator";
+
+    /// <summary>A network bridge target for <c>rfc2217://host:port</c>, or null when the address is not valid.</summary>
+    public static ConnectionTarget? Bridge(string? address)
+    {
+        if (string.IsNullOrWhiteSpace(address))
+            return null;
+        var a = address.Trim();
+        if (!a.Contains("://", StringComparison.Ordinal))
+            a = Rfc2217Transport.Scheme + a;
+        return Rfc2217Transport.TryParseAddress(a, out var host, out var port)
+            ? new ConnectionTarget($"{Rfc2217Transport.Scheme}{host}:{port}", $"{host}:{port}", Ui.Get("BridgeDescription"), false)
+            : null;
+    }
 
     public override string ToString() => Description.Length > 0 ? $"{Name} — {Description}" : Name;
 }
@@ -51,6 +65,8 @@ public sealed class DefaultTransportFactory : ITransportFactory
             var ecu = new SimulatedEcu(simulatedEcu, new SimulatedEcuOptions { BroadcastIso = broadcastIso, BroadcastDelayMs = 800 });
             return new SimulatorTransport(ecu) { Scenario = EngineScenario.Drive() };
         }
+        if (Rfc2217Transport.TryParseAddress(target.Id, out var host, out var port))
+            return new Rfc2217Transport(host, port) { DtrEnable = dtrEnable };
         return new SerialTransport(target.Id, dtrEnable);
     }
 }

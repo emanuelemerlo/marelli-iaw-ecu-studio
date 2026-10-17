@@ -13,6 +13,16 @@
     <Copyright>Copyright (c) 2026 Emanuele Merlo. Based on IES2, Copyright (c) 2011-2015 Tomasz Orczyk.</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/emanuelemerlo/marelli-iaw-ecu-studio</RepositoryUrl>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
+
+    <!-- NuGet: only the libraries set IsPackable (Core, Simulator, transports); see Directory.Build.targets. -->
+    <IsPackable>false</IsPackable>
+    <PackageProjectUrl>https://github.com/emanuelemerlo/marelli-iaw-ecu-studio</PackageProjectUrl>
+    <PackageTags>automotive;diagnostics;ecu;k-line;kkl;iaw;fiat;lancia;alfa-romeo;obd;obd2;eobd;kwp2000;iso9141;rfc2217</PackageTags>
+    <PackageReadmeFile>PACKAGE.md</PackageReadmeFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 </Project>

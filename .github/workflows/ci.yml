@@ -28,9 +28,24 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: Test
-        run: dotnet test --configuration Release --no-build
+        shell: bash
+        run: |
+          set -o pipefail
+          dotnet test --configuration Release --no-build 2>&1 | tee test-output.txt
         env:
           SCREENSHOT_DIR: ${{ github.workspace }}/screenshots
+
+      # The failed tests as one annotation, readable on the run summary page and through the API.
+      - name: Report failed tests
+        if: failure()
+        shell: bash
+        run: |
+          # Drop the colour codes of the test output, then escape for an annotation.
+          encode() { sed $'s/\x1b\\[[0-9;]*m//g' | tr -d '\r' | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }'; }
+          failed=$( (sed $'s/\x1b\\[[0-9;]*m//g' test-output.txt | grep -E -A14 '^[[:space:]]*failed ' || true) | head -120 | encode)
+          tail=$(tail -n 60 test-output.txt | encode)
+          echo "::error title=Failed tests on ${{ matrix.os }}::${failed:-no 'failed' line: the test host may have crashed}"
+          echo "::error title=End of test output on ${{ matrix.os }}::${tail}"
 
       - name: Upload UI screenshots
         if: always() && matrix.os == 'ubuntu-latest'
@@ -45,6 +60,20 @@ jobs:
 
       - name: Simulator smoke test
         run: dotnet run --project src/MarelliIawEcuStudio.Cli --configuration Release --no-build -- read --simulate --no-broadcast --count 2
+
+      - name: OBD simulator smoke test
+        run: dotnet run --project src/MarelliIawEcuStudio.Cli --configuration Release --no-build -- obd read --simulate kwp-fast --params RPM,ECT
+
+      - name: NuGet packages
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet pack --configuration Release --no-build --output packages
+
+      - name: Upload NuGet packages
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget
+          path: packages/*
 
   publish:
     name: Publish (${{ matrix.rid }})
