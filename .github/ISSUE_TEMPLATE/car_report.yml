@@ -1,0 +1,73 @@
+name: Real car report
+description: Share a session on a real car, whether it worked or not. Every report helps verify the ECU definitions.
+title: "[Car] <model> <engine> - <ECU>"
+labels: ["car report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The software has been checked against the simulator and the original IES2 code, but needs sessions on real cars. Successful sessions matter as much as failed ones: your trace can become a regression test.
+
+        Please start **read only** (`identify`, `read`, `errors`). Do not run actuator tests, clear codes or adjustments unless you know what they do on your car.
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - Everything worked
+        - Connected, but some values look wrong
+        - Connected, but some functions failed
+        - Could not connect / identify the ECU
+    validations:
+      required: true
+  - type: input
+    id: car
+    attributes:
+      label: Car
+      description: Brand, model, year, engine.
+      placeholder: Fiat Punto 55 1.1 SPI, 1996
+    validations:
+      required: true
+  - type: input
+    id: ecu
+    attributes:
+      label: ECU
+      description: Code on the ECU label, and the ISO / CODRIC codes and definition shown by `iaw-cli identify` if it connected.
+      placeholder: IAW 16F.E3, ISO 55D085029440, definition IAW-6F/16F
+    validations:
+      required: true
+  - type: dropdown
+    id: immobiliser
+    attributes:
+      label: FIAT CODE immobiliser
+      options:
+        - Fitted
+        - Not fitted
+        - Don't know
+  - type: input
+    id: setup
+    attributes:
+      label: Version, operating system and cable
+      placeholder: 0.2.0-beta.1, Windows 11, KKL 409.1 FTDI FT232R + 3-pin adapter
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: What you tried and what you saw
+      description: Commands run, which values looked right or wrong (and what the dashboard or another tool showed), what failed.
+    validations:
+      required: true
+  - type: textarea
+    id: trace
+    attributes:
+      label: Line trace
+      description: |
+        Attach the trace file (drag it here) recorded with `--trace my-car.trace.txt`, and paste the output of `iaw-cli trace my-car.trace.txt`. Traces contain only bytes exchanged with the ECU (no VIN for pre-2001 IAW cars; for OBD-II cars you may want to mask the VIN).
+      render: text
+  - type: checkboxes
+    id: active
+    attributes:
+      label: Active commands
+      options:
+        - label: I ran actuator tests, clear codes or adjustments during this session (say which in the description).

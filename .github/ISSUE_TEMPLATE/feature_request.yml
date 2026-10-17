@@ -1,0 +1,30 @@
+name: Feature request
+description: Suggest an idea, a new function or support for another ECU.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or need
+      description: What you want to do and why the current version does not let you.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How you imagine it working. For a new ECU, give the label code, the cars it is fitted to and any source of information (other tools, documentation, your own traces).
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Other approaches or tools you considered.
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Contribution
+      options:
+        - label: I can test it on a real car.
+        - label: I would like to work on a pull request for it.
