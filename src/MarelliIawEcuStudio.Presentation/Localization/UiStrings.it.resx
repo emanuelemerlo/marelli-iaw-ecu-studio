@@ -122,4 +122,6 @@ Il quadro deve essere ACCESO e il motore SPENTO.</value></data>
   <data name="LineFault_NoAnswer" xml:space="preserve"><value>l'adattatore funziona ma la centralina non risponde: controlla quadro acceso, connettore 3 pin e filo K-Line</value></data>
   <data name="LineFault_None" xml:space="preserve"><value>nessun guasto sulla linea</value></data>
   <data name="DifferentEcu" xml:space="preserve"><value>Risponde una centralina diversa (CODRIC cambiato): disconnetti e connetti di nuovo.</value></data>
+  <data name="BridgeAddress" xml:space="preserve"><value>Bridge di rete (RFC 2217), host:porta</value></data>
+  <data name="BridgeDescription" xml:space="preserve"><value>bridge di rete</value></data>
 </root>

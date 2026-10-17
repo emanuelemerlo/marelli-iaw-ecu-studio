@@ -26,6 +26,9 @@ public sealed record AppSettings
     /// <summary>Restore a lost connection by itself.</summary>
     public bool AutoReconnect { get; init; } = true;
 
+    /// <summary>Network bridge (RFC 2217) offered as a connection target, as host:port.</summary>
+    public string? BridgeAddress { get; init; }
+
     /// <summary>Save a line trace of every connection in the log folder.</summary>
     public bool TraceLine { get; init; }
 

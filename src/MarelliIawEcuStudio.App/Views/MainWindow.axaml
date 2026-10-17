@@ -122,6 +122,8 @@
                 <CheckBox Content="{Binding Ui[TraceLine]}" IsChecked="{Binding TraceLine}" />
                 <TextBlock Classes="label" Text="{Binding Ui[Language]}" />
                 <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" />
+                <TextBlock Classes="label" Text="{Binding Ui[BridgeAddress]}" />
+                <TextBox Text="{Binding BridgeAddress}" PlaceholderText="192.168.4.1:2217" />
                 <TextBlock Classes="label" Text="Log" />
                 <TextBox Text="{Binding LogFolder}" />
               </StackPanel>

@@ -9,6 +9,7 @@ using MarelliIawEcuStudio.Core.Protocol;
 using MarelliIawEcuStudio.Core.Session;
 using MarelliIawEcuStudio.Core.Transport;
 using MarelliIawEcuStudio.Simulator;
+using MarelliIawEcuStudio.Transport.Network;
 using MarelliIawEcuStudio.Transport.Serial;
 
 namespace MarelliIawEcuStudio.Cli;
@@ -34,9 +35,11 @@ internal sealed class CliApp(TextWriter output, TextReader input)
           clear-codes                  Clear stored errors           (needs --allow-active)
           validate <file|folder>       Check ECU definition files
           trace <file>                 Summarise a line trace written with --trace
+          bridge                       Share the cable (or the simulator) on the network with RFC 2217
 
         Connection:
-          --port <name>                Serial port, e.g. COM3, /dev/ttyUSB0
+          --port <name>                Serial port, e.g. COM3, /dev/ttyUSB0, or a network
+                                       bridge: rfc2217://192.168.4.1:2217
           --simulate [ecu]             Use the built-in simulator instead of a cable
           --replay <trace>             Answer with the bytes of a line trace instead of a cable
           --replay-mode <strict|lookup>  strict: same requests in the same order (default);
@@ -56,6 +59,10 @@ internal sealed class CliApp(TextWriter output, TextReader input)
           --csv <file>                 Also write a CSV log
           --no-reconnect               Stop when communication is lost instead of reconnecting
           --reconnect-attempts <n>     Give up after n attempts (default: 0, keep trying)
+
+        bridge:
+          --listen <[address:]port>    Where to listen (default 127.0.0.1:2217; use 0.0.0.0:2217
+                                       to accept other computers on the network)
 
         Safety:
           --allow-active               Allow actuator tests and clear codes
@@ -86,6 +93,7 @@ internal sealed class CliApp(TextWriter output, TextReader input)
                 "clear-codes" => WithSession(a, cancellation, s => ClearCodes(a, s, cancellation)),
                 "validate" => Validate(a),
                 "trace" => TraceSummary(a),
+                "bridge" => Bridge(a, cancellation),
                 _ => throw new CliException($"Unknown command '{a.Command}'. Run 'iaw-cli help'."),
             };
         }
@@ -189,8 +197,7 @@ internal sealed class CliApp(TextWriter output, TextReader input)
         }
         else
         {
-            var port = a.Get("port") ?? throw new CliException("Give --port <name> (see 'iaw-cli ports') or --simulate.");
-            transport = new SerialTransport(port, dtrEnable: a.Has("dtr"));
+            transport = OpenPort(a);
         }
 
         var policy = !a.Has("allow-active") ? ActiveCommandPolicy.Disabled
@@ -226,6 +233,63 @@ internal sealed class CliApp(TextWriter output, TextReader input)
         {
             trace?.Comment("line: " + session.Link.Statistics);
         }
+    }
+
+    private static ITransport OpenPort(CliArguments a)
+    {
+        var port = a.Get("port") ?? throw new CliException("Give --port <name> (see 'iaw-cli ports') or --simulate.");
+        if (port.StartsWith(Rfc2217Transport.Scheme, StringComparison.OrdinalIgnoreCase))
+        {
+            if (!Rfc2217Transport.TryParseAddress(port, out var host, out var tcpPort))
+                throw new CliException($"Bad bridge address '{port}': use rfc2217://host:port.");
+            return new Rfc2217Transport(host, tcpPort) { DtrEnable = a.Has("dtr") };
+        }
+        return new SerialTransport(port, dtrEnable: a.Has("dtr"));
+    }
+
+    private int Bridge(CliArguments a, CancellationToken cancellation)
+    {
+        var listen = a.Get("listen") ?? "127.0.0.1:2217";
+        var colon = listen.LastIndexOf(':');
+        var address = colon > 0 ? listen[..colon] : "127.0.0.1";
+        if (!int.TryParse(colon >= 0 ? listen[(colon + 1)..] : listen, out var tcpPort) || tcpPort is < 0 or > 65535
+            || !System.Net.IPAddress.TryParse(address.Trim('[', ']'), out var ip))
+            throw new CliException($"Bad --listen '{listen}': use port or address:port, e.g. 0.0.0.0:2217.");
+
+        Func<ITransport> open;
+        if (a.IsSet("simulate"))
+        {
+            var registry = LoadRegistry(a);
+            var definition = registry.Get(a.Get("simulate") is { Length: > 0 } s ? s : "IAW-6F/16F");
+            var broadcast = !a.Has("no-broadcast");
+            open = () => new SimulatorTransport(new SimulatedEcu(definition, new SimulatedEcuOptions { BroadcastIso = broadcast }))
+            {
+                Scenario = EngineScenario.Drive(),
+            };
+            output.WriteLine($"Sharing the simulator ({definition.LongName})");
+        }
+        else
+        {
+            var port = a.Get("port") ?? throw new CliException("Give --port <name> or --simulate.");
+            if (port.StartsWith(Rfc2217Transport.Scheme, StringComparison.OrdinalIgnoreCase))
+                throw new CliException("The bridge shares a local cable: give a serial port.");
+            open = () => new SerialTransport(port, dtrEnable: a.Has("dtr"));
+            output.WriteLine($"Sharing {port}");
+        }
+
+        var log = TextWriter.Synchronized(output);
+        using var server = new Rfc2217Server(open, new System.Net.IPEndPoint(ip, tcpPort))
+        {
+            Log = m => log.WriteLine($"{DateTime.Now:HH:mm:ss} {m}"),
+        };
+        server.Start();
+        var endpoint = server.LocalEndpoint;
+        log.WriteLine($"Listening on {endpoint}. Connect with --port {Rfc2217Transport.Scheme}<this computer>:{endpoint.Port}. Ctrl+C to stop.");
+        if (!System.Net.IPAddress.IsLoopback(ip))
+            log.WriteLine("Warning: anyone on this network can now talk to the car. Use a private network.");
+        cancellation.WaitHandle.WaitOne();
+        log.WriteLine("Bridge stopped.");
+        return 0;
     }
 
     private static LineTraceWriter CreateTrace(string path, CliArguments a, ITransport transport) =>

@@ -122,4 +122,6 @@ The ignition must be ON and the engine STOPPED.</value></data>
   <data name="LineFault_NoAnswer" xml:space="preserve"><value>the adapter works but the ECU does not answer: check ignition, 3-pin connector and K-Line wire</value></data>
   <data name="LineFault_None" xml:space="preserve"><value>no fault on the line</value></data>
   <data name="DifferentEcu" xml:space="preserve"><value>A different ECU answers (its CODRIC changed): disconnect and connect again.</value></data>
+  <data name="BridgeAddress" xml:space="preserve"><value>Network bridge (RFC 2217), host:port</value></data>
+  <data name="BridgeDescription" xml:space="preserve"><value>network bridge</value></data>
 </root>

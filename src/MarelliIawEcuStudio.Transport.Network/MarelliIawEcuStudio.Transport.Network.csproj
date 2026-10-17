@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>MarelliIawEcuStudio.Transport.Network</RootNamespace>
+    <Description>Network transport for K-Line adapters: RFC 2217 (Telnet COM port control) client and server, compatible with ser2net and esp-link.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MarelliIawEcuStudio.Core\MarelliIawEcuStudio.Core.csproj" />
+  </ItemGroup>
+
+</Project>

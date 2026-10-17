@@ -5,6 +5,7 @@
     <Project Path="src/MarelliIawEcuStudio.Core/MarelliIawEcuStudio.Core.csproj" />
     <Project Path="src/MarelliIawEcuStudio.Presentation/MarelliIawEcuStudio.Presentation.csproj" />
     <Project Path="src/MarelliIawEcuStudio.Simulator/MarelliIawEcuStudio.Simulator.csproj" />
+    <Project Path="src/MarelliIawEcuStudio.Transport.Network/MarelliIawEcuStudio.Transport.Network.csproj" />
     <Project Path="src/MarelliIawEcuStudio.Transport.Serial/MarelliIawEcuStudio.Transport.Serial.csproj" />
   </Folder>
   <Folder Name="/tests/">

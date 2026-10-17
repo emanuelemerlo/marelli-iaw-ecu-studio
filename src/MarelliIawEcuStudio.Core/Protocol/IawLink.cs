@@ -138,6 +138,21 @@ public sealed class IawLink
                 Emit(LineDirection.Sent, SlowInitSequence[i], InitBaudRate);
                 Sleep(Timing.SlowInitDelaysMs[i]);
             }
+            // The echoes of the init bytes must not be taken for the first answer. On a
+            // serial cable they are already there; through a network bridge they may still
+            // be on their way, so wait for them (IES2 only dropped what had arrived).
+            var discarded = 0;
+            var wait = Stopwatch.StartNew();
+            while (AdapterEchoes && discarded < SlowInitSequence.Length && wait.ElapsedMilliseconds < Timing.InitEchoWaitMs)
+            {
+                if (Transport.BytesToRead == 0)
+                {
+                    Sleep(1);
+                    continue;
+                }
+                Emit(LineDirection.Discarded, Transport.ReadByte(), InitBaudRate);
+                discarded++;
+            }
             while (Transport.BytesToRead != 0)
                 Emit(LineDirection.Discarded, Transport.ReadByte(), InitBaudRate);
         }

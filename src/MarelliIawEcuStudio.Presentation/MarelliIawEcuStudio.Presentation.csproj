@@ -13,6 +13,7 @@
     <ProjectReference Include="..\MarelliIawEcuStudio.Core\MarelliIawEcuStudio.Core.csproj" />
     <ProjectReference Include="..\MarelliIawEcuStudio.Simulator\MarelliIawEcuStudio.Simulator.csproj" />
     <ProjectReference Include="..\MarelliIawEcuStudio.Transport.Serial\MarelliIawEcuStudio.Transport.Serial.csproj" />
+    <ProjectReference Include="..\MarelliIawEcuStudio.Transport.Network\MarelliIawEcuStudio.Transport.Network.csproj" />
   </ItemGroup>
 
   <ItemGroup>
