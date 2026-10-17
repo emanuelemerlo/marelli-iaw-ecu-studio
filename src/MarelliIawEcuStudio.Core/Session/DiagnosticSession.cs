@@ -75,7 +75,26 @@ public sealed class UnrecognizedEcuException(string? iso, string? codric)
     public string? Codric { get; } = codric;
 }
 
-public sealed class CommunicationLostException() : Exception("Communication with the ECU was lost.");
+/// <summary>More than one request in a row failed during polling.</summary>
+public sealed class CommunicationLostException(LineFault fault = LineFault.NoAnswer)
+    : Exception($"Communication with the ECU was lost: {LineFaultText.Describe(fault)}.")
+{
+    /// <summary>What went wrong on the last failed request.</summary>
+    public LineFault Fault { get; } = fault;
+}
+
+/// <summary>Outcome of one attempt to restore a lost connection.</summary>
+public enum ReconnectOutcome
+{
+    /// <summary>The ECU answers again and its CODRIC matches the one read at connection.</summary>
+    Restored,
+
+    /// <summary>The ECU did not answer.</summary>
+    NoAnswer,
+
+    /// <summary>An ECU answered, but its CODRIC is different: another unit was plugged in.</summary>
+    DifferentEcu,
+}
 
 public sealed class ActiveCommandNotAllowedException(string message) : Exception(message);
 
@@ -148,6 +167,7 @@ public sealed class DiagnosticSession : IDisposable
             if (!Transport.IsOpen)
                 Transport.Open();
             Buffer.Clear();
+            Link.Mark($"connect ecu={ecuId ?? "auto"} broadcast={Options.ListenForIsoBroadcast} echo={Options.AdapterEchoes}");
 
             var iso = Options.ListenForIsoBroadcast ? Link.WaitForIsoBroadcast(cancellation) : null;
             var fromBroadcast = iso is not null;
@@ -195,6 +215,7 @@ public sealed class DiagnosticSession : IDisposable
             Parameters = [.. definition.Parameters.Select(p => new ParameterDecoder(p, definition.Tables))];
             _cycle = 0;
             Connection = new ConnectionInfo(definition, iso, codric, hasImmobilizer, vehicle, fromBroadcast);
+            Link.Mark($"identified ecu={definition.Id} iso={iso ?? "-"} codric={codric ?? "-"} immobilizer={hasImmobilizer}");
             return Connection;
         }
     }
@@ -203,7 +224,65 @@ public sealed class DiagnosticSession : IDisposable
     public void Reinitialize()
     {
         lock (_line)
+        {
+            Link.Mark("reinitialize");
             Link.InitPassiveDiagnostics(ProfileOf(Definition));
+        }
+    }
+
+    /// <summary>
+    /// One attempt to restore a lost connection: enters passive mode again,
+    /// then reads the CODRIC to check that the same ECU answers.
+    /// </summary>
+    public ReconnectOutcome TryReconnect()
+    {
+        lock (_line)
+        {
+            var connection = Connection ?? throw new InvalidOperationException("Not connected.");
+            var profile = ProfileOf(connection.Definition);
+            Link.Mark("reconnect attempt");
+            Transport.ReadTimeout = Timing.PollingReadTimeoutMs;
+            Link.InitPassiveDiagnostics(profile);
+            var codric = Link.ReadCodric(profile);
+            var outcome = codric is null ? ReconnectOutcome.NoAnswer
+                : connection.Codric is not null && codric != connection.Codric ? ReconnectOutcome.DifferentEcu
+                : ReconnectOutcome.Restored;
+            Link.Mark($"reconnect {outcome.ToString().ToLowerInvariant()}");
+            if (outcome == ReconnectOutcome.Restored)
+                _cycle = 0; // read the errors again at the first cycle
+            return outcome;
+        }
+    }
+
+    /// <summary>
+    /// Tries <see cref="TryReconnect"/> until it succeeds, waiting
+    /// <see cref="ProtocolTiming.ReconnectDelaysMs"/> between attempts (the
+    /// last delay repeats). Stops at <paramref name="maxAttempts"/> (0 = no
+    /// limit), on cancellation, or when a different ECU answers.
+    /// </summary>
+    /// <param name="attempting">Called before each attempt with its number, starting at 1.</param>
+    /// <returns>The outcome of the last attempt.</returns>
+    public ReconnectOutcome Recover(CancellationToken cancellation, int maxAttempts = 0, Action<int>? attempting = null)
+    {
+        var delays = Timing.ReconnectDelaysMs is { Length: > 0 } d ? d : [1000];
+        for (var attempt = 1; ; attempt++)
+        {
+            var delay = delays[Math.Min(attempt - 1, delays.Length - 1)];
+            if (cancellation.WaitHandle.WaitOne(delay))
+                cancellation.ThrowIfCancellationRequested();
+            attempting?.Invoke(attempt);
+            ReconnectOutcome outcome;
+            try
+            {
+                outcome = TryReconnect();
+            }
+            catch (TimeoutException)
+            {
+                outcome = ReconnectOutcome.NoAnswer;
+            }
+            if (outcome != ReconnectOutcome.NoAnswer || (maxAttempts > 0 && attempt >= maxAttempts))
+                return outcome;
+        }
     }
 
     public void Disconnect()
@@ -237,11 +316,12 @@ public sealed class DiagnosticSession : IDisposable
         {
             Transport.ReadTimeout = Timing.PollingReadTimeoutMs;
             var failures = 0;
+            var lastFault = LineFault.None;
 
             var registers = new SortedSet<byte>(request.Parameters.SelectMany(p => p.Requests));
             foreach (var register in registers)
             {
-                failures = QueryInto(register, failures);
+                failures = QueryInto(register, failures, ref lastFault);
                 IawLink.Sleep(Timing.PollingDelayMs);
             }
             var readParameters = registers.Count > 0;
@@ -251,14 +331,14 @@ public sealed class DiagnosticSession : IDisposable
             {
                 foreach (var register in Definition.Errors.Engine.Requests)
                 {
-                    failures = QueryInto(register, failures);
+                    failures = QueryInto(register, failures, ref lastFault);
                     IawLink.Sleep(Timing.PollingDelayMs);
                 }
                 if (Connection!.HasImmobilizer)
                 {
                     foreach (var register in Definition.Errors.Immobilizer.Requests)
                     {
-                        failures = QueryInto(register, failures);
+                        failures = QueryInto(register, failures, ref lastFault);
                         IawLink.Sleep(Timing.PollingDelayMs);
                     }
                 }
@@ -270,7 +350,7 @@ public sealed class DiagnosticSession : IDisposable
             if (readErrors)
                 ErrorsUpdated?.Invoke(this);
             if (failures > 1)
-                throw new CommunicationLostException();
+                throw new CommunicationLostException(lastFault);
             if (!readParameters && !readErrors)
                 IawLink.Sleep(Timing.IdleDelayMs);
         }
@@ -286,11 +366,13 @@ public sealed class DiagnosticSession : IDisposable
         }
     }
 
-    private int QueryInto(byte register, int failures)
+    private int QueryInto(byte register, int failures, ref LineFault lastFault)
     {
-        var ok = Link.Query(register, out var value);
-        Buffer.Store(register, value, ok);
-        return ok ? 0 : failures + 1;
+        var r = Link.Exchange(register);
+        Buffer.Store(register, r.Response, r.Answered);
+        if (!r.Answered)
+            lastFault = r.Fault;
+        return r.Answered ? 0 : failures + 1;
     }
 
     /// <summary>Runs an actuator test (IES2 <c>bgwTest</c>).</summary>
@@ -299,6 +381,7 @@ public sealed class DiagnosticSession : IDisposable
         EnsureActiveAllowed();
         lock (_line)
         {
+            Link.Mark($"active test {test.NameKey ?? test.Name}");
             var code = RunActive(test, cancellation, out var cancelled);
             return new ActiveResult(cancelled ? ActiveOutcome.Cancelled : ActiveResult.FromCode(code), code);
         }
@@ -342,7 +425,7 @@ public sealed class DiagnosticSession : IDisposable
         byte result;
         if (!cancelled && Transport.BytesToRead != 0)
         {
-            result = Transport.ReadByte();
+            result = Link.ReadPending();
             IawLink.Sleep(Timing.ActiveResultPollMs);
         }
         else
@@ -366,6 +449,7 @@ public sealed class DiagnosticSession : IDisposable
             throw new ArgumentNullException(nameof(chooseValues), "A one-byte adjustment needs a value.");
         lock (_line)
         {
+            Link.Mark($"adjustment {adjustment.NameKey ?? adjustment.Name}");
             Transport.ReadTimeout = Timing.AdjustmentReadTimeoutMs;
             byte status = 0;
             if (adjustment.StatusRequest != 0)

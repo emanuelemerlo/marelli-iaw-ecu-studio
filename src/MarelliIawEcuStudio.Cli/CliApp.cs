@@ -33,10 +33,14 @@ internal sealed class CliApp(TextWriter output, TextReader input)
           test <name|number>           Run an actuator test          (needs --allow-active)
           clear-codes                  Clear stored errors           (needs --allow-active)
           validate <file|folder>       Check ECU definition files
+          trace <file>                 Summarise a line trace written with --trace
 
         Connection:
           --port <name>                Serial port, e.g. COM3, /dev/ttyUSB0
           --simulate [ecu]             Use the built-in simulator instead of a cable
+          --replay <trace>             Answer with the bytes of a line trace instead of a cable
+          --replay-mode <strict|lookup>  strict: same requests in the same order (default);
+                                       lookup: any request, answered with the recorded values
           --ecu <id|code|auto>         ECU family or label code, e.g. IAW-04K.P8 or 4WF.P8 (default: auto)
           --compat                     Slower timing for unreliable adapters (IES2 compatibility mode)
           --no-echo                    Adapter does not echo sent bytes
@@ -44,11 +48,14 @@ internal sealed class CliApp(TextWriter output, TextReader input)
           --dtr                        Raise DTR (some cables power the K-Line chip from it)
           --definitions <folder>       Extra definition files (override built-in ones)
           --lang <code>                Language: en, it, de, es, pl, pt, nl, hu, hr, sr
+          --trace <file>               Write every byte on the line to a trace file (for bug reports)
 
         read:
           --params <id,id|all>         Parameters to read (default: all)
           --count <n>                  Number of cycles, 0 = until Ctrl+C (default: 1)
           --csv <file>                 Also write a CSV log
+          --no-reconnect               Stop when communication is lost instead of reconnecting
+          --reconnect-attempts <n>     Give up after n attempts (default: 0, keep trying)
 
         Safety:
           --allow-active               Allow actuator tests and clear codes
@@ -78,6 +85,7 @@ internal sealed class CliApp(TextWriter output, TextReader input)
                 "test" => WithSession(a, cancellation, s => Test(a, s, cancellation)),
                 "clear-codes" => WithSession(a, cancellation, s => ClearCodes(a, s, cancellation)),
                 "validate" => Validate(a),
+                "trace" => TraceSummary(a),
                 _ => throw new CliException($"Unknown command '{a.Command}'. Run 'iaw-cli help'."),
             };
         }
@@ -88,7 +96,7 @@ internal sealed class CliApp(TextWriter output, TextReader input)
         }
         catch (Exception ex) when (ex is UnrecognizedEcuException or CommunicationLostException or ActiveCommandNotAllowedException
                                        or UnauthorizedAccessException or IOException or NotSupportedException or KeyNotFoundException
-                                       or DefinitionException)
+                                       or DefinitionException or InvalidDataException)
         {
             output.WriteLine("Error: " + ex.Message);
             return 1;
@@ -157,7 +165,20 @@ internal sealed class CliApp(TextWriter output, TextReader input)
         ITransport transport;
         var listen = !a.Has("no-broadcast");
 
-        if (a.IsSet("simulate"))
+        if (a.Get("replay") is { } replay)
+        {
+            var mode = a.Get("replay-mode") switch
+            {
+                null or "strict" => TraceReplayMode.Strict,
+                "lookup" => TraceReplayMode.Lookup,
+                var m => throw new CliException($"Unknown --replay-mode '{m}': use strict or lookup."),
+            };
+            var recorded = LineTraceReader.Read(replay);
+            transport = new TraceReplayTransport(recorded, mode, Path.GetFileName(replay));
+            timing = ProtocolTiming.Fast with { IsoBroadcastWaitMs = listen ? 1000 : 0, IsoBroadcastReadTimeoutMs = 200 };
+            output.WriteLine($"Replay: {replay} ({recorded.Events.Count} events, {mode.ToString().ToLowerInvariant()})");
+        }
+        else if (a.IsSet("simulate"))
         {
             var id = a.Get("simulate") is { Length: > 0 } s ? s : ecu ?? "IAW-6F/16F";
             var sim = new SimulatedEcu(registry.Get(id), new SimulatedEcuOptions { BroadcastIso = listen });
@@ -183,16 +204,38 @@ internal sealed class CliApp(TextWriter output, TextReader input)
             ActiveCommands = policy,
         });
 
-        if (listen)
-            output.WriteLine("Turn the ignition on now (waiting for the ECU)...");
-        var c = session.Connect(ecu, cancellation);
-        output.WriteLine($"ECU:     {c.EcuDisplayName}");
-        output.WriteLine($"ISO:     {c.FormattedIso}");
-        output.WriteLine($"CODRIC:  {c.FormattedCodric}");
-        output.WriteLine($"Vehicle: {c.VehicleModel ?? Localizer.Get("UnknownISO")}");
-        output.WriteLine();
-        return action(session);
+        using var trace = a.Get("trace") is { } tracePath ? CreateTrace(tracePath, a, transport) : null;
+        if (trace is not null)
+        {
+            session.Link.Monitor += trace.Write;
+            output.WriteLine($"Line trace: {a.Get("trace")}");
+        }
+        try
+        {
+            if (listen)
+                output.WriteLine("Turn the ignition on now (waiting for the ECU)...");
+            var c = session.Connect(ecu, cancellation);
+            output.WriteLine($"ECU:     {c.EcuDisplayName}");
+            output.WriteLine($"ISO:     {c.FormattedIso}");
+            output.WriteLine($"CODRIC:  {c.FormattedCodric}");
+            output.WriteLine($"Vehicle: {c.VehicleModel ?? Localizer.Get("UnknownISO")}");
+            output.WriteLine();
+            return action(session);
+        }
+        finally
+        {
+            trace?.Comment("line: " + session.Link.Statistics);
+        }
     }
+
+    private static LineTraceWriter CreateTrace(string path, CliArguments a, ITransport transport) =>
+        LineTraceWriter.Create(path,
+        [
+            new("app", "iaw-cli " + Version),
+            new("transport", transport.Name),
+            new("os", System.Runtime.InteropServices.RuntimeInformation.OSDescription),
+            new("arguments", string.Join(' ', a.Raw)),
+        ]);
 
     private int Read(CliArguments a, DiagnosticSession session, CancellationToken cancellation)
     {
@@ -202,10 +245,33 @@ internal sealed class CliApp(TextWriter output, TextReader input)
         var request = new PollRequest { Parameters = selected };
         var width = selected.Max(p => p.GetName().Length);
         var clock = Stopwatch.StartNew();
+        var reconnect = !a.Has("no-reconnect") && session.Transport is not TraceReplayTransport;
+        var attempts = a.GetInt("reconnect-attempts", 0);
         for (var cycle = 0; count == 0 || cycle < count; cycle++)
         {
             cancellation.ThrowIfCancellationRequested();
-            session.PollOnce(request);
+            try
+            {
+                session.PollOnce(request);
+            }
+            catch (CommunicationLostException) when (session.Transport is TraceReplayTransport { IsExhausted: true })
+            {
+                output.WriteLine($"End of the trace after {cycle} cycles.");
+                return 0;
+            }
+            catch (CommunicationLostException ex) when (reconnect)
+            {
+                output.WriteLine($"Communication lost: {LineFaultText.Describe(ex.Fault)}.");
+                output.WriteLine("Reconnecting (Ctrl+C to stop)...");
+                var outcome = session.Recover(cancellation, attempts, n => output.WriteLine($"  attempt {n}"));
+                if (outcome == ReconnectOutcome.DifferentEcu)
+                    throw new CliException("A different ECU answers (CODRIC changed). Run the command again.");
+                if (outcome != ReconnectOutcome.Restored)
+                    throw new CommunicationLostException(ex.Fault);
+                output.WriteLine("Reconnected.");
+                cycle--; // this cycle produced no data
+                continue;
+            }
             csv?.WriteSample(clock.ElapsedMilliseconds, session.Buffer);
             if (count != 1)
                 output.WriteLine($"--- {clock.Elapsed.TotalSeconds:0.0} s");
@@ -311,6 +377,43 @@ internal sealed class CliApp(TextWriter output, TextReader input)
         foreach (var i in issues)
             output.WriteLine($"INVALID {i}");
         return issues.Count == 0 ? 0 : 1;
+    }
+
+    private int TraceSummary(CliArguments a)
+    {
+        if (a.Positional.Count == 0)
+            throw new CliException("Give a trace file.");
+        var trace = LineTraceReader.Read(a.Positional[0]);
+        foreach (var (key, value) in trace.Metadata)
+            output.WriteLine($"{key,-10} {value}");
+        var events = trace.Events;
+        var duration = events.Count > 0 ? events[^1].TimeMs / 1000 : 0;
+        var echoes = events.Where(e => e.Direction == LineDirection.Echo).ToList();
+        var mismatches = 0;
+        for (var i = 1; i < events.Count; i++)
+        {
+            if (events[i].Direction == LineDirection.Echo && events[i - 1].Direction == LineDirection.Sent && events[i].Value != events[i - 1].Value)
+                mismatches++;
+        }
+        output.WriteLine();
+        output.WriteLine($"Duration:  {duration:0.0} s, {events.Count} events");
+        output.WriteLine($"Requests:  {trace.RequestCount} at 7680 baud, {trace.TimeoutCount} without answer, {mismatches} with wrong echo");
+        output.WriteLine($"Echo:      {(echoes.Count > 0 ? "yes" : "no")}");
+        output.WriteLine();
+        output.WriteLine("Markers and timeouts:");
+        var shown = 0;
+        foreach (var e in events.Where(e => e.Direction is LineDirection.Marker or LineDirection.Timeout))
+        {
+            if (shown++ >= 200)
+            {
+                output.WriteLine("  ...");
+                break;
+            }
+            output.WriteLine(e.Direction == LineDirection.Marker
+                ? $"  {e.TimeMs / 1000,9:0.000} s  {e.Note}"
+                : $"  {e.TimeMs / 1000,9:0.000} s  no answer to 0x{e.Value:X2} at {e.BaudRate} baud");
+        }
+        return 0;
     }
 
     private void ReportIssues(DefinitionRegistry registry)

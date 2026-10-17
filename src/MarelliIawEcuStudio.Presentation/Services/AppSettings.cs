@@ -23,6 +23,12 @@ public sealed record AppSettings
     /// <summary>Allow actuator tests, clear codes and adjustments (always with confirmation).</summary>
     public bool AllowActiveCommands { get; init; } = true;
 
+    /// <summary>Restore a lost connection by itself.</summary>
+    public bool AutoReconnect { get; init; } = true;
+
+    /// <summary>Save a line trace of every connection in the log folder.</summary>
+    public bool TraceLine { get; init; }
+
     public string? Language { get; init; }
 
     public string LogFolder { get; init; } = DefaultLogFolder;

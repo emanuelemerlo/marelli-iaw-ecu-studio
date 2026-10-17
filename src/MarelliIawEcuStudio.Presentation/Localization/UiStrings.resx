@@ -112,4 +112,14 @@ The ignition must be ON and the engine STOPPED.</value></data>
   <data name="AutoDetectHint" xml:space="preserve"><value>Recognises the family from the ISO code</value></data>
   <data name="EcuSearch" xml:space="preserve"><value>Search: code on the label, car, brand...</value></data>
   <data name="Aliases" xml:space="preserve"><value>Also known as</value></data>
+  <data name="AutoReconnect" xml:space="preserve"><value>Reconnect automatically when communication is lost</value></data>
+  <data name="TraceLine" xml:space="preserve"><value>Save a line trace of each connection (for bug reports)</value></data>
+  <data name="Reconnecting" xml:space="preserve"><value>reconnecting, attempt {0}...</value></data>
+  <data name="Reconnected" xml:space="preserve"><value>reconnected</value></data>
+  <data name="TraceSaved" xml:space="preserve"><value>Line trace: {0}</value></data>
+  <data name="LineFault_NoEcho" xml:space="preserve"><value>nothing comes back from the adapter, not even the echo: check the cable and the USB port</value></data>
+  <data name="LineFault_EchoMismatch" xml:space="preserve"><value>the adapter echoes a different byte: noise on the line or wrong speed; try compatibility mode</value></data>
+  <data name="LineFault_NoAnswer" xml:space="preserve"><value>the adapter works but the ECU does not answer: check ignition, 3-pin connector and K-Line wire</value></data>
+  <data name="LineFault_None" xml:space="preserve"><value>no fault on the line</value></data>
+  <data name="DifferentEcu" xml:space="preserve"><value>A different ECU answers (its CODRIC changed): disconnect and connect again.</value></data>
 </root>

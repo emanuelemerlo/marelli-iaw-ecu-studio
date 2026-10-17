@@ -38,6 +38,7 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
     private LiveConnection? _live;
     private CancellationTokenSource? _connectCancel;
     private CsvLogWriter? _recorder;
+    private LineTraceWriter? _trace;
     private IReadOnlyList<ParameterDecoder> _recordedColumns = [];
     private readonly Lock _recorderGate = new();
     private bool _suppressSelection;
@@ -64,6 +65,8 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
         ListenForIsoBroadcast = s.ListenForIsoBroadcast;
         DtrEnable = s.DtrEnable;
         AllowActiveCommands = s.AllowActiveCommands;
+        AutoReconnect = s.AutoReconnect;
+        TraceLine = s.TraceLine;
         LogFolder = s.LogFolder;
         SelectedLanguage = Ui.Languages.FirstOrDefault(l => l.Code == s.Language) ?? Ui.Languages[0];
 
@@ -130,6 +133,18 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
 
     [ObservableProperty]
     public partial bool AllowActiveCommands { get; set; }
+
+    /// <summary>Restore a lost connection by itself, retrying until the ECU answers again.</summary>
+    [ObservableProperty]
+    public partial bool AutoReconnect { get; set; }
+
+    /// <summary>Write every byte on the line to a trace file in the log folder, for each connection.</summary>
+    [ObservableProperty]
+    public partial bool TraceLine { get; set; }
+
+    /// <summary>Path of the line trace of the current or last connection.</summary>
+    [ObservableProperty]
+    public partial string? TraceFile { get; set; }
 
     [ObservableProperty]
     public partial string LogFolder { get; set; }
@@ -265,6 +280,7 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
             ListenForIsoBroadcast = ListenForIsoBroadcast,
             ActiveCommands = AllowActiveCommands ? ActiveCommandPolicy.VerifiedOnly : ActiveCommandPolicy.Disabled,
         });
+        StartTrace(session, target);
 
         _connectCancel = new CancellationTokenSource();
         try
@@ -275,6 +291,7 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
         }
         catch (Exception ex)
         {
+            CloseTrace(session);
             session.Dispose();
             State = ConnectionState.Disconnected;
             StatusText = ex switch
@@ -285,6 +302,8 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
                     => string.Format(CultureInfo.CurrentCulture, Localizer.Get("COMopenError"), target.Name) + " " + ex.Message,
                 _ => ex.Message,
             };
+            if (TraceFile is not null)
+                StatusText += " " + Ui.Format("TraceSaved", TraceFile);
             return;
         }
         finally
@@ -344,13 +363,18 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
         HasErrors = false;
 
         Graph.Reset();
-        _live = new LiveConnection(session) { ReadErrors = ReadErrors };
+        _live = new LiveConnection(session) { ReadErrors = ReadErrors, AutoReconnect = AutoReconnect };
         _live.CycleCompleted += OnCycle;
         _live.Faulted += OnFaulted;
+        _live.ConnectionLost += OnConnectionLost;
+        _live.Reconnecting += OnReconnecting;
+        _live.Reconnected += OnReconnected;
         ApplySelection();
         _live.Start();
         State = ConnectionState.Connected;
         StatusText = Ui.Get("StatusConnected") + ": " + c.EcuDisplayName;
+        if (TraceFile is not null)
+            RecordingText = Ui.Format("TraceSaved", TraceFile);
     }
 
     [RelayCommand]
@@ -366,12 +390,18 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
     public async Task DisconnectAsync()
     {
         StopRecording();
+        _lostText = null;
         if (_live is not null)
         {
             var live = _live;
             _live = null;
             live.CycleCompleted -= OnCycle;
             live.Faulted -= OnFaulted;
+            live.ConnectionLost -= OnConnectionLost;
+            live.Reconnecting -= OnReconnecting;
+            live.Reconnected -= OnReconnected;
+            await live.StopAsync();
+            CloseTrace(live.Session);
             await live.DisposeAsync();
         }
         State = ConnectionState.Disconnected;
@@ -469,9 +499,77 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
     private void OnFaulted(Exception ex) => _ui.Post(() =>
     {
         State = ConnectionState.Lost;
-        StatusText = ex is CommunicationLostException ? Localizer.Get("CommLost") : ex.Message;
+        StatusText = ex switch
+        {
+            CommunicationLostException lost => LostText(lost),
+            LiveConnection.DifferentEcuException => Ui.Get("DifferentEcu"),
+            _ => ex.Message,
+        };
         RateText = "";
     });
+
+    private static string LostText(CommunicationLostException lost) =>
+        Localizer.Get("CommLost") + " — " + Ui.Get("LineFault_" + lost.Fault);
+
+    private string? _lostText;
+
+    private void OnConnectionLost(CommunicationLostException lost) => _ui.Post(() =>
+    {
+        _lostText = LostText(lost);
+        State = ConnectionState.Lost;
+        StatusText = _lostText;
+        RateText = "";
+    });
+
+    private void OnReconnecting(int attempt) => _ui.Post(() =>
+    {
+        if (State == ConnectionState.Lost)
+            StatusText = (_lostText ?? Localizer.Get("CommLost")) + " " + Ui.Format("Reconnecting", attempt);
+    });
+
+    private void OnReconnected() => _ui.Post(() =>
+    {
+        if (State != ConnectionState.Lost)
+            return;
+        State = ConnectionState.Connected;
+        StatusText = Ui.Get("StatusConnected") + ": " + EcuName + " (" + Ui.Get("Reconnected") + ")";
+    });
+
+    // ---- line trace ----------------------------------------------------------
+
+    private void StartTrace(DiagnosticSession session, ConnectionTarget target)
+    {
+        TraceFile = null;
+        if (!TraceLine)
+            return;
+        var path = Path.Combine(LogFolder, $"iaw_trace_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
+        try
+        {
+            _trace = LineTraceWriter.Create(path,
+            [
+                new("app", "marelli-iaw-ecu-studio " + (typeof(MainViewModel).Assembly.GetName().Version?.ToString(3) ?? "0")),
+                new("transport", target.IsSimulator ? session.Transport.Name : target.Name),
+                new("os", System.Runtime.InteropServices.RuntimeInformation.OSDescription),
+                new("options", $"compat={Compatibility} broadcast={ListenForIsoBroadcast} dtr={DtrEnable}"),
+            ]);
+            session.Link.Monitor += _trace.Write;
+            TraceFile = path;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            RecordingText = ex.Message;
+        }
+    }
+
+    private void CloseTrace(DiagnosticSession session)
+    {
+        if (_trace is not { } trace)
+            return;
+        _trace = null;
+        session.Link.Monitor -= trace.Write;
+        trace.Comment("line: " + session.Link.Statistics);
+        trace.Dispose();
+    }
 
     // ---- recording -----------------------------------------------------------
 
@@ -638,6 +736,15 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
 
     partial void OnAllowActiveCommandsChanged(bool value) => SaveSettings();
 
+    partial void OnAutoReconnectChanged(bool value)
+    {
+        if (_live is not null)
+            _live.AutoReconnect = value;
+        SaveSettings();
+    }
+
+    partial void OnTraceLineChanged(bool value) => SaveSettings();
+
     partial void OnSelectedEcuChanged(EcuChoice value)
     {
         if (State == ConnectionState.Disconnected)
@@ -658,6 +765,8 @@ public sealed partial class MainViewModel : ObservableObject, IAsyncDisposable
             ListenForIsoBroadcast = ListenForIsoBroadcast,
             DtrEnable = DtrEnable,
             AllowActiveCommands = AllowActiveCommands,
+            AutoReconnect = AutoReconnect,
+            TraceLine = TraceLine,
             Language = SelectedLanguage?.Code,
             LogFolder = LogFolder,
             SeparateScales = Graph.SeparateScales,

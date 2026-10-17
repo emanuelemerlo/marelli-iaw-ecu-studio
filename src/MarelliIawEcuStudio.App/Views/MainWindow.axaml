@@ -118,6 +118,8 @@
                 <CheckBox Content="{Binding Ui[CompatMode]}" IsChecked="{Binding Compatibility}" />
                 <CheckBox Content="{Binding Ui[Dtr]}" IsChecked="{Binding DtrEnable}" />
                 <CheckBox Content="{Binding Ui[AllowActive]}" IsChecked="{Binding AllowActiveCommands}" />
+                <CheckBox Content="{Binding Ui[AutoReconnect]}" IsChecked="{Binding AutoReconnect}" />
+                <CheckBox Content="{Binding Ui[TraceLine]}" IsChecked="{Binding TraceLine}" />
                 <TextBlock Classes="label" Text="{Binding Ui[Language]}" />
                 <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" />
                 <TextBlock Classes="label" Text="Log" />

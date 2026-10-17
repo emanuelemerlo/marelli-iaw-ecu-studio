@@ -19,6 +19,9 @@ Diagnosi per le centraline motore Magneti Marelli IAW delle FIAT, Lancia e Alfa 
 - Test attuatori e regolazioni, ciascuno con conferma
 - Grafici interattivi: zoom, spostamento, una scala per segnale, finestra temporale
 - Registrazione CSV e riproduzione dei log (anche quelli esportati da IES2) con play, pausa, barra di scorrimento e velocità 1x/2x/5x/10x
+- Trace della linea: ogni byte sulla K-Line salvato in un file di testo, per segnalare i problemi; `iaw-cli trace` ne fa il riepilogo
+- Riproduzione dei trace: una sessione registrata risponde al posto dell'auto, per i test di regressione o per provare il programma con valori reali
+- Riconnessione automatica dopo una perdita di comunicazione (quadro spento e riacceso, connettore che balla), con la causa più probabile: nessuna eco dall'adattatore, eco errata, o centralina che non risponde
 - Simulatore integrato per provare tutto senza auto
 - Windows, Linux (anche Raspberry Pi) e macOS; interfaccia in italiano e inglese, nomi di parametri ed errori in dieci lingue
 
@@ -64,6 +67,11 @@ dotnet run --project src/MarelliIawEcuStudio.Cli -- ports
 dotnet run --project src/MarelliIawEcuStudio.Cli -- identify --port /dev/ttyUSB0
 dotnet run --project src/MarelliIawEcuStudio.Cli -- read --port /dev/ttyUSB0 --params PERIODE,MT_EAU_L --count 0 --csv giro.csv
 dotnet run --project src/MarelliIawEcuStudio.Cli -- errors --port /dev/ttyUSB0
+
+# Salva un trace della linea, guardalo, riproducilo senza auto
+dotnet run --project src/MarelliIawEcuStudio.Cli -- read --port /dev/ttyUSB0 --count 20 --trace punto.trace.txt
+dotnet run --project src/MarelliIawEcuStudio.Cli -- trace punto.trace.txt
+dotnet run --project src/MarelliIawEcuStudio.Cli -- read --replay punto.trace.txt --count 20
 ```
 
 Gli eseguibili pronti per Windows, Linux x64, Linux arm64 (Raspberry Pi) e macOS sono allegati a ogni [release](https://github.com/emanuelemerlo/marelli-iaw-ecu-studio/releases); la CI li produce anche a ogni modifica (GitHub Actions → artifacts).

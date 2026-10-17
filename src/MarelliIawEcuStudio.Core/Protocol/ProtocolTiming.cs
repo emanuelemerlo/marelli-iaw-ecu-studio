@@ -47,6 +47,12 @@ public sealed record ProtocolTiming
     /// <summary>Extra time added to a test's own timeout before giving up.</summary>
     public int ActiveResultGraceMs { get; init; } = 1000;
 
+    /// <summary>
+    /// Waits before each attempt to restore a lost connection; the last one
+    /// repeats until the ECU answers again.
+    /// </summary>
+    public int[] ReconnectDelaysMs { get; init; } = [500, 1000, 2000, 5000];
+
     public static ProtocolTiming Default { get; } = new();
 
     public static ProtocolTiming Compatibility { get; } = new() { PollingDelayMs = 20 };
@@ -69,5 +75,6 @@ public sealed record ProtocolTiming
         ActiveCodeDelayAfterMs = 0,
         ActiveResultPollMs = 1,
         ActiveResultGraceMs = 0,
+        ReconnectDelaysMs = [1],
     };
 }

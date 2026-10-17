@@ -49,6 +49,47 @@ public class CliTests
     }
 
     [Fact]
+    public void WritesAndReplaysALineTrace()
+    {
+        var file = Path.Combine(Path.GetTempPath(), $"iaw-{Guid.NewGuid():N}.trace.txt");
+        try
+        {
+            var (code, recorded) = Run("", "read", "--simulate", "IAW-8F/18F", "--params", "PERIODE,M_VBATT", "--count", "3", "--trace", file);
+            Assert.Equal(0, code);
+            Assert.Contains("# line: ", File.ReadAllText(file));
+
+            var (summaryCode, summary) = Run("", "trace", file);
+            Assert.Equal(0, summaryCode);
+            Assert.Contains("simulator:IAW-8F/18F", summary);
+            Assert.Contains("0 without answer", summary);
+            Assert.Contains("identified ecu=IAW-8F/18F", summary);
+
+            // Same command against the trace: same identification and values.
+            var (replayCode, replayed) = Run("", "read", "--replay", file, "--params", "PERIODE,M_VBATT", "--count", "3");
+            Assert.Equal(0, replayCode);
+            static IEnumerable<string> Values(string o) => o.Split('\n').Where(l => l.StartsWith("Engine Speed", StringComparison.Ordinal) || l.StartsWith("Battery", StringComparison.Ordinal) || l.StartsWith("ISO:", StringComparison.Ordinal));
+            Assert.Equal(Values(recorded), Values(replayed));
+
+            // Reading on stops cleanly at the end of the trace.
+            var (endCode, end) = Run("", "read", "--replay", file, "--params", "PERIODE,M_VBATT", "--count", "0");
+            Assert.Equal(0, endCode);
+            Assert.Contains("End of the trace after 3 cycles.", end);
+
+            // Other requests: strict mode stops, lookup mode answers.
+            var (divergedCode, diverged) = Run("", "read", "--replay", file, "--params", "MT_EAU_L");
+            Assert.Equal(1, divergedCode);
+            Assert.Contains("diverged", diverged);
+            var (lookupCode, lookup) = Run("", "read", "--replay", file, "--replay-mode", "lookup", "--params", "M_VBATT", "--count", "5");
+            Assert.Equal(0, lookupCode);
+            Assert.Contains("Battery Voltage", lookup);
+        }
+        finally
+        {
+            File.Delete(file);
+        }
+    }
+
+    [Fact]
     public void ActiveCommandsNeedExplicitPermission()
     {
         var (code, output) = Run("", "clear-codes", "--simulate");
