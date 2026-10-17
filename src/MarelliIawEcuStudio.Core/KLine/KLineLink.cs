@@ -168,14 +168,24 @@ public sealed class KLineLink
         for (var i = 0; i < 8; i++)
             bits[i + 1] = (address & (1 << i)) != 0;
         bits[9] = true;
-        var clock = Stopwatch.StartNew();
-        for (var i = 0; i < bits.Length - 1; i++)
+        // Higher priority while timing the bits, so the scheduler interrupts this thread less.
+        var priority = Thread.CurrentThread.Priority;
+        TrySetPriority(ThreadPriority.Highest);
+        try
         {
-            cancellation.ThrowIfCancellationRequested();
-            _line.SetBreak(!bits[i]);
-            WaitUntil(clock, (i + 1) * Timing.FiveBaudBitMs);
+            var clock = Stopwatch.StartNew();
+            for (var i = 0; i < bits.Length - 1; i++)
+            {
+                cancellation.ThrowIfCancellationRequested();
+                _line.SetBreak(!bits[i]);
+                WaitUntil(clock, (i + 1) * Timing.FiveBaudBitMs);
+            }
+            _line.SetBreak(false); // stop bit: the ECU answers within W1
         }
-        _line.SetBreak(false); // stop bit: the ECU answers within W1
+        finally
+        {
+            TrySetPriority(priority);
+        }
         Transport.DiscardInBuffer();
 
         var sync = ReadInitByte(Timing.SyncTimeoutMs, "the 0x55 sync byte");
@@ -339,13 +349,32 @@ public sealed class KLineLink
             cancellation.ThrowIfCancellationRequested();
     }
 
-    /// <summary>Waits until <paramref name="clock"/> reaches <paramref name="ms"/>: sleeps, then spins for the last milliseconds (timer resolution is 15 ms on Windows).</summary>
+    /// <summary>
+    /// Waits until <paramref name="clock"/> reaches <paramref name="ms"/>. The
+    /// deadlines are absolute, so a late wake-up does not delay the next edge.
+    /// Sleeps in short steps and spins only for the last moment: 2 ms, or 16 ms
+    /// on Windows, where a sleep lasts at least one 15.6 ms timer tick.
+    /// </summary>
     private static void WaitUntil(Stopwatch clock, int ms)
     {
-        var remaining = ms - clock.Elapsed.TotalMilliseconds;
-        if (remaining > 17)
-            Thread.Sleep((int)remaining - 16);
+        double remaining;
+        while ((remaining = ms - clock.Elapsed.TotalMilliseconds) > SpinMarginMs)
+            Thread.Sleep(Math.Max(1, (int)(remaining - SpinMarginMs) / 2));
         while (clock.Elapsed.TotalMilliseconds < ms)
             Thread.SpinWait(50);
     }
+
+    private static void TrySetPriority(ThreadPriority priority)
+    {
+        try
+        {
+            Thread.CurrentThread.Priority = priority;
+        }
+        catch (Exception ex) when (ex is ThreadStateException or PlatformNotSupportedException or UnauthorizedAccessException)
+        {
+            // Not allowed here: the timing is still absolute, only less protected.
+        }
+    }
+
+    private static readonly double SpinMarginMs = OperatingSystem.IsWindows() ? 16 : 2;
 }

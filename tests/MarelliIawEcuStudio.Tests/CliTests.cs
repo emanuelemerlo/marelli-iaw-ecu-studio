@@ -2,6 +2,7 @@ using MarelliIawEcuStudio.Cli;
 
 namespace MarelliIawEcuStudio.Tests;
 
+[Collection(nameof(TimingCollection))]
 public class CliTests
 {
     private static (int Code, string Output) Run(string stdin, params string[] args)

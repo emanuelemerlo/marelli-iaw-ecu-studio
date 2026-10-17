@@ -110,7 +110,9 @@ public sealed class Rfc2217Server : IDisposable
         };
 
         // Adapter → network.
-        var pump = Task.Run(() =>
+        // A dedicated thread: on a busy machine the thread pool can delay a pump
+        // task long enough for the client to time out.
+        var pump = Task.Factory.StartNew(() =>
         {
             var token = done.Token;
             var chunk = new List<byte>(64);
@@ -134,7 +136,7 @@ public sealed class Rfc2217Server : IDisposable
                     return;
                 }
             }
-        });
+        }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
         // Network → adapter.
         var buffer = new byte[512];

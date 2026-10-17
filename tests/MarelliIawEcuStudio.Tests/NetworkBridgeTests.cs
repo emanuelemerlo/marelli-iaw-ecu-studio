@@ -11,6 +11,7 @@ using MarelliIawEcuStudio.Transport.Network;
 namespace MarelliIawEcuStudio.Tests;
 
 /// <summary>The RFC 2217 client and server, end to end over a loopback socket.</summary>
+[Collection(nameof(TimingCollection))]
 public class NetworkBridgeTests
 {
     private static readonly DefinitionRegistry Registry = DefinitionRegistry.BuiltIn();

@@ -160,11 +160,20 @@ public sealed class KLineSimulatorTransport : ITransport, ILineControl
         var bit = Timing.FiveBaudBitMs;
         if (_edges.Count > 0 && _edges[0].Low && Now - _edges[0].TimeMs >= bit * 9.5)
         {
+            // A tester's edges come late, never early (its deadlines are absolute), so
+            // each edge belongs to the bit boundary at or just before it: -0.25 to +0.75 bit.
             var start = _edges[0].TimeMs;
+            var low = new bool[10];
+            foreach (var (time, isLow) in _edges)
+            {
+                var boundary = (int)Math.Round((time - start) / bit - 0.25);
+                for (var k = Math.Clamp(boundary, 0, 9); k < 10; k++)
+                    low[k] = isLow;
+            }
             byte address = 0;
             for (var i = 0; i < 8; i++)
             {
-                if (!LevelLowAt(start + (i + 1.5) * bit))
+                if (!low[i + 1])
                     address |= (byte)(1 << i);
             }
             _edges.Clear();
@@ -201,18 +210,6 @@ public sealed class KLineSimulatorTransport : ITransport, ILineControl
             Enqueue(ecu.Encode(framing, answers), delay);
             delay += InterEcuDelayMs;
         }
-    }
-
-    private bool LevelLowAt(double time)
-    {
-        var low = false;
-        foreach (var (t, isLow) in _edges)
-        {
-            if (t > time)
-                break;
-            low = isLow;
-        }
-        return low;
     }
 
     private void Enqueue(IEnumerable<byte> bytes, int delayMs)

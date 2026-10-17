@@ -40,8 +40,9 @@ jobs:
         if: failure()
         shell: bash
         run: |
-          encode() { tr -d '\r' | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }'; }
-          failed=$( (grep -E -A14 '^[[:space:]]*failed ' test-output.txt || true) | head -120 | encode)
+          # Drop the colour codes of the test output, then escape for an annotation.
+          encode() { sed $'s/\x1b\\[[0-9;]*m//g' | tr -d '\r' | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }'; }
+          failed=$( (sed $'s/\x1b\\[[0-9;]*m//g' test-output.txt | grep -E -A14 '^[[:space:]]*failed ' || true) | head -120 | encode)
           tail=$(tail -n 60 test-output.txt | encode)
           echo "::error title=Failed tests on ${{ matrix.os }}::${failed:-no 'failed' line: the test host may have crashed}"
           echo "::error title=End of test output on ${{ matrix.os }}::${tail}"

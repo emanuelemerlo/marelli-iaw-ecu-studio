@@ -8,6 +8,7 @@ using MarelliIawEcuStudio.Simulator;
 namespace MarelliIawEcuStudio.Tests;
 
 /// <summary>Framed K-Line (ISO 9141-2, ISO 14230) and OBD-II against the simulated ECUs.</summary>
+[Collection(nameof(TimingCollection))]
 public class ObdTests
 {
     private static readonly KLineTiming Fast = KLineTiming.Fast;
