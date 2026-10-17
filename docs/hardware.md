@@ -52,6 +52,8 @@ Use the `/dev/cu.*` device of the cable. Recent macOS versions include a driver 
 | KKL, PL2303 clones | Not tested; often reject custom speeds |
 | ELM327 (any interface) | Not possible (protocol) |
 | Bluetooth KKL (transparent SPP) | Not supported: the 1200→7680 baud change does not reach the cable |
+| Network bridge (RFC 2217) | Supported, see below; tested with `iaw-cli bridge` and the simulator; ser2net and esp-link not tried yet |
+| J2534 pass-thru | Not supported |
 
 Please report results with your adapter by opening an issue, including the output of `iaw-cli ports`.
 
@@ -77,3 +79,43 @@ When more than one request in a row fails, the session reports why:
 | the adapter echoes but the ECU does not answer | ignition off, 3-pin connector, K-Line wire |
 
 The application and `iaw-cli read` then try to reconnect by themselves (after 0.5, 1, 2, then every 5 seconds): they repeat the init and check that the ECU answering has the same CODRIC, so a different unit is never mistaken for the one connected. Turn the ignition off and on again if the ECU does not come back. Untick "Reconnect automatically" in Options, or pass `--no-reconnect`, to stop at the first loss as IES2 did; `--reconnect-attempts n` limits the attempts.
+
+## Network bridge (Wi-Fi, Ethernet)
+
+A transparent Bluetooth or Wi-Fi serial link cannot change the line speed, which the IAW protocol needs (1200 baud for the init, 7680 afterwards). RFC 2217 ("Telnet COM port control") carries the speed changes, so the cable can sit in the car, plugged into a Raspberry Pi, while the program runs on a laptop or another computer on the same network.
+
+On the computer with the cable:
+
+```sh
+iaw-cli bridge --port /dev/ttyUSB0 --listen 0.0.0.0:2217
+```
+
+Then connect with `--port rfc2217://<address>:2217` on the command line, or type `<address>:2217` in Options → "Network bridge" in the application: it appears in the interface list. `iaw-cli bridge --simulate` shares the simulator, to try the setup without a car.
+
+ser2net (version 4) and esp-link speak RFC 2217 too and should work, but have not been tried yet. A ser2net configuration (`/etc/ser2net.yaml`):
+
+```yaml
+connection: &iaw
+  accepter: telnet(rfc2217),tcp,2217
+  connector: serialdev,/dev/ttyUSB0,9600n81,local
+```
+
+esp-link runs on an ESP8266 that needs a K-Line transceiver such as the L9637D. The program checks that the bridge confirms every speed change and stops with a clear message when it does not (a plain TCP serial server, for instance).
+
+The bridge passes bytes through without looking at them: the confirmation of actuator tests stays in the program. `--listen` defaults to `127.0.0.1`; listening on `0.0.0.0` lets anyone on the network reach the car, so use it on a private network only. Network latency counts against the protocol timeouts (300 ms per request); a local Wi-Fi network is fine.
+
+## OBD-II cars (2001 and later)
+
+From about 2001 the FIAT, Lancia and Alfa Romeo petrol cars sold in Europe have EOBD on the 16-pin OBD connector, spoken over the same K-Line. The same KKL cable works, without the 3-pin adapter:
+
+```sh
+iaw-cli obd identify --port /dev/ttyUSB0      # protocol, ECUs, supported PIDs, VIN
+iaw-cli obd read --port /dev/ttyUSB0 --params RPM,ECT,MAP,STFT1 --count 0
+iaw-cli obd dtc --port /dev/ttyUSB0           # MIL, stored and pending codes
+iaw-cli obd clear --port /dev/ttyUSB0 --allow-active
+```
+
+The program wakes the ECU with the 5-baud init (ISO 9141-2 or KWP2000, about 2 seconds) and, if nothing answers, with the KWP2000 fast init; `--protocol iso9141|kwp-slow|kwp-fast` skips the search. Both inits are sent as timed breaks on the line, which FTDI cables support. Set the FTDI latency timer to 1 ms (see above): OBD messages are delimited by pauses of about 20 ms.
+
+This is generic OBD: the standard values every EOBD ECU must give. The manufacturer data of each unit (adaptations, actuator tests, the extra codes) uses KWP2000 local identifiers that differ for every ECU and are not included; the KWP2000 services are there (`Kwp2000Client`) for definitions to build on. CAN cars (from about 2008) need a different adapter and are not supported.
+

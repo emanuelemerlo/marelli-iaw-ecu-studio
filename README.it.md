@@ -22,6 +22,9 @@ Diagnosi per le centraline motore Magneti Marelli IAW delle FIAT, Lancia e Alfa 
 - Trace della linea: ogni byte sulla K-Line salvato in un file di testo, per segnalare i problemi; `iaw-cli trace` ne fa il riepilogo
 - Riproduzione dei trace: una sessione registrata risponde al posto dell'auto, per i test di regressione o per provare il programma con valori reali
 - Riconnessione automatica dopo una perdita di comunicazione (quadro spento e riacceso, connettore che balla), con la causa più probabile: nessuna eco dall'adattatore, eco errata, o centralina che non risponde
+- Bridge di rete (RFC 2217): `iaw-cli bridge` trasforma un Raspberry Pi con il cavo in un'interfaccia Wi-Fi; dovrebbero funzionare anche ser2net ed esp-link
+- OBD-II / EOBD con lo stesso cavo K-Line per le auto dal 2001: ISO 9141-2 e KWP2000 (init a 5 baud e fast init), dati in tempo reale standard, errori memorizzati e in attesa, VIN (`iaw-cli obd`, per ora solo da riga di comando)
+- Librerie su NuGet per altri programmi: protocollo, definizioni, trasporti, simulatore
 - Simulatore integrato per provare tutto senza auto
 - Windows, Linux (anche Raspberry Pi) e macOS; interfaccia in italiano e inglese, nomi di parametri ed errori in dieci lingue
 
@@ -72,6 +75,13 @@ dotnet run --project src/MarelliIawEcuStudio.Cli -- errors --port /dev/ttyUSB0
 dotnet run --project src/MarelliIawEcuStudio.Cli -- read --port /dev/ttyUSB0 --count 20 --trace punto.trace.txt
 dotnet run --project src/MarelliIawEcuStudio.Cli -- trace punto.trace.txt
 dotnet run --project src/MarelliIawEcuStudio.Cli -- read --replay punto.trace.txt --count 20
+
+# Attraverso un bridge di rete (sul Pi in auto: iaw-cli bridge --port /dev/ttyUSB0 --listen 0.0.0.0:2217)
+dotnet run --project src/MarelliIawEcuStudio.Cli -- read --port rfc2217://192.168.4.1:2217
+
+# Auto OBD-II (dal 2001), oppure --simulate kwp-fast senza auto
+dotnet run --project src/MarelliIawEcuStudio.Cli -- obd read --port /dev/ttyUSB0 --params RPM,ECT,MAP --lang it
+dotnet run --project src/MarelliIawEcuStudio.Cli -- obd dtc --port /dev/ttyUSB0
 ```
 
 Gli eseguibili pronti per Windows, Linux x64, Linux arm64 (Raspberry Pi) e macOS sono allegati a ogni [release](https://github.com/emanuelemerlo/marelli-iaw-ecu-studio/releases); la CI li produce anche a ogni modifica (GitHub Actions → artifacts).
@@ -81,6 +91,10 @@ Come IES2, il programma ascolta per 10 secondi il codice ISO che la centralina p
 ## Sicurezza
 
 Test attuatori, cancellazione errori e regolazioni comandano componenti reali (pompa, iniettori, bobine). L'applicazione chiede conferma prima di ciascuno e permette di disattivarli nelle Opzioni; lo strumento a riga di comando è **in sola lettura** senza `--allow-active`, e chiede anch'esso conferma. Le definizioni non marcate `verified` non eseguono comandi attivi salvo autorizzazione esplicita. Uso a proprio rischio; vedi l'esclusione di garanzia nella licenza.
+
+## Librerie
+
+Le quattro librerie (Core, i due trasporti, Simulator) sono pubblicate come pacchetti NuGet: esempi in [src/PACKAGE.md](src/PACKAGE.md).
 
 ## Origine e licenza
 
