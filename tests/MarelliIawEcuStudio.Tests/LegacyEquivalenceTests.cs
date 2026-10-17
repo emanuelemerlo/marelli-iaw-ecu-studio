@@ -45,6 +45,21 @@ public class LegacyEquivalenceTests
         return (LegacyEcu)Activator.CreateInstance(type, BindingFlags.Public | BindingFlags.Instance, null, [port], null)!;
     }
 
+    /// <summary>
+    /// Spelling mistakes of the IES2 English strings, corrected in Strings.resx.
+    /// Applied to the legacy text so that the names still have to match word for word.
+    /// </summary>
+    private static readonly (string Legacy, string Corrected)[] SpellingFixes =
+    [
+        ("Acivated", "Activated"),
+        ("Autocallibration", "Autocalibration"),
+        ("Unknkown", "Unknown"),
+        ("Decrased", "Decreased"),
+    ];
+
+    private static string Corrected(string? legacy) =>
+        SpellingFixes.Aggregate(legacy ?? "", (text, fix) => text.Replace(fix.Legacy, fix.Corrected, StringComparison.Ordinal));
+
     private static string LegacyConst(Type type, string name) => (string)type.GetField(name)!.GetRawConstantValue()!;
 
     [Fact]
@@ -71,7 +86,7 @@ public class LegacyEquivalenceTests
         {
             var l = legacy.engineData[i];
             var p = new ParameterDecoder(d.Parameters[i], d.Tables);
-            Assert.Equal(l.Description, p.GetName(CultureInfo.InvariantCulture));
+            Assert.Equal(Corrected(l.Description), p.GetName(CultureInfo.InvariantCulture));
             Assert.Equal(l.Unit, p.GetUnit(CultureInfo.InvariantCulture));
             Assert.Equal(l.RequestSet, d.Parameters[i].Requests);
         }
@@ -158,7 +173,7 @@ public class LegacyEquivalenceTests
             legacy[i].Decode();
             var n = ErrorDecoder.Decode(group.Scheme, group.Items[i], buffer, CultureInfo.InvariantCulture);
             var where = $"{id} error {i} ({group.Items[i].NameKey}), round {round}";
-            Assert.True(legacy[i].Description == n.GetName(CultureInfo.InvariantCulture), where + ": name");
+            Assert.True(Corrected(legacy[i].Description) == n.GetName(CultureInfo.InvariantCulture), where + ": name");
             Assert.True(legacy[i].isActive == n.IsActive, where + ": active");
             Assert.True(legacy[i].isVerified == n.IsVerified, where + ": verified");
             Assert.True(legacy[i].isStored == n.IsStored, where + ": stored");
@@ -177,7 +192,7 @@ public class LegacyEquivalenceTests
         for (var i = 0; i < d.ActiveTests.Count; i++)
         {
             var (l, n) = (legacy.activeTest[i], d.ActiveTests[i]);
-            Assert.Equal(l.Description, Localizer.Text(n.NameKey, n.Name, CultureInfo.InvariantCulture));
+            Assert.Equal(Corrected(l.Description), Localizer.Text(n.NameKey, n.Name, CultureInfo.InvariantCulture));
             Assert.Equal(l.EngineRunning, n.EngineRunning);
             Assert.Equal(l.TimeOut, n.TimeoutSeconds);
             Assert.Equal(l.RequestSet, n.Requests);
@@ -192,7 +207,7 @@ public class LegacyEquivalenceTests
         for (var i = 0; i < adjustments.Length; i++)
         {
             var (l, n) = (adjustments[i], d.Adjustments[i]);
-            Assert.Equal(l.Description, Localizer.Text(n.NameKey, n.Name, CultureInfo.InvariantCulture));
+            Assert.Equal(Corrected(l.Description), Localizer.Text(n.NameKey, n.Name, CultureInfo.InvariantCulture));
             Assert.Equal(l.StatusByte, n.StatusRequest);
             Assert.Equal(l.StatusMask, n.StatusMask);
             Assert.Equal(l.PreSet, n.PreSet);

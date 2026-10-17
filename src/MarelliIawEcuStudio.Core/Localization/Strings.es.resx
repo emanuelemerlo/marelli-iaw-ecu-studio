@@ -118,31 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ACrelay" xml:space="preserve">
-    <value>Relé de Aire Acondicionado</value>
+    <value>Relé del compresor A/C</value>
   </data>
   <data name="Act" xml:space="preserve">
     <value>[A]</value>
   </data>
   <data name="ADGAIN" xml:space="preserve">
-    <value>AC Parámetro de Ganancia (Media Carga)</value>
+    <value>Ganancia de autocalibración (carga media)</value>
   </data>
   <data name="Adjusting" xml:space="preserve">
-    <value>Ajustando: {0} ...</value>
+    <value>AJUSTANDO: {0}...</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>AC Parametro de compensación (Carga minima)</value>
+    <value>Offset de autocalibración (carga mínima)</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>AC Parametro de compensación (Carga minima, EVAP encendido)</value>
+    <value>Offset de autocalibración (carga mínima, EVAP activada)</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>AC Parametro de compensación (Carga minima, EVAP apagado)</value>
+    <value>Offset de autocalibración (carga mínima, EVAP desactivada)</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
-    <value>Corrección de motor paso a paso desde FLT</value>
+    <value>Corrección del motor paso a paso desde FLT</value>
   </data>
   <data name="ALFAR" xml:space="preserve">
-    <value>Posición de motor Stepper en ralentí</value>
+    <value>Posición del motor paso a paso de ralentí</value>
   </data>
   <data name="ALFAU" xml:space="preserve">
     <value>Corrección de autocalibración</value>
@@ -151,13 +151,13 @@
     <value>Corrección de autocalibración con A/C</value>
   </data>
   <data name="ANG_PAP0" xml:space="preserve">
-    <value>Ángulo de apertura de mariposa de aceleración</value>
+    <value>Ángulo de apertura de la mariposa</value>
   </data>
   <data name="AtMAX" xml:space="preserve">
-    <value>Por encima del maximo</value>
+    <value>Por encima del MÁX</value>
   </data>
   <data name="AtMIN" xml:space="preserve">
-    <value>Por debajo del minimo</value>
+    <value>Por debajo del MÍN</value>
   </data>
   <data name="autodetect" xml:space="preserve">
     <value>Detección automática</value>
@@ -169,7 +169,7 @@
     <value>CANCELADO</value>
   </data>
   <data name="ClearingErrors" xml:space="preserve">
-    <value>Borrando códigos de error ...</value>
+    <value>Borrando códigos de error...</value>
   </data>
   <data name="Coil1" xml:space="preserve">
     <value>Bobina 1</value>
@@ -178,34 +178,34 @@
     <value>Bobina 2</value>
   </data>
   <data name="CommLost" xml:space="preserve">
-    <value>Sin respuesta de ECU</value>
+    <value>La centralita no responde</value>
   </data>
   <data name="COMnotValid" xml:space="preserve">
-    <value>ERROR puerto de interfaz</value>
+    <value>ERROR en el puerto de la interfaz</value>
   </data>
   <data name="COMopenError" xml:space="preserve">
-    <value>Ha ocurrido un error mientras se abria el puerto {0}</value>
+    <value>Se ha producido un error al abrir el puerto {0}.</value>
   </data>
   <data name="ConMeter" xml:space="preserve">
-    <value>Medidor de consumo</value>
+    <value>Indicador de consumo</value>
   </data>
   <data name="ConnectedTo" xml:space="preserve">
     <value>CONECTADO A:</value>
   </data>
   <data name="Connecting" xml:space="preserve">
-    <value>Posicione el interruptor de encendido en ON...</value>
+    <value>Ponga el contacto...</value>
   </data>
   <data name="CONS_REG" xml:space="preserve">
-    <value>Velocidad de ralentí del motor</value>
+    <value>Régimen de ralentí</value>
   </data>
   <data name="DELREG" xml:space="preserve">
-    <value>Corrección de motor paso a paso (Delta)</value>
+    <value>Corrección del motor paso a paso (delta)</value>
   </data>
   <data name="EGR" xml:space="preserve">
     <value>Válvula EGR</value>
   </data>
   <data name="EnsureIgnOnEngStop" xml:space="preserve">
-    <value>Asegúrese que interruptor de encendido está en ON y el motor detenido.</value>
+    <value>Asegúrese de que el contacto está PUESTO y el motor PARADO.</value>
   </data>
   <data name="ErrACParam" xml:space="preserve">
     <value>Parámetro de autocalibración</value>
@@ -214,19 +214,19 @@
     <value>Aire acondicionado</value>
   </data>
   <data name="ErrAutoTrans" xml:space="preserve">
-    <value>Transmisión automática</value>
+    <value>Cambio automático</value>
   </data>
   <data name="ErrBackdoor" xml:space="preserve">
-    <value>Puerta trasera activada</value>
+    <value>Backdoor activada</value>
   </data>
   <data name="ErrBattV" xml:space="preserve">
-    <value>Voltaje de batería</value>
+    <value>Tensión de la batería</value>
   </data>
   <data name="ErrC4" xml:space="preserve">
-    <value>Código de error desconocido (4)</value>
+    <value>Error CODE desconocido (4)</value>
   </data>
   <data name="ErrCam" xml:space="preserve">
-    <value>Sensor de posición levas</value>
+    <value>Sensor de fase (árbol de levas)</value>
   </data>
   <data name="ErrCnt" xml:space="preserve">
     <value>Contador de errores</value>
@@ -238,58 +238,58 @@
     <value>Bobina de encendido 2</value>
   </data>
   <data name="ErrConMet" xml:space="preserve">
-    <value>Medidor de consumo</value>
+    <value>Indicador de consumo</value>
   </data>
   <data name="ErrCPU" xml:space="preserve">
     <value>CPU</value>
   </data>
   <data name="ErrDigimatic" xml:space="preserve">
-    <value>Señal de Digimatic</value>
+    <value>Señal Digimatic</value>
   </data>
   <data name="ErrECT" xml:space="preserve">
-    <value>Sensor de temperatura de agua</value>
+    <value>Sensor de temperatura del agua</value>
   </data>
   <data name="ErrEEPROM" xml:space="preserve">
     <value>EEPROM</value>
   </data>
   <data name="ErrEGRCtrl" xml:space="preserve">
-    <value>Control de EGR</value>
+    <value>Control EGR</value>
   </data>
   <data name="ErrEGRVal" xml:space="preserve">
-    <value>Válvula de EGR</value>
+    <value>Válvula EGR</value>
   </data>
   <data name="ErrEPROM" xml:space="preserve">
     <value>EPROM</value>
   </data>
   <data name="ErrEVAP" xml:space="preserve">
-    <value>Válvula EVAP</value>
+    <value>Electroválvula del cánister (EVAP)</value>
   </data>
   <data name="ErrF7" xml:space="preserve">
-    <value>FUNC ERROR Desconocido (7)</value>
+    <value>Error funcional desconocido (7)</value>
   </data>
   <data name="ErrF8" xml:space="preserve">
-    <value>FUNC ERROR Desconocido (8)</value>
+    <value>Error funcional desconocido (8)</value>
   </data>
   <data name="ErrFuelPump" xml:space="preserve">
     <value>Bomba de combustible</value>
   </data>
   <data name="ErrGenRel" xml:space="preserve">
-    <value>Generic System Relay</value>
+    <value>Relé principal</value>
   </data>
   <data name="ErrI2" xml:space="preserve">
-    <value>INPUT ERROR Desconocido (2)</value>
+    <value>Error de entrada desconocido (2)</value>
   </data>
   <data name="ErrI8" xml:space="preserve">
-    <value>INPUT ERROR Desconocido (8)</value>
+    <value>Error de entrada desconocido (8)</value>
   </data>
   <data name="ErrIAT" xml:space="preserve">
-    <value>Sensor de temperatura de aire</value>
+    <value>Sensor de temperatura del aire</value>
   </data>
   <data name="ErrIAV" xml:space="preserve">
     <value>Motor paso a paso de ralentí</value>
   </data>
   <data name="ErrIdleReg" xml:space="preserve">
-    <value>Regulación de ralentí</value>
+    <value>Regulación del ralentí</value>
   </data>
   <data name="ErrInj" xml:space="preserve">
     <value>Inyector</value>
@@ -301,10 +301,10 @@
     <value>Inyectores (grupo 2)</value>
   </data>
   <data name="ErrInjs" xml:space="preserve">
-    <value>inyectores</value>
+    <value>Inyectores</value>
   </data>
   <data name="ErrKeyCode" xml:space="preserve">
-    <value>Error de codigo de llave</value>
+    <value>Error del código de llave</value>
   </data>
   <data name="ErrKnock" xml:space="preserve">
     <value>Sensor de detonación</value>
@@ -316,34 +316,34 @@
     <value>Sonda lambda</value>
   </data>
   <data name="ErrLinkDown" xml:space="preserve">
-    <value>Código no recibido o desconectado</value>
+    <value>No se ha recibido el código o conexión interrumpida</value>
   </data>
   <data name="ErrMAP" xml:space="preserve">
-    <value>Sensor MAP</value>
+    <value>Sensor de presión absoluta (MAP)</value>
   </data>
   <data name="ErrMIL" xml:space="preserve">
-    <value>Lámpara MIL</value>
+    <value>Testigo de avería del motor (MIL)</value>
   </data>
   <data name="ErrMixRatio" xml:space="preserve">
-    <value>Relación de mezcla</value>
+    <value>Proporción de la mezcla</value>
   </data>
   <data name="ErrNeutralGear" xml:space="preserve">
-    <value>Señal de Neutro/Drive</value>
+    <value>Señal punto muerto/marcha</value>
   </data>
   <data name="ErrNoSync" xml:space="preserve">
-    <value>ECU no sincronizado con CODE</value>
+    <value>Centralita no sincronizada con el CODE</value>
   </data>
   <data name="ErrO1a" xml:space="preserve">
-    <value>OUTPUT Error Desconocido (1a)</value>
+    <value>Error de salida desconocido (1a)</value>
   </data>
   <data name="ErrO2a" xml:space="preserve">
-    <value>OUTPUT Error Desconocido (2a)</value>
+    <value>Error de salida desconocido (2a)</value>
   </data>
   <data name="ErrO3a" xml:space="preserve">
-    <value>OUTPUT Error Desconocido (3a)</value>
+    <value>Error de salida desconocido (3a)</value>
   </data>
   <data name="ErrO4a" xml:space="preserve">
-    <value>OUTPUT Error Desconocido (4a)</value>
+    <value>Error de salida desconocido (4a)</value>
   </data>
   <data name="Errors" xml:space="preserve">
     <value>ERRORES:</value>
@@ -355,37 +355,37 @@
     <value>ROM</value>
   </data>
   <data name="ErrRPMSens" xml:space="preserve">
-    <value>Sensor TDC/RPM</value>
+    <value>Sensor de PMS/régimen</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
     <value>Sensor SMOT</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Secuencia panel de señales</value>
+    <value>Secuencia del signal panel</value>
   </data>
   <data name="ErrStartDis" xml:space="preserve">
-    <value>ECU No permitido para arrancar el motor</value>
+    <value>La centralita no permite arrancar el motor</value>
   </data>
   <data name="ErrTPS" xml:space="preserve">
-    <value>Sensor de posición de mariposa de aceleración</value>
+    <value>Sensor de posición de la mariposa</value>
   </data>
   <data name="ErrUniCode" xml:space="preserve">
-    <value>ECU ha recibido el Código Universal</value>
+    <value>La centralita ha recibido el 'código universal'</value>
   </data>
   <data name="ErrUnrCode" xml:space="preserve">
-    <value>Codigo Incorrecto o no reconocido</value>
+    <value>Código incorrecto o no reconocido</value>
   </data>
   <data name="ErrVAE" xml:space="preserve">
     <value>VAE bloqueada abierta o cerrada</value>
   </data>
   <data name="ErrWasteG" xml:space="preserve">
-    <value>Puerta de residuos</value>
+    <value>Válvula wastegate</value>
   </data>
   <data name="EscCancel" xml:space="preserve">
-    <value>Presione [ESC] para cancelar</value>
+    <value>Pulse [Esc] para cancelar</value>
   </data>
   <data name="EVAP" xml:space="preserve">
-    <value>Válvula EVAP</value>
+    <value>Electroválvula del cánister (EVAP)</value>
   </data>
   <data name="F10_Connect" xml:space="preserve">
     <value>[F10] Conectar</value>
@@ -397,31 +397,31 @@
     <value>Pulse [F11] para confirmar</value>
   </data>
   <data name="FABEEAT" xml:space="preserve">
-    <value>Auto-adaptación activada en EEPROM</value>
+    <value>Autoadaptación activada en EEPROM</value>
   </data>
   <data name="FABEEATi" xml:space="preserve">
-    <value>Autoadaptación de ralenti activada en EEPROM</value>
+    <value>Autoadaptación del ralentí activada en EEPROM</value>
   </data>
   <data name="FABEPAT" xml:space="preserve">
-    <value>Auto-adaptación activada en EPROM</value>
+    <value>Autoadaptación activada en EPROM</value>
   </data>
   <data name="FABEPATi" xml:space="preserve">
-    <value>Autoadaptación de ralenti activada en EPROM</value>
+    <value>Autoadaptación del ralentí activada en EPROM</value>
   </data>
   <data name="Failed" xml:space="preserve">
     <value>FALLIDO</value>
   </data>
   <data name="FLGSMA" xml:space="preserve">
-    <value>Sensor lambda en lazo cerrado</value>
+    <value>Sonda lambda en lazo cerrado</value>
   </data>
   <data name="FuelPump" xml:space="preserve">
-    <value>Relé bomba de combustible</value>
+    <value>Relé de la bomba de combustible</value>
   </data>
   <data name="GenericRelay" xml:space="preserve">
-    <value>Relé genérico</value>
+    <value>Relé principal</value>
   </data>
   <data name="InitFailed" xml:space="preserve">
-    <value>INICIALIZACIÓN FALLIDA</value>
+    <value>FALLO DE INIC.</value>
   </data>
   <data name="Injector" xml:space="preserve">
     <value>Inyector</value>
@@ -430,7 +430,7 @@
     <value>Inyector 1</value>
   </data>
   <data name="Injector2" xml:space="preserve">
-    <value>inyector 2</value>
+    <value>Inyector 2</value>
   </data>
   <data name="Injector3" xml:space="preserve">
     <value>Inyector 3</value>
@@ -442,163 +442,163 @@
     <value>Inyectores</value>
   </data>
   <data name="INJ_AVA" xml:space="preserve">
-    <value>Ángulo de avance de la inyección</value>
+    <value>Ángulo de fase de la inyección</value>
   </data>
   <data name="InProceed" xml:space="preserve">
-    <value>PENDIENTE...</value>
+    <value>EN CURSO...</value>
   </data>
   <data name="INTEGR" xml:space="preserve">
-    <value>Ganacia integral de motor paso a paso ralentí</value>
+    <value>Ganancia integral del motor paso a paso de ralentí</value>
   </data>
   <data name="K_O2" xml:space="preserve">
-    <value>Corrección sonda lambda</value>
+    <value>Corrección de la sonda lambda</value>
   </data>
   <data name="K_O2_RAW" xml:space="preserve">
-    <value>Voltaje sonda lambda</value>
+    <value>Tensión de la sonda lambda</value>
   </data>
   <data name="MaxLEAN" xml:space="preserve">
-    <value>Max Mezcla POBRE</value>
+    <value>Máx. POBRE</value>
   </data>
   <data name="MaxRICH" xml:space="preserve">
-    <value>Max Mezcla RICA</value>
+    <value>Máx. RICA</value>
   </data>
   <data name="MIL" xml:space="preserve">
-    <value>Lámpara MIL</value>
+    <value>Testigo de avería del motor (MIL)</value>
   </data>
   <data name="MP2_MP8" xml:space="preserve">
-    <value>Presión absoluta multiple de admisión</value>
+    <value>Presión absoluta del colector</value>
   </data>
   <data name="MP2_MP8t" xml:space="preserve">
-    <value>Presión absoluta multiple de admisión (TURBO)</value>
+    <value>Presión absoluta del colector (TURBO)</value>
   </data>
   <data name="MT_AIR_L" xml:space="preserve">
-    <value>Temperatura aire</value>
+    <value>Temperatura del aire</value>
   </data>
   <data name="MT_EAU_L" xml:space="preserve">
-    <value>Temperatura agua</value>
+    <value>Temperatura del agua</value>
   </data>
   <data name="NoAir" xml:space="preserve">
-    <value>Sin aire</value>
+    <value>Aire insuficiente</value>
   </data>
   <data name="OFFSET1" xml:space="preserve">
-    <value>Calibración automática de inyección Offset @ ZONA 1</value>
+    <value>Offset de autocalibración de la inyección @ ZONA 1</value>
   </data>
   <data name="OFFSET2" xml:space="preserve">
-    <value>Calibración automática de inyección Offset @ ZONA 2</value>
+    <value>Offset de autocalibración de la inyección @ ZONA 2</value>
   </data>
   <data name="OFFSET3" xml:space="preserve">
-    <value>Calibración automática de inyección Offset @ ZONA 3</value>
+    <value>Offset de autocalibración de la inyección @ ZONA 3</value>
   </data>
   <data name="OFFSET4" xml:space="preserve">
-    <value>Calibración automática de inyección Offset @ ZONA 4</value>
+    <value>Offset de autocalibración de la inyección @ ZONA 4</value>
   </data>
   <data name="OFFSET5" xml:space="preserve">
-    <value>Calibración automática de inyección Offset @ ZONA 5</value>
+    <value>Offset de autocalibración de la inyección @ ZONA 5</value>
   </data>
   <data name="OFFSET6" xml:space="preserve">
-    <value>Calibración automática de inyección Offset @ ZONA 6</value>
+    <value>Offset de autocalibración de la inyección @ ZONA 6</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Calibración automática de inyección Offset en RALENTÍ</value>
+    <value>Offset de autocalibración de la inyección @ RALENTÍ</value>
   </data>
   <data name="OFNNTR" xml:space="preserve">
-    <value>Ajuste de Ralentí de motor</value>
+    <value>Offset del régimen de ralentí</value>
   </data>
   <data name="OpenCircuit" xml:space="preserve">
     <value>Circuito abierto</value>
   </data>
   <data name="OverB" xml:space="preserve">
-    <value>Over Boost</value>
+    <value>Sobrepresión de turbo (overboost)</value>
   </data>
   <data name="Parameters" xml:space="preserve">
     <value>PARÁMETROS:</value>
   </data>
   <data name="Passed" xml:space="preserve">
-    <value>APROBADO</value>
+    <value>CORRECTO</value>
   </data>
   <data name="PERIODE" xml:space="preserve">
-    <value>Velocidad del motor</value>
+    <value>Régimen del motor</value>
   </data>
   <data name="Press_F10" xml:space="preserve">
-    <value>Pulse [F10] para cerrar la conexión o [F12] para reconectar</value>
+    <value>Pulse [F10] para cerrar la conexión o [F12] para volver a conectar</value>
   </data>
   <data name="PreviouslySelectedPort" xml:space="preserve">
-    <value>El puerto previamente seleccionado {0} ya no está disponible. Por favor seleccione otro puerto.</value>
+    <value>El puerto {0} seleccionado anteriormente ya no está disponible. Seleccione otro puerto.</value>
   </data>
   <data name="PROP" xml:space="preserve">
-    <value>Ralentí motor paso a paso ganancia proporcional</value>
+    <value>Ganancia proporcional del motor paso a paso de ralentí</value>
   </data>
   <data name="REVmeter" xml:space="preserve">
-    <value>Medidor de revoluciones</value>
+    <value>Cuentarrevoluciones</value>
   </data>
   <data name="rpm" xml:space="preserve">
-    <value>RPM</value>
+    <value>rpm</value>
   </data>
   <data name="ShortToGND" xml:space="preserve">
-    <value>Cortocircuito hacia masa</value>
+    <value>Cortocircuito a masa</value>
   </data>
   <data name="ShortToGNDorOpen" xml:space="preserve">
-    <value>Cortocircuito hacia masa / abierto</value>
+    <value>Cortocircuito a masa/circuito abierto</value>
   </data>
   <data name="ShortToVcc" xml:space="preserve">
-    <value>Cortocircuito a + Vcc</value>
+    <value>Cortocircuito a +Vcc</value>
   </data>
   <data name="Simulation" xml:space="preserve">
-    <value>MODO SIMULACIÓN !!!</value>
+    <value>¡¡¡MODO SIMULACIÓN!!!</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
-    <value>ABS Activo</value>
+    <value>ABS activo</value>
   </data>
   <data name="StaAdvDecr" xml:space="preserve">
-    <value>Avance de encendido reducido por detonación</value>
+    <value>Avance reducido por detonación</value>
   </data>
   <data name="StaAirCoON" xml:space="preserve">
-    <value>Aire Acondicionado encendido</value>
+    <value>Aire acondicionado ENCENDIDO</value>
   </data>
   <data name="StaClLoop" xml:space="preserve">
-    <value>Sensor Lambda en lazo cerrado</value>
+    <value>Sonda lambda en lazo cerrado</value>
   </data>
   <data name="StaEngRun" xml:space="preserve">
-    <value>Motor funcionando</value>
+    <value>Motor en marcha</value>
   </data>
   <data name="StaGearEng" xml:space="preserve">
     <value>Marcha engranada</value>
   </data>
   <data name="StaMixACOK" xml:space="preserve">
-    <value>Autocalibración de mezcla HABILITADA</value>
+    <value>Autocalibración de la mezcla ACTIVADA</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
-    <value>Power Latch Line OK</value>
+    <value>Línea power latch OK</value>
   </data>
   <data name="Start" xml:space="preserve">
-    <value>&amp;Inicio</value>
+    <value>&amp;Iniciar</value>
   </data>
   <data name="StaSensOK" xml:space="preserve">
-    <value>Señales del sensor OK</value>
+    <value>Señales de los sensores OK</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Panel de señal OK</value>
+    <value>Signal panel OK</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Autocalibracion de motor aso a paso ACTIVADO</value>
+    <value>Autocalibración del motor paso a paso ACTIVADA</value>
   </data>
   <data name="StaThrMM" xml:space="preserve">
-    <value>Acelerador en Min / Max</value>
+    <value>Mariposa en mín./máx.</value>
   </data>
   <data name="StaVAESC" xml:space="preserve">
-    <value>Autolimpieza de VAE en curso</value>
+    <value>Autolimpieza de la VAE en curso</value>
   </data>
   <data name="Stepper" xml:space="preserve">
     <value>Motor paso a paso (actuador de ralentí)</value>
   </data>
   <data name="StepReset" xml:space="preserve">
-    <value>reinicio de autocalibración motor paso a paso</value>
+    <value>Reinicio de la autocalibración del motor paso a paso de ralentí</value>
   </data>
   <data name="steps" xml:space="preserve">
     <value>pasos</value>
   </data>
   <data name="StepSet" xml:space="preserve">
-    <value>Configurar corrección de motor paso a paso (ALFAFTR)</value>
+    <value>Ajustar la corrección del motor paso a paso (ALFAFTR)</value>
   </data>
   <data name="Sto" xml:space="preserve">
     <value>[S]</value>
@@ -607,58 +607,58 @@
     <value>&amp;Detener</value>
   </data>
   <data name="TestDuration" xml:space="preserve">
-    <value>Si la prueba tarda más de {0} s por favor salir gire la llave de encendido a OFF y cierre la aplicación!</value>
+    <value>Si la prueba dura más de {0} s, quite el contacto y cierre el programa.</value>
   </data>
   <data name="Testing" xml:space="preserve">
-    <value>PROBANDO: {0} ...</value>
+    <value>PROBANDO: {0}...</value>
   </data>
   <data name="Therm" xml:space="preserve">
-    <value>Cortocircuito hacia masa / + Vcc / Therm</value>
+    <value>Cortocircuito a masa/+Vcc o protección térmica</value>
   </data>
   <data name="Timeout" xml:space="preserve">
     <value>TIEMPO AGOTADO</value>
   </data>
   <data name="ToggleStepAC" xml:space="preserve">
-    <value>Conmutar calibración automática de motor paso a paso ralentí</value>
+    <value>Activar/desactivar la autocalibración del motor paso a paso de ralentí</value>
   </data>
   <data name="ToggleTrimAC" xml:space="preserve">
-    <value>Conmutar autocalibración ajuste de combustible</value>
+    <value>Activar/desactivar la autocalibración de la mezcla</value>
   </data>
   <data name="TooMuchAir" xml:space="preserve">
     <value>Demasiado aire</value>
   </data>
   <data name="TRIMRAM" xml:space="preserve">
-    <value>Posición Trimmer</value>
+    <value>Posición del trimmer</value>
   </data>
   <data name="TrimReset" xml:space="preserve">
-    <value>Reinicio de autocalibración ajuste de combustible</value>
+    <value>Reinicio de la autocalibración de la mezcla</value>
   </data>
   <data name="TrimSet" xml:space="preserve">
-    <value>Ajustar posición trimmer (TRIMRAM)</value>
+    <value>Ajustar la posición del trimmer (TRIMRAM)</value>
   </data>
   <data name="TurnOFF" xml:space="preserve">
-    <value>Por favor, gire interruptor de encendido a OFF ...</value>
+    <value>Quite el contacto...</value>
   </data>
   <data name="T_INJ_AP" xml:space="preserve">
-    <value>Duración de la inyección</value>
+    <value>Tiempo de inyección</value>
   </data>
   <data name="T_VAE" xml:space="preserve">
-    <value>VAE Ciclo de trabajo (Control ralentí)</value>
+    <value>Ciclo de trabajo VAE (control del ralentí)</value>
   </data>
   <data name="UnknownISO" xml:space="preserve">
     <value>Desconocido</value>
   </data>
   <data name="UnrecECU" xml:space="preserve">
-    <value>ECU no podía ser reconocida,Por favor, gire la llave de encendido a OFF ...</value>
+    <value>Centralita no reconocida, quite el contacto...</value>
   </data>
   <data name="VAE" xml:space="preserve">
-    <value>Válvula de control de ralentí (VAE)</value>
+    <value>Válvula de control del ralentí (VAE)</value>
   </data>
   <data name="Ver" xml:space="preserve">
     <value>[V]</value>
   </data>
   <data name="V_BATT" xml:space="preserve">
-    <value>Voltaje de batería</value>
+    <value>Tensión de la batería</value>
   </data>
   <data name="yes_no" xml:space="preserve">
     <value>SÍ;;NO</value>

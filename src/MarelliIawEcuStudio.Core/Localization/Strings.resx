@@ -163,7 +163,7 @@
     <value>Unknown CODE ERROR (4)</value>
   </data>
   <data name="ErrBackdoor" xml:space="preserve">
-    <value>Backdoor Acivated</value>
+    <value>Backdoor Activated</value>
   </data>
   <data name="ErrKeyCode" xml:space="preserve">
     <value>Key Code Error</value>
@@ -190,7 +190,7 @@
     <value>EVAP Valve</value>
   </data>
   <data name="ErrACParam" xml:space="preserve">
-    <value>Autocallibration Parameter</value>
+    <value>Autocalibration Parameter</value>
   </data>
   <data name="ErrRAM" xml:space="preserve">
     <value>RAM</value>
@@ -442,19 +442,19 @@
     <value>No Air</value>
   </data>
   <data name="ErrO1a" xml:space="preserve">
-    <value>Unknkown OUTPUT Error (1a)</value>
+    <value>Unknown OUTPUT Error (1a)</value>
   </data>
   <data name="ErrInjs" xml:space="preserve">
     <value>Injectors</value>
   </data>
   <data name="ErrO2a" xml:space="preserve">
-    <value>Unknkown OUTPUT Error (2a)</value>
+    <value>Unknown OUTPUT Error (2a)</value>
   </data>
   <data name="ErrO3a" xml:space="preserve">
-    <value>Unknkown OUTPUT Error (3a)</value>
+    <value>Unknown OUTPUT Error (3a)</value>
   </data>
   <data name="ErrO4a" xml:space="preserve">
-    <value>Unknkown OUTPUT Error (4a)</value>
+    <value>Unknown OUTPUT Error (4a)</value>
   </data>
   <data name="ErrMixRatio" xml:space="preserve">
     <value>Mixture ratio</value>
@@ -472,7 +472,7 @@
     <value>MIL Lamp</value>
   </data>
   <data name="StaAdvDecr" xml:space="preserve">
-    <value>Ignition Advance Decrased for Knocking</value>
+    <value>Ignition Advance Decreased for Knocking</value>
   </data>
   <data name="StaGearEng" xml:space="preserve">
     <value>Gear Engaged</value>
@@ -637,7 +637,7 @@
     <value>Fuel trim autocalibration reset</value>
   </data>
   <data name="COMopenError" xml:space="preserve">
-    <value>An error has occured while openenig the {0} port.</value>
+    <value>An error has occurred while opening the {0} port.</value>
   </data>
   <data name="ErrCnt" xml:space="preserve">
     <value>Error Counter</value>

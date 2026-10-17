@@ -163,7 +163,7 @@
     <value>Nieznany błąd CODE (4)</value>
   </data>
   <data name="ErrBackdoor" xml:space="preserve">
-    <value>Aktyowowano obejście</value>
+    <value>Aktywowano obejście (backdoor)</value>
   </data>
   <data name="ErrKeyCode" xml:space="preserve">
     <value>Błędny kod klucza</value>
@@ -187,7 +187,7 @@
     <value>Korekta silnika krokowego (delta)</value>
   </data>
   <data name="EVAP" xml:space="preserve">
-    <value>Zawór recyrkulacji oparów paliwa</value>
+    <value>Zawór odpowietrzania zbiornika paliwa (EVAP)</value>
   </data>
   <data name="ErrACParam" xml:space="preserve">
     <value>Parametr autokalibracji</value>
@@ -208,10 +208,10 @@
     <value>Czujnik położenia wału</value>
   </data>
   <data name="ErrF7" xml:space="preserve">
-    <value>Nieznany błąd FUNC (7)</value>
+    <value>Nieznany błąd funkcji (7)</value>
   </data>
   <data name="ErrF8" xml:space="preserve">
-    <value>Nieznany błąd FUNC (8)</value>
+    <value>Nieznany błąd funkcji (8)</value>
   </data>
   <data name="FuelPump" xml:space="preserve">
     <value>Przekaźnik pompy paliwa</value>
@@ -241,7 +241,7 @@
     <value>Regulacja biegu jałowego</value>
   </data>
   <data name="ErrI8" xml:space="preserve">
-    <value>Nieznay błąd INPUT (8)</value>
+    <value>Nieznany błąd wejścia (8)</value>
   </data>
   <data name="Injector" xml:space="preserve">
     <value>Wtryskiwacz</value>
@@ -274,7 +274,7 @@
     <value>Silnik krokowy biegu jałowego</value>
   </data>
   <data name="ErrEVAP" xml:space="preserve">
-    <value>Zawór EVAP</value>
+    <value>Zawór odpowietrzania zbiornika paliwa (EVAP)</value>
   </data>
   <data name="ErrAirCo" xml:space="preserve">
     <value>Klimatyzator</value>
@@ -301,10 +301,10 @@
     <value>Silnik pracuje</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Autolakibrajca silnika krokowego WŁĄCZONA</value>
+    <value>Autokalibracja silnika krokowego WŁĄCZONA</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
-    <value>Linia zasialnia OK</value>
+    <value>Linia podtrzymania zasilania OK</value>
   </data>
   <data name="StaSensOK" xml:space="preserve">
     <value>Sygnały z czujników OK</value>
@@ -397,7 +397,7 @@
     <value>Kasowanie kodów błędów...</value>
   </data>
   <data name="EnsureIgnOnEngStop" xml:space="preserve">
-    <value>Upewnij się że zapłon jest WŁĄCZONY a silnik ZATRZYMANY</value>
+    <value>Upewnij się, że zapłon jest WŁĄCZONY, a silnik ZATRZYMANY.</value>
   </data>
   <data name="Failed" xml:space="preserve">
     <value>NIEZALICZONY</value>
@@ -409,7 +409,7 @@
     <value>ZALICZONY</value>
   </data>
   <data name="TestDuration" xml:space="preserve">
-    <value>Jeśli test trwa dłużej niż  {0}s WYŁĄCZ zapłon i zamknij program!</value>
+    <value>Jeśli test trwa dłużej niż {0} s, WYŁĄCZ zapłon i zamknij program!</value>
   </data>
   <data name="Testing" xml:space="preserve">
     <value>TESTUJĘ: {0}...</value>
@@ -442,25 +442,22 @@
     <value>Mało powietrza</value>
   </data>
   <data name="ErrO1a" xml:space="preserve">
-    <value>Nieznany błąd OUTPUT (1a)</value>
-  </data>
-  <data name="Injs" xml:space="preserve">
-    <value>Wtryskiwacze</value>
+    <value>Nieznany błąd wyjścia (1a)</value>
   </data>
   <data name="ErrO2a" xml:space="preserve">
-    <value>Nieznany błąd OUTPUT (2a)</value>
+    <value>Nieznany błąd wyjścia (2a)</value>
   </data>
   <data name="ErrO3a" xml:space="preserve">
-    <value>Nieznany błąd OUTPUT (3a)</value>
+    <value>Nieznany błąd wyjścia (3a)</value>
   </data>
   <data name="ErrO4a" xml:space="preserve">
-    <value>Nieznany błąd OUTPUT (4a)</value>
+    <value>Nieznany błąd wyjścia (4a)</value>
   </data>
   <data name="ErrMixRatio" xml:space="preserve">
     <value>Skład mieszanki</value>
   </data>
   <data name="ErrWasteG" xml:space="preserve">
-    <value>Waste Gate</value>
+    <value>Zawór upustowy (wastegate)</value>
   </data>
   <data name="ErrConMet" xml:space="preserve">
     <value>Ekonomizer</value>
@@ -499,10 +496,10 @@
     <value>Offset czasu wtrysku @ STREFA 6</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Offset czasu wtrysku @ JAŁOWY</value>
+    <value>Offset czasu wtrysku @ BIEG JAŁOWY</value>
   </data>
   <data name="ErrI2" xml:space="preserve">
-    <value>Nieznany błąd INPUT (2)</value>
+    <value>Nieznany błąd wejścia (2)</value>
   </data>
   <data name="ErrInj1" xml:space="preserve">
     <value>Wtryskiwacze (grupa 1)</value>
@@ -535,7 +532,7 @@
     <value>Naciśnij [Esc] aby anulować</value>
   </data>
   <data name="CommLost" xml:space="preserve">
-    <value>Brak odpowiedzi ECU</value>
+    <value>Brak odpowiedzi sterownika</value>
   </data>
   <data name="Press_F10" xml:space="preserve">
     <value>Naciśnij [F10] aby zamknąć połączenie lub [F12] aby spróbować połączyć ponownie</value>
@@ -547,10 +544,10 @@
     <value>Proszę WYŁĄCZYĆ zapłon...</value>
   </data>
   <data name="UnrecECU" xml:space="preserve">
-    <value>ECU nie zostało rozpoznane, proszę WYŁĄCZYĆ zapłon...</value>
+    <value>Nie rozpoznano sterownika, proszę WYŁĄCZYĆ zapłon...</value>
   </data>
   <data name="COMnotValid" xml:space="preserve">
-    <value>BŁĘDNY port interfejsu</value>
+    <value>BŁĄD portu interfejsu</value>
   </data>
   <data name="PreviouslySelectedPort" xml:space="preserve">
     <value>Poprzednio wybrany port {0} jest obecnie niedostępny. Proszę wybrać inny port.</value>
@@ -589,13 +586,13 @@
     <value>Ciśnienie w kolektorze dolotowym (TURBO)</value>
   </data>
   <data name="OverB" xml:space="preserve">
-    <value>Over Boost</value>
+    <value>Nadmierne ciśnienie doładowania</value>
   </data>
   <data name="T_VAE" xml:space="preserve">
     <value>Wypełnienie sterowania VAE (reg. wolnych obrotów)</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Sygnały OK</value>
+    <value>Signal panel OK</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
     <value>ABS aktywny</value>
@@ -610,7 +607,7 @@
     <value>Czujnik wałka rozrządu</value>
   </data>
   <data name="ErrDigimatic" xml:space="preserve">
-    <value>Sygnał DIGIMATIC</value>
+    <value>Sygnał Digimatic</value>
   </data>
   <data name="ErrEPROM" xml:space="preserve">
     <value>EPROM</value>
@@ -625,10 +622,10 @@
     <value>Czujnik SMOT</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Sekwencja panelu sygnałowego</value>
+    <value>Sekwencja signal panel</value>
   </data>
   <data name="ErrVAE" xml:space="preserve">
-    <value>Zawór wolnych obrotów zablokowany</value>
+    <value>Zawór VAE zablokowany w pozycji otwartej lub zamkniętej</value>
   </data>
   <data name="StepReset" xml:space="preserve">
     <value>Reset autokalibracji silnika krokowego</value>
