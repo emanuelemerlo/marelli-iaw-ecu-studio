@@ -3,6 +3,9 @@
   <PropertyGroup>
     <RootNamespace>MarelliIawEcuStudio.Transport.Serial</RootNamespace>
     <Description>Serial (KKL / USB) transport for Windows, Linux and macOS, with port discovery.</Description>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

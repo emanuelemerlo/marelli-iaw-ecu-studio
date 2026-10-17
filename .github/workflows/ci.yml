@@ -46,6 +46,20 @@ jobs:
       - name: Simulator smoke test
         run: dotnet run --project src/MarelliIawEcuStudio.Cli --configuration Release --no-build -- read --simulate --no-broadcast --count 2
 
+      - name: OBD simulator smoke test
+        run: dotnet run --project src/MarelliIawEcuStudio.Cli --configuration Release --no-build -- obd read --simulate kwp-fast --params RPM,ECT
+
+      - name: NuGet packages
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet pack --configuration Release --no-build --output packages
+
+      - name: Upload NuGet packages
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget
+          path: packages/*
+
   publish:
     name: Publish (${{ matrix.rid }})
     needs: test

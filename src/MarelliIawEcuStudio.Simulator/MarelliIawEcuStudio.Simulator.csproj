@@ -2,7 +2,10 @@
 
   <PropertyGroup>
     <RootNamespace>MarelliIawEcuStudio.Simulator</RootNamespace>
-    <Description>Simulated IAW ECU behind an ITransport, driven by the same definition files as the Core. Used by tests and by the demo mode.</Description>
+    <Description>Simulated ECUs behind an ITransport: IAW units driven by the Core definition files, OBD-II cars on a framed K-Line, and replay of recorded line traces. For tests and demos without a car.</Description>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

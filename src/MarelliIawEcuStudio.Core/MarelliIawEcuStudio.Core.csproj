@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <RootNamespace>MarelliIawEcuStudio.Core</RootNamespace>
-    <Description>Protocol, ECU definitions and diagnostic session logic for Magneti Marelli IAW engine control units. No UI dependencies.</Description>
+    <Description>Diagnostics for Magneti Marelli IAW engine control units (FIAT, Lancia, Alfa Romeo OBD-I): byte protocol, JSON ECU definitions, diagnostic session, line traces, CSV logs; plus framed K-Line (ISO 9141-2, KWP2000) and OBD-II. No UI dependencies.</Description>
+    <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
   </PropertyGroup>

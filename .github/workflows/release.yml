@@ -83,9 +83,35 @@ jobs:
           name: dist-${{ matrix.rid }}
           path: dist/*
 
+  nuget:
+    name: NuGet packages
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Pack
+        run: dotnet pack --configuration Release -p:Version="${TAG#v}" --output dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-nuget
+          path: dist/*
+
+      # Runs only when the repository has a NUGET_API_KEY secret (Settings → Secrets → Actions).
+      - name: Push to nuget.org
+        if: env.NUGET_API_KEY != ''
+        run: dotnet nuget push "dist/*.nupkg" --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+
   release:
     name: GitHub release
-    needs: publish
+    needs: [publish, nuget]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
