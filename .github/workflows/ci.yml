@@ -73,7 +73,10 @@ jobs:
         if: runner.os == 'macOS'
         shell: bash
         run: |
-          defaults write -g AppleInterfaceStyle Dark
+          # Switch the whole system to dark as System Settings does; the defaults key alone
+          # is not noticed by the running session.
+          osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to true' \
+            || defaults write -g AppleInterfaceStyle Dark
           report="$RUNNER_TEMP/theme.txt"
           ./src/MarelliIawEcuStudio.App/bin/Release/net10.0/marelli-iaw-ecu-studio --report-theme "$report" > "$RUNNER_TEMP/app.log" 2>&1 &
           pid=$!
