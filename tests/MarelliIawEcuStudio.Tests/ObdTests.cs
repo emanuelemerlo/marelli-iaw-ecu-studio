@@ -246,6 +246,18 @@ public class ObdTests
         Assert.All(events.Where(e => e.Direction == LineDirection.Sent), e => Assert.Equal(KLineTiming.BaudRate, e.BaudRate));
     }
 
+    /// <summary>
+    /// A busy machine (macOS CI) can pause the tester in the middle of the short fast-init
+    /// pulse: the simulated ECU must still recognise the fast init by its shape.
+    /// </summary>
+    [Fact]
+    public void FastInitSurvivesAPausedTester()
+    {
+        var line = new KLineSimulatorTransport(KLineProtocol.Kwp2000Fast, Fast);
+        using var session = new Obd2Session(line, new Obd2Options { Timing = Fast with { FastInitLowMs = 35 } });
+        Assert.Equal(KLineProtocol.Kwp2000Fast, Connect(session, KLineProtocol.Kwp2000Fast).Protocol);
+    }
+
     // ---- KWP2000 services ----------------------------------------------------------
 
     [Fact]

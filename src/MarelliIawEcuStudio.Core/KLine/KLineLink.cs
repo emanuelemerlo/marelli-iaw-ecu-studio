@@ -215,11 +215,21 @@ public sealed class KLineLink
     private KLineInitResult FastInit(CancellationToken cancellation)
     {
         Mark("fast init");
-        var clock = Stopwatch.StartNew();
-        _line.SetBreak(true);
-        WaitUntil(clock, Timing.FastInitLowMs);
-        _line.SetBreak(false);
-        WaitUntil(clock, Timing.FastInitLowMs + Timing.FastInitHighMs);
+        // The 25 ms pulse has a 1 ms tolerance: like the 5-baud bits, time it at a higher priority.
+        var priority = Thread.CurrentThread.Priority;
+        TrySetPriority(ThreadPriority.Highest);
+        try
+        {
+            var clock = Stopwatch.StartNew();
+            _line.SetBreak(true);
+            WaitUntil(clock, Timing.FastInitLowMs);
+            _line.SetBreak(false);
+            WaitUntil(clock, Timing.FastInitLowMs + Timing.FastInitHighMs);
+        }
+        finally
+        {
+            TrySetPriority(priority);
+        }
         Transport.DiscardInBuffer();
         Protocol = KLineProtocol.Kwp2000Fast;
         // StartCommunication (0x81), answered with 0xC1 and the keywords.
