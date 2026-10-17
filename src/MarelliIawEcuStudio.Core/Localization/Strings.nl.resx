@@ -121,16 +121,16 @@
     <value>Relais aircocompressor</value>
   </data>
   <data name="ADGAIN" xml:space="preserve">
-    <value>Versterking autokalibratie (middelste belasting)</value>
+    <value>Autokalibratie mengsel: versterking bij middelste belasting</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Offset autokalibratie (minimale belasting)</value>
+    <value>Autokalibratie mengsel: offset bij minimale belasting</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>Offset autokalibratie (minimale belasting, EVAP aan)</value>
+    <value>Autokalibratie mengsel: offset stationair, koolfilterklep open</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>Offset autokalibratie (minimale belasting, EVAP uit)</value>
+    <value>Autokalibratie mengsel: offset stationair, koolfilterklep dicht</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
     <value>Stappenmotorcorrectie uit FLT</value>
@@ -139,10 +139,10 @@
     <value>Positie stappenmotor stationair</value>
   </data>
   <data name="ALFAU" xml:space="preserve">
-    <value>Correctie autokalibratie</value>
+    <value>Autokalibratie stationair</value>
   </data>
   <data name="ALFAUC" xml:space="preserve">
-    <value>Correctie autokalibratie met airco</value>
+    <value>Autokalibratie stationair met airco aan</value>
   </data>
   <data name="ANG_PAP0" xml:space="preserve">
     <value>Openingshoek gasklep</value>
@@ -181,7 +181,7 @@
     <value>Bobine 2</value>
   </data>
   <data name="CONS_REG" xml:space="preserve">
-    <value>Stationair toerental</value>
+    <value>Gewenst stationair toerental</value>
   </data>
   <data name="DELREG" xml:space="preserve">
     <value>Stappenmotorcorrectie (delta)</value>
@@ -190,7 +190,7 @@
     <value>Koolfilterklep (EVAP)</value>
   </data>
   <data name="ErrACParam" xml:space="preserve">
-    <value>Autokalibratieparameter</value>
+    <value>Autokalibratieparameters</value>
   </data>
   <data name="ErrRAM" xml:space="preserve">
     <value>RAM</value>
@@ -301,7 +301,7 @@
     <value>Motor draait</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Autokalibratie stappenmotor AAN</value>
+    <value>Autokalibratie stationair vrijgegeven</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
     <value>Power-latch-lijn OK</value>
@@ -310,7 +310,7 @@
     <value>Sensorsignalen OK</value>
   </data>
   <data name="StaThrMM" xml:space="preserve">
-    <value>Gasklep op min./max.</value>
+    <value>Gasklep tegen aanslag (min./max.)</value>
   </data>
   <data name="StaClLoop" xml:space="preserve">
     <value>Lambdaregeling actief (gesloten regelkring)</value>
@@ -319,13 +319,13 @@
     <value>Airco AAN</value>
   </data>
   <data name="StaMixACOK" xml:space="preserve">
-    <value>Autokalibratie mengsel AAN</value>
+    <value>Autokalibratie mengsel vrijgegeven</value>
   </data>
   <data name="steps" xml:space="preserve">
     <value>stappen</value>
   </data>
   <data name="TRIMRAM" xml:space="preserve">
-    <value>Trimmerpositie</value>
+    <value>CO-trimmer</value>
   </data>
   <data name="T_INJ_AP" xml:space="preserve">
     <value>Inspuittijd</value>
@@ -343,10 +343,10 @@
     <value>Onder MIN</value>
   </data>
   <data name="MaxLEAN" xml:space="preserve">
-    <value>Max. ARM</value>
+    <value>Mengsel arm aan de grens</value>
   </data>
   <data name="MaxRICH" xml:space="preserve">
-    <value>Max. RIJK</value>
+    <value>Mengsel rijk aan de grens</value>
   </data>
   <data name="OpenCircuit" xml:space="preserve">
     <value>Onderbreking</value>
@@ -481,25 +481,25 @@
     <value>FOUT in de interfacepoort</value>
   </data>
   <data name="OFFSET1" xml:space="preserve">
-    <value>Offset autokalibratie inspuiting @ ZONE 1</value>
+    <value>Autokalibratie mengsel, zone 1</value>
   </data>
   <data name="OFFSET2" xml:space="preserve">
-    <value>Offset autokalibratie inspuiting @ ZONE 2</value>
+    <value>Autokalibratie mengsel, zone 2</value>
   </data>
   <data name="OFFSET3" xml:space="preserve">
-    <value>Offset autokalibratie inspuiting @ ZONE 3</value>
+    <value>Autokalibratie mengsel, zone 3</value>
   </data>
   <data name="OFFSET4" xml:space="preserve">
-    <value>Offset autokalibratie inspuiting @ ZONE 4</value>
+    <value>Autokalibratie mengsel, zone 4</value>
   </data>
   <data name="OFFSET5" xml:space="preserve">
-    <value>Offset autokalibratie inspuiting @ ZONE 5</value>
+    <value>Autokalibratie mengsel, zone 5</value>
   </data>
   <data name="OFFSET6" xml:space="preserve">
-    <value>Offset autokalibratie inspuiting @ ZONE 6</value>
+    <value>Autokalibratie mengsel, zone 6</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Offset autokalibratie inspuiting @ STATIONAIR</value>
+    <value>Autokalibratie mengsel, stationair</value>
   </data>
   <data name="PreviouslySelectedPort" xml:space="preserve">
     <value>De eerder gekozen poort {0} is niet meer beschikbaar. Kies een andere poort.</value>
@@ -553,16 +553,16 @@
     <value>Regeleenheid niet herkend, zet het contact UIT...</value>
   </data>
   <data name="FABEEAT" xml:space="preserve">
-    <value>Zelfaanpassing geactiveerd in EEPROM</value>
+    <value>Autokalibratie mengsel actief (EEPROM)</value>
   </data>
   <data name="FABEEATi" xml:space="preserve">
-    <value>Zelfaanpassing stationair geactiveerd in EEPROM</value>
+    <value>Autokalibratie stationair actief (EEPROM)</value>
   </data>
   <data name="FABEPAT" xml:space="preserve">
-    <value>Zelfaanpassing geactiveerd in EPROM</value>
+    <value>Autokalibratie mengsel actief (EPROM)</value>
   </data>
   <data name="FABEPATi" xml:space="preserve">
-    <value>Zelfaanpassing stationair geactiveerd in EPROM</value>
+    <value>Autokalibratie stationair actief (EPROM)</value>
   </data>
   <data name="FLGSMA" xml:space="preserve">
     <value>Lambdaregeling actief (gesloten regelkring)</value>
@@ -592,7 +592,7 @@
     <value>Duty cycle VAE (stationairregeling)</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Signal panel OK</value>
+    <value>Synchronisatie controlelampjes OK</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
     <value>ABS actief</value>
@@ -631,7 +631,7 @@
     <value>VAE vastgelopen open of dicht</value>
   </data>
   <data name="StepReset" xml:space="preserve">
-    <value>Autokalibratie stappenmotor stationair resetten</value>
+    <value>Autokalibratie stationair resetten</value>
   </data>
   <data name="TrimReset" xml:space="preserve">
     <value>Autokalibratie mengsel resetten</value>
@@ -643,7 +643,7 @@
     <value>Foutenteller</value>
   </data>
   <data name="ToggleStepAC" xml:space="preserve">
-    <value>Autokalibratie stappenmotor stationair aan/uit</value>
+    <value>Autokalibratie stationair aan/uit</value>
   </data>
   <data name="ToggleTrimAC" xml:space="preserve">
     <value>Autokalibratie mengsel aan/uit</value>
@@ -658,7 +658,7 @@
     <value>Stappenmotorcorrectie instellen (ALFAFTR)</value>
   </data>
   <data name="TrimSet" xml:space="preserve">
-    <value>Trimmerpositie instellen (TRIMRAM)</value>
+    <value>CO-trimmer instellen (TRIMRAM)</value>
   </data>
   <data name="Adjusting" xml:space="preserve">
     <value>INSTELLEN: {0}...</value>

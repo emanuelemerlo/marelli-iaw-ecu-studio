@@ -124,19 +124,19 @@
     <value>[A]</value>
   </data>
   <data name="ADGAIN" xml:space="preserve">
-    <value>Autokalibrierung Verstärkung (mittlere Last)</value>
+    <value>Gemisch-Autokalibrierung: Verstärkung bei mittlerer Last</value>
   </data>
   <data name="Adjusting" xml:space="preserve">
     <value>EINSTELLUNG: {0}...</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Autokalibrierung Offset (minimale Last)</value>
+    <value>Gemisch-Autokalibrierung: Offset bei minimaler Last</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>Autokalibrierung Offset (minimale Last, EVAP ein)</value>
+    <value>Gemisch-Autokalibrierung: Offset im Leerlauf, Tankentlüftung offen</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>Autokalibrierung Offset (minimale Last, EVAP aus)</value>
+    <value>Gemisch-Autokalibrierung: Offset im Leerlauf, Tankentlüftung geschlossen</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
     <value>Schrittmotorkorrektur aus FLT</value>
@@ -145,10 +145,10 @@
     <value>Position Leerlauf-Schrittmotor</value>
   </data>
   <data name="ALFAU" xml:space="preserve">
-    <value>Korrektur Autokalibrierung</value>
+    <value>Leerlauf-Autokalibrierung</value>
   </data>
   <data name="ALFAUC" xml:space="preserve">
-    <value>Korrektur Autokalibrierung mit Klimaanlage</value>
+    <value>Leerlauf-Autokalibrierung mit Klimaanlage EIN</value>
   </data>
   <data name="ANG_PAP0" xml:space="preserve">
     <value>Drosselklappen-Öffnungswinkel</value>
@@ -196,7 +196,7 @@
     <value>Bitte Zündung EINSCHALTEN...</value>
   </data>
   <data name="CONS_REG" xml:space="preserve">
-    <value>Leerlaufdrehzahl</value>
+    <value>Leerlauf-Solldrehzahl</value>
   </data>
   <data name="DELREG" xml:space="preserve">
     <value>Schrittmotorkorrektur (Delta)</value>
@@ -397,16 +397,16 @@
     <value>[F11] drücken zum Bestätigen</value>
   </data>
   <data name="FABEEAT" xml:space="preserve">
-    <value>Selbstanpassung im EEPROM aktiviert</value>
+    <value>Gemisch-Autokalibrierung aktiv (EEPROM)</value>
   </data>
   <data name="FABEEATi" xml:space="preserve">
-    <value>Leerlauf-Selbstanpassung im EEPROM aktiviert</value>
+    <value>Leerlauf-Autokalibrierung aktiv (EEPROM)</value>
   </data>
   <data name="FABEPAT" xml:space="preserve">
-    <value>Selbstanpassung im EPROM aktiviert</value>
+    <value>Gemisch-Autokalibrierung aktiv (EPROM)</value>
   </data>
   <data name="FABEPATi" xml:space="preserve">
-    <value>Leerlauf-Selbstanpassung im EPROM aktiviert</value>
+    <value>Leerlauf-Autokalibrierung aktiv (EPROM)</value>
   </data>
   <data name="Failed" xml:space="preserve">
     <value>FEHLGESCHLAGEN</value>
@@ -457,10 +457,10 @@
     <value>Lambdasondenspannung</value>
   </data>
   <data name="MaxLEAN" xml:space="preserve">
-    <value>Max MAGER</value>
+    <value>Gemisch mager am Limit</value>
   </data>
   <data name="MaxRICH" xml:space="preserve">
-    <value>Max FETT</value>
+    <value>Gemisch fett am Limit</value>
   </data>
   <data name="MIL" xml:space="preserve">
     <value>Motorkontrollleuchte (MIL)</value>
@@ -481,25 +481,25 @@
     <value>Zu wenig Luft</value>
   </data>
   <data name="OFFSET1" xml:space="preserve">
-    <value>Autokalibrierung Einspritz-Offset @ ZONE 1</value>
+    <value>Gemisch-Autokalibrierung, Zone 1</value>
   </data>
   <data name="OFFSET2" xml:space="preserve">
-    <value>Autokalibrierung Einspritz-Offset @ ZONE 2</value>
+    <value>Gemisch-Autokalibrierung, Zone 2</value>
   </data>
   <data name="OFFSET3" xml:space="preserve">
-    <value>Autokalibrierung Einspritz-Offset @ ZONE 3</value>
+    <value>Gemisch-Autokalibrierung, Zone 3</value>
   </data>
   <data name="OFFSET4" xml:space="preserve">
-    <value>Autokalibrierung Einspritz-Offset @ ZONE 4</value>
+    <value>Gemisch-Autokalibrierung, Zone 4</value>
   </data>
   <data name="OFFSET5" xml:space="preserve">
-    <value>Autokalibrierung Einspritz-Offset @ ZONE 5</value>
+    <value>Gemisch-Autokalibrierung, Zone 5</value>
   </data>
   <data name="OFFSET6" xml:space="preserve">
-    <value>Autokalibrierung Einspritz-Offset @ ZONE 6</value>
+    <value>Gemisch-Autokalibrierung, Zone 6</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Autokalibrierung Einspritz-Offset @ LEERLAUF</value>
+    <value>Gemisch-Autokalibrierung, Leerlauf</value>
   </data>
   <data name="OFNNTR" xml:space="preserve">
     <value>Leerlaufdrehzahl-Offset</value>
@@ -565,7 +565,7 @@
     <value>Gang eingelegt</value>
   </data>
   <data name="StaMixACOK" xml:space="preserve">
-    <value>Gemisch-Autokalibrierung AKTIV</value>
+    <value>Gemisch-Autokalibrierung freigegeben</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
     <value>Power-Latch-Leitung OK</value>
@@ -577,13 +577,13 @@
     <value>Sensorsignale OK</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Signal Panel OK</value>
+    <value>Synchronisation Kontrollleuchten OK</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Schrittmotor-Autokalibrierung AKTIV</value>
+    <value>Leerlauf-Autokalibrierung freigegeben</value>
   </data>
   <data name="StaThrMM" xml:space="preserve">
-    <value>Drosselklappe auf Min/Max</value>
+    <value>Drosselklappe am Anschlag (Min/Max)</value>
   </data>
   <data name="StaVAESC" xml:space="preserve">
     <value>VAE-Selbstreinigung läuft</value>
@@ -592,7 +592,7 @@
     <value>Schrittmotor (Leerlaufsteller)</value>
   </data>
   <data name="StepReset" xml:space="preserve">
-    <value>Leerlauf-Schrittmotor-Autokalibrierung zurücksetzen</value>
+    <value>Leerlauf-Autokalibrierung zurücksetzen</value>
   </data>
   <data name="steps" xml:space="preserve">
     <value>Schritte</value>
@@ -619,7 +619,7 @@
     <value>ZEITÜBERSCHREITUNG</value>
   </data>
   <data name="ToggleStepAC" xml:space="preserve">
-    <value>Leerlauf-Schrittmotor-Autokalibrierung ein/aus</value>
+    <value>Leerlauf-Autokalibrierung ein/aus</value>
   </data>
   <data name="ToggleTrimAC" xml:space="preserve">
     <value>Gemisch-Autokalibrierung ein/aus</value>
@@ -628,13 +628,13 @@
     <value>Zu viel Luft</value>
   </data>
   <data name="TRIMRAM" xml:space="preserve">
-    <value>Trimmerposition</value>
+    <value>CO-Trimmer</value>
   </data>
   <data name="TrimReset" xml:space="preserve">
     <value>Gemisch-Autokalibrierung zurücksetzen</value>
   </data>
   <data name="TrimSet" xml:space="preserve">
-    <value>Trimmerposition setzen (TRIMRAM)</value>
+    <value>CO-Trimmer setzen (TRIMRAM)</value>
   </data>
   <data name="TurnOFF" xml:space="preserve">
     <value>Bitte Zündung AUSSCHALTEN...</value>

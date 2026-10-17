@@ -98,6 +98,28 @@ public partial class LocalizationTests
             italian.Where(e => e.Key.StartsWith("FABE", StringComparison.Ordinal)).Select(e => e.Value).Distinct().Count());
     }
 
+    /// <summary>
+    /// Entries that differ only in what adapts (mixture/idle), the memory (EPROM/EEPROM),
+    /// the canister state or the load zone must read differently in every language.
+    /// </summary>
+    [Theory]
+    [MemberData(nameof(Cultures))]
+    public void AutocalibrationEntriesCanBeToldApart(string code)
+    {
+        var translated = Strings(CultureInfo.GetCultureInfo(code));
+        string[][] groups =
+        [
+            ["FABEPAT", "FABEEAT", "FABEPATi", "FABEEATi"],
+            ["ADOFFSET", "ADOFFPURG", "ADOFFPL", "ADGAIN"],
+            ["OFFSET1", "OFFSET2", "OFFSET3", "OFFSET4", "OFFSET5", "OFFSET6", "OFFSETm"],
+            ["ALFAU", "ALFAUC"],
+            ["StaMixACOK", "StaStepACOK"],
+            ["StepReset", "TrimReset", "ToggleStepAC", "ToggleTrimAC"],
+        ];
+        foreach (var group in groups)
+            Assert.Equal(group.Length, group.Select(k => translated[k]).Distinct().Count());
+    }
+
     [Fact]
     public void LanguageNamesAreWrittenAsMenuEntries()
     {

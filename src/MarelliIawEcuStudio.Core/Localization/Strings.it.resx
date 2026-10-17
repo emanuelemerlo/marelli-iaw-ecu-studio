@@ -556,16 +556,16 @@
     <value>Centralina non riconosciuta, riporta la chiave su STOP...</value>
   </data>
   <data name="FABEEAT" xml:space="preserve">
-    <value>Autoadattività miscela attiva (EEPROM)</value>
+    <value>Auto-calibrazione miscela attiva (EEPROM)</value>
   </data>
   <data name="FABEEATi" xml:space="preserve">
-    <value>Autoadattività minimo attiva (EEPROM)</value>
+    <value>Auto-calibrazione minimo attiva (EEPROM)</value>
   </data>
   <data name="FABEPAT" xml:space="preserve">
-    <value>Autoadattività miscela attiva (EPROM)</value>
+    <value>Auto-calibrazione miscela attiva (EPROM)</value>
   </data>
   <data name="FABEPATi" xml:space="preserve">
-    <value>Autoadattività minimo attiva (EPROM)</value>
+    <value>Auto-calibrazione minimo attiva (EPROM)</value>
   </data>
   <data name="FLGSMA" xml:space="preserve">
     <value>Lambda in anello chiuso</value>
@@ -595,7 +595,7 @@
     <value>Duty cycle VAE (minimo)</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Segnale signal panel OK</value>
+    <value>Sincronizzazione spie OK</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
     <value>ABS attivo</value>
