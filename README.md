@@ -8,6 +8,8 @@ Diagnostics for the Magneti Marelli IAW engine control units of 1990s FIAT, Lanc
 
 ![Dashboard](docs/screenshots/dashboard.png)
 
+**[User manual](docs/manual/en/README.md)**: installation, every screen and action of the application, the command line tool, troubleshooting and a reference of each ECU.
+
 ## Features
 
 - Automatic ECU detection, ISO and CODRIC codes, vehicle model, immobiliser
