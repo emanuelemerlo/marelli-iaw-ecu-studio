@@ -124,19 +124,19 @@
     <value>[A]</value>
   </data>
   <data name="ADGAIN" xml:space="preserve">
-    <value>Ganho da autocalibração (carga média)</value>
+    <value>Autocalibração da mistura: ganho a carga média</value>
   </data>
   <data name="Adjusting" xml:space="preserve">
     <value>A AJUSTAR: {0}...</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Offset da autocalibração (carga mínima)</value>
+    <value>Autocalibração da mistura: offset a carga parcial</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>Offset da autocalibração (carga mínima, EVAP ligada)</value>
+    <value>Autocalibração da mistura: offset ao ralenti, canister aberto</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>Offset da autocalibração (carga mínima, EVAP desligada)</value>
+    <value>Autocalibração da mistura: offset ao ralenti, canister fechado</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
     <value>Correção do motor passo a passo a partir de FLT</value>
@@ -145,10 +145,10 @@
     <value>Posição do motor passo a passo do ralenti</value>
   </data>
   <data name="ALFAU" xml:space="preserve">
-    <value>Correção da autocalibração</value>
+    <value>Autocalibração do ralenti</value>
   </data>
   <data name="ALFAUC" xml:space="preserve">
-    <value>Correção da autocalibração com A/C</value>
+    <value>Autocalibração do ralenti com A/C ligado</value>
   </data>
   <data name="ANG_PAP0" xml:space="preserve">
     <value>Ângulo de abertura da borboleta</value>
@@ -196,7 +196,7 @@
     <value>LIGUE a ignição...</value>
   </data>
   <data name="CONS_REG" xml:space="preserve">
-    <value>Regime de ralenti</value>
+    <value>Regime de ralenti pretendido</value>
   </data>
   <data name="DELREG" xml:space="preserve">
     <value>Correção do motor passo a passo (delta)</value>
@@ -208,7 +208,7 @@
     <value>Certifique-se de que a ignição está LIGADA e o motor PARADO.</value>
   </data>
   <data name="ErrACParam" xml:space="preserve">
-    <value>Parâmetro de autocalibração</value>
+    <value>Parâmetros de autocalibração</value>
   </data>
   <data name="ErrAirCo" xml:space="preserve">
     <value>Ar condicionado</value>
@@ -358,10 +358,10 @@
     <value>Sensor de PMS/rotação</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>Sensor SMOT</value>
+    <value>Motor passo a passo (SMOT)</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Sequência do signal panel</value>
+    <value>Sequência do painel de instrumentos (luzes avisadoras)</value>
   </data>
   <data name="ErrStartDis" xml:space="preserve">
     <value>A centralina não permite o arranque do motor</value>
@@ -397,16 +397,16 @@
     <value>Prima [F11] para confirmar</value>
   </data>
   <data name="FABEEAT" xml:space="preserve">
-    <value>Autoadaptação ativada na EEPROM</value>
+    <value>Autocalibração da mistura ativa (EEPROM)</value>
   </data>
   <data name="FABEEATi" xml:space="preserve">
-    <value>Autoadaptação do ralenti ativada na EEPROM</value>
+    <value>Autocalibração do ralenti ativa (EEPROM)</value>
   </data>
   <data name="FABEPAT" xml:space="preserve">
-    <value>Autoadaptação ativada na EPROM</value>
+    <value>Autocalibração da mistura ativa (EPROM)</value>
   </data>
   <data name="FABEPATi" xml:space="preserve">
-    <value>Autoadaptação do ralenti ativada na EPROM</value>
+    <value>Autocalibração do ralenti ativa (EPROM)</value>
   </data>
   <data name="Failed" xml:space="preserve">
     <value>FALHOU</value>
@@ -457,10 +457,10 @@
     <value>Tensão da sonda lambda</value>
   </data>
   <data name="MaxLEAN" xml:space="preserve">
-    <value>Máx. POBRE</value>
+    <value>Mistura pobre no limite</value>
   </data>
   <data name="MaxRICH" xml:space="preserve">
-    <value>Máx. RICA</value>
+    <value>Mistura rica no limite</value>
   </data>
   <data name="MIL" xml:space="preserve">
     <value>Luz de avaria do motor (MIL)</value>
@@ -481,25 +481,25 @@
     <value>Ar insuficiente</value>
   </data>
   <data name="OFFSET1" xml:space="preserve">
-    <value>Offset da autocalibração da injeção @ ZONA 1</value>
+    <value>Autocalibração da mistura, zona 1</value>
   </data>
   <data name="OFFSET2" xml:space="preserve">
-    <value>Offset da autocalibração da injeção @ ZONA 2</value>
+    <value>Autocalibração da mistura, zona 2</value>
   </data>
   <data name="OFFSET3" xml:space="preserve">
-    <value>Offset da autocalibração da injeção @ ZONA 3</value>
+    <value>Autocalibração da mistura, zona 3</value>
   </data>
   <data name="OFFSET4" xml:space="preserve">
-    <value>Offset da autocalibração da injeção @ ZONA 4</value>
+    <value>Autocalibração da mistura, zona 4</value>
   </data>
   <data name="OFFSET5" xml:space="preserve">
-    <value>Offset da autocalibração da injeção @ ZONA 5</value>
+    <value>Autocalibração da mistura, zona 5</value>
   </data>
   <data name="OFFSET6" xml:space="preserve">
-    <value>Offset da autocalibração da injeção @ ZONA 6</value>
+    <value>Autocalibração da mistura, zona 6</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Offset da autocalibração da injeção @ RALENTI</value>
+    <value>Autocalibração da mistura, ralenti</value>
   </data>
   <data name="OFNNTR" xml:space="preserve">
     <value>Offset do regime de ralenti</value>
@@ -565,7 +565,7 @@
     <value>Mudança engrenada</value>
   </data>
   <data name="StaMixACOK" xml:space="preserve">
-    <value>Autocalibração da mistura ATIVADA</value>
+    <value>Autocalibração da mistura permitida</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
     <value>Linha power latch OK</value>
@@ -577,13 +577,13 @@
     <value>Sinais dos sensores OK</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Signal panel OK</value>
+    <value>Painel de instrumentos (luzes avisadoras) OK</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Autocalibração do motor passo a passo ATIVADA</value>
+    <value>Autocalibração do ralenti permitida</value>
   </data>
   <data name="StaThrMM" xml:space="preserve">
-    <value>Borboleta no mín./máx.</value>
+    <value>Borboleta no batente (mín./máx.)</value>
   </data>
   <data name="StaVAESC" xml:space="preserve">
     <value>Autolimpeza da VAE em curso</value>
@@ -592,7 +592,7 @@
     <value>Motor passo a passo (atuador do ralenti)</value>
   </data>
   <data name="StepReset" xml:space="preserve">
-    <value>Reposição da autocalibração do motor passo a passo do ralenti</value>
+    <value>Reposição da autocalibração do ralenti</value>
   </data>
   <data name="steps" xml:space="preserve">
     <value>passos</value>
@@ -619,7 +619,7 @@
     <value>TEMPO ESGOTADO</value>
   </data>
   <data name="ToggleStepAC" xml:space="preserve">
-    <value>Ativar/desativar a autocalibração do motor passo a passo do ralenti</value>
+    <value>Ativar/desativar a autocalibração do ralenti</value>
   </data>
   <data name="ToggleTrimAC" xml:space="preserve">
     <value>Ativar/desativar a autocalibração da mistura</value>
@@ -628,13 +628,13 @@
     <value>Ar a mais</value>
   </data>
   <data name="TRIMRAM" xml:space="preserve">
-    <value>Posição do trimmer</value>
+    <value>Trimmer de CO</value>
   </data>
   <data name="TrimReset" xml:space="preserve">
     <value>Reposição da autocalibração da mistura</value>
   </data>
   <data name="TrimSet" xml:space="preserve">
-    <value>Definir a posição do trimmer (TRIMRAM)</value>
+    <value>Definir o trimmer de CO (TRIMRAM)</value>
   </data>
   <data name="TurnOFF" xml:space="preserve">
     <value>DESLIGUE a ignição...</value>

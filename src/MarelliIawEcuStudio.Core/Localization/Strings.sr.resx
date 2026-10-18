@@ -124,19 +124,19 @@
     <value>[A]</value>
   </data>
   <data name="ADGAIN" xml:space="preserve">
-    <value>Pojačanje autokalibracije (srednje opterećenje)</value>
+    <value>Autokalibracija smeše: pojačanje pri srednjem opterećenju</value>
   </data>
   <data name="Adjusting" xml:space="preserve">
     <value>PODEŠAVANJE: {0}...</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Pomeraj autokalibracije (minimalno opterećenje)</value>
+    <value>Autokalibracija smeše: pomeraj pri delimičnom opterećenju</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>Pomeraj autokalibracije (minimalno opterećenje, EVAP uključen)</value>
+    <value>Autokalibracija smeše: pomeraj u praznom hodu, kanister otvoren</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>Pomeraj autokalibracije (minimalno opterećenje, EVAP isključen)</value>
+    <value>Autokalibracija smeše: pomeraj u praznom hodu, kanister zatvoren</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
     <value>Korekcija step motora iz FLT</value>
@@ -145,10 +145,10 @@
     <value>Položaj step motora praznog hoda</value>
   </data>
   <data name="ALFAU" xml:space="preserve">
-    <value>Korekcija autokalibracije</value>
+    <value>Autokalibracija praznog hoda</value>
   </data>
   <data name="ALFAUC" xml:space="preserve">
-    <value>Korekcija autokalibracije sa klimom</value>
+    <value>Autokalibracija praznog hoda sa uključenom klimom</value>
   </data>
   <data name="ANG_PAP0" xml:space="preserve">
     <value>Ugao otvaranja leptira gasa</value>
@@ -196,7 +196,7 @@
     <value>UKLJUČITE kontakt...</value>
   </data>
   <data name="CONS_REG" xml:space="preserve">
-    <value>Broj obrtaja praznog hoda</value>
+    <value>Zadati broj obrtaja praznog hoda</value>
   </data>
   <data name="DELREG" xml:space="preserve">
     <value>Korekcija step motora (delta)</value>
@@ -208,7 +208,7 @@
     <value>Proverite da li je kontakt UKLJUČEN, a motor UGAŠEN.</value>
   </data>
   <data name="ErrACParam" xml:space="preserve">
-    <value>Parametar autokalibracije</value>
+    <value>Parametri autokalibracije</value>
   </data>
   <data name="ErrAirCo" xml:space="preserve">
     <value>Klima uređaj</value>
@@ -358,10 +358,10 @@
     <value>Senzor GMT/broja obrtaja</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>SMOT senzor</value>
+    <value>Step motor (SMOT)</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Redosled signal panela</value>
+    <value>Redosled instrument table (lampice)</value>
   </data>
   <data name="ErrStartDis" xml:space="preserve">
     <value>Upravljačka jedinica ne dozvoljava pokretanje motora</value>
@@ -397,16 +397,16 @@
     <value>Pritisnite [F11] za potvrdu</value>
   </data>
   <data name="FABEEAT" xml:space="preserve">
-    <value>Samoprilagođavanje aktivirano u EEPROM-u</value>
+    <value>Autokalibracija smeše aktivna (EEPROM)</value>
   </data>
   <data name="FABEEATi" xml:space="preserve">
-    <value>Samoprilagođavanje praznog hoda aktivirano u EEPROM-u</value>
+    <value>Autokalibracija praznog hoda aktivna (EEPROM)</value>
   </data>
   <data name="FABEPAT" xml:space="preserve">
-    <value>Samoprilagođavanje aktivirano u EPROM-u</value>
+    <value>Autokalibracija smeše aktivna (EPROM)</value>
   </data>
   <data name="FABEPATi" xml:space="preserve">
-    <value>Samoprilagođavanje praznog hoda aktivirano u EPROM-u</value>
+    <value>Autokalibracija praznog hoda aktivna (EPROM)</value>
   </data>
   <data name="Failed" xml:space="preserve">
     <value>NEUSPEŠNO</value>
@@ -457,10 +457,10 @@
     <value>Napon lambda sonde</value>
   </data>
   <data name="MaxLEAN" xml:space="preserve">
-    <value>Maks. SIROMAŠNA</value>
+    <value>Siromašna smeša na granici</value>
   </data>
   <data name="MaxRICH" xml:space="preserve">
-    <value>Maks. BOGATA</value>
+    <value>Bogata smeša na granici</value>
   </data>
   <data name="MIL" xml:space="preserve">
     <value>Lampica kvara motora (MIL)</value>
@@ -481,25 +481,25 @@
     <value>Premalo vazduha</value>
   </data>
   <data name="OFFSET1" xml:space="preserve">
-    <value>Pomeraj autokalibracije ubrizgavanja @ ZONA 1</value>
+    <value>Autokalibracija smeše, zona 1</value>
   </data>
   <data name="OFFSET2" xml:space="preserve">
-    <value>Pomeraj autokalibracije ubrizgavanja @ ZONA 2</value>
+    <value>Autokalibracija smeše, zona 2</value>
   </data>
   <data name="OFFSET3" xml:space="preserve">
-    <value>Pomeraj autokalibracije ubrizgavanja @ ZONA 3</value>
+    <value>Autokalibracija smeše, zona 3</value>
   </data>
   <data name="OFFSET4" xml:space="preserve">
-    <value>Pomeraj autokalibracije ubrizgavanja @ ZONA 4</value>
+    <value>Autokalibracija smeše, zona 4</value>
   </data>
   <data name="OFFSET5" xml:space="preserve">
-    <value>Pomeraj autokalibracije ubrizgavanja @ ZONA 5</value>
+    <value>Autokalibracija smeše, zona 5</value>
   </data>
   <data name="OFFSET6" xml:space="preserve">
-    <value>Pomeraj autokalibracije ubrizgavanja @ ZONA 6</value>
+    <value>Autokalibracija smeše, zona 6</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Pomeraj autokalibracije ubrizgavanja @ PRAZAN HOD</value>
+    <value>Autokalibracija smeše, prazan hod</value>
   </data>
   <data name="OFNNTR" xml:space="preserve">
     <value>Pomeraj broja obrtaja praznog hoda</value>
@@ -565,7 +565,7 @@
     <value>Stepen prenosa uključen</value>
   </data>
   <data name="StaMixACOK" xml:space="preserve">
-    <value>Autokalibracija smeše UKLJUČENA</value>
+    <value>Autokalibracija smeše omogućena</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
     <value>Linija zadržavanja napajanja (power latch) OK</value>
@@ -577,13 +577,13 @@
     <value>Signali senzora OK</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Signal panel OK</value>
+    <value>Instrument tabla (lampice) OK</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Autokalibracija step motora UKLJUČENA</value>
+    <value>Autokalibracija praznog hoda omogućena</value>
   </data>
   <data name="StaThrMM" xml:space="preserve">
-    <value>Leptir gasa na min./maks.</value>
+    <value>Leptir gasa na graničniku (min./maks.)</value>
   </data>
   <data name="StaVAESC" xml:space="preserve">
     <value>Samočišćenje VAE u toku</value>
@@ -592,7 +592,7 @@
     <value>Step motor (aktuator praznog hoda)</value>
   </data>
   <data name="StepReset" xml:space="preserve">
-    <value>Resetovanje autokalibracije step motora praznog hoda</value>
+    <value>Resetovanje autokalibracije praznog hoda</value>
   </data>
   <data name="steps" xml:space="preserve">
     <value>koraka</value>
@@ -619,7 +619,7 @@
     <value>ISTEKLO VREME</value>
   </data>
   <data name="ToggleStepAC" xml:space="preserve">
-    <value>Uključi/isključi autokalibraciju step motora praznog hoda</value>
+    <value>Uključi/isključi autokalibraciju praznog hoda</value>
   </data>
   <data name="ToggleTrimAC" xml:space="preserve">
     <value>Uključi/isključi autokalibraciju smeše</value>
@@ -628,13 +628,13 @@
     <value>Previše vazduha</value>
   </data>
   <data name="TRIMRAM" xml:space="preserve">
-    <value>Položaj trimera</value>
+    <value>CO trimer</value>
   </data>
   <data name="TrimReset" xml:space="preserve">
     <value>Resetovanje autokalibracije smeše</value>
   </data>
   <data name="TrimSet" xml:space="preserve">
-    <value>Postavi položaj trimera (TRIMRAM)</value>
+    <value>Postavi CO trimer (TRIMRAM)</value>
   </data>
   <data name="TurnOFF" xml:space="preserve">
     <value>ISKLJUČITE kontakt...</value>

@@ -23,7 +23,7 @@ public partial class LocalizationTests
     private static readonly HashSet<string> MayEqualEnglish =
     [
         "Act", "Ver", "Sto", "rpm", "ErrRAM", "ErrROM", "ErrEEPROM", "ErrEPROM", "ErrCPU",
-        "ErrDigimatic", "StaSigPanOK", "Timeout", "Start", "Stop", "Parameters",
+        "ErrDigimatic", "Timeout", "Start", "Stop", "Parameters",
         "Injector", "Injector1", "Injector2", "Injector3", "Injector4", "ErrInj",
     ];
 
@@ -69,21 +69,62 @@ public partial class LocalizationTests
             Assert.Equal(Tokens().Matches(en).Select(m => m.Value).Order(), Tokens().Matches(italian[key]).Select(m => m.Value).Order());
     }
 
-    /// <summary>English words that crept into the Italian texts; acronyms and accepted terms (CSV, EGR, canister, wastegate) are fine.</summary>
+    /// <summary>
+    /// Italian follows workshop usage: "stepper", "trimmer CO", "offset", "duty cycle",
+    /// "canister" stay as mechanics say them, but these forms are wrong or confusing.
+    /// </summary>
     [Theory]
-    [InlineData("stepper")]
-    [InlineData("offset")]
-    [InlineData("power latch")]
-    [InlineData("duty cycle")]
-    [InlineData("signal panel")]
+    [InlineData("autoadattamento")] // workshops say "autoadattivo" / "autoadattivi"
+    [InlineData("autoadattività")]
+    [InlineData("autocalibrazione")]
+    [InlineData("auto-calibrazione")]
     [InlineData("toggle")]
-    [InlineData("trace")]
-    [InlineData("overboost")]
-    [InlineData("bridge")]
-    public void ItalianHasNoEnglishWords(string word)
+    [InlineData("quadro acceso")]   // "chiave su MAR"
+    [InlineData("motorino del minimo")]
+    public void ItalianAvoidsConfusingTerms(string word)
     {
         var italian = Strings(CultureInfo.GetCultureInfo("it")).Concat(Strings(CultureInfo.GetCultureInfo("it"), UiResources));
         Assert.DoesNotContain(italian, e => e.Value.Contains(word, StringComparison.OrdinalIgnoreCase));
+    }
+
+    /// <summary>Every self-adaptation entry says what adapts, mixture or idle, so the entries can be told apart.</summary>
+    [Fact]
+    public void ItalianSelfAdaptationNamesSayWhatAdapts()
+    {
+        var italian = Strings(CultureInfo.GetCultureInfo("it"));
+        var named = italian.Where(e => e.Value.Contains("utoadattiv", StringComparison.Ordinal))
+            .Where(e => e.Key != "ErrACParam");
+        Assert.NotEmpty(named);
+        Assert.All(named, e => Assert.True(e.Value.Contains("miscela", StringComparison.Ordinal) || e.Value.Contains("minimo", StringComparison.Ordinal), $"{e.Key}: '{e.Value}'"));
+        Assert.Equal(italian.Count(e => e.Key.StartsWith("FABE", StringComparison.Ordinal)),
+            italian.Where(e => e.Key.StartsWith("FABE", StringComparison.Ordinal)).Select(e => e.Value).Distinct().Count());
+    }
+
+    /// <summary>
+    /// Entries that differ only in what adapts (mixture/idle), the memory (EPROM/EEPROM),
+    /// the canister state or the load zone must not collapse into the same text: only a pair
+    /// that reads differently in English must read differently in the translation too.
+    /// An entry left untranslated (an acronym) is fine; that is checked elsewhere.
+    /// </summary>
+    [Theory]
+    [MemberData(nameof(Cultures))]
+    public void AutocalibrationEntriesCanBeToldApart(string code)
+    {
+        var english = Strings(CultureInfo.InvariantCulture);
+        var translated = Strings(CultureInfo.GetCultureInfo(code));
+        string[][] groups =
+        [
+            ["FABEPAT", "FABEEAT", "FABEPATi", "FABEEATi"],
+            ["ADOFFSET", "ADOFFPURG", "ADOFFPL", "ADGAIN"],
+            ["OFFSET1", "OFFSET2", "OFFSET3", "OFFSET4", "OFFSET5", "OFFSET6", "OFFSETm"],
+            ["ALFAU", "ALFAUC"],
+            ["StaMixACOK", "StaStepACOK"],
+            ["StepReset", "TrimReset", "ToggleStepAC", "ToggleTrimAC"],
+        ];
+        foreach (var group in groups)
+            foreach (var a in group)
+                foreach (var b in group.Where(b => string.CompareOrdinal(a, b) < 0 && english[a] != english[b]))
+                    Assert.True(translated[a] != translated[b], $"{code}: {a} and {b} both read '{translated[a]}'");
     }
 
     [Fact]

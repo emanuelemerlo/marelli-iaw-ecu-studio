@@ -121,16 +121,16 @@
     <value>Przekaźnik klimatyzacji</value>
   </data>
   <data name="ADGAIN" xml:space="preserve">
-    <value>Wzmocnienie autokalibracji (średnie obciążenie)</value>
+    <value>Autokalibracja mieszanki: wzmocnienie przy średnim obciążeniu</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Offset autokalibracji (obciążenie min.)</value>
+    <value>Autokalibracja mieszanki: offset przy obciążeniu częściowym</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>Offset autokalibracji (obciążenie min., EVAP wł.)</value>
+    <value>Autokalibracja mieszanki: offset na biegu jałowym, kanister otwarty</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>Offset autokalibracji (obciążenie min., EVAP wył.)</value>
+    <value>Autokalibracja mieszanki: offset na biegu jałowym, kanister zamknięty</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
     <value>Korekta silnika krokowego z FLT</value>
@@ -139,10 +139,10 @@
     <value>Pozycja silnika krokowego</value>
   </data>
   <data name="ALFAU" xml:space="preserve">
-    <value>Korekta autokalibracji</value>
+    <value>Autokalibracja biegu jałowego</value>
   </data>
   <data name="ALFAUC" xml:space="preserve">
-    <value>Korekta autokalibracji z klimatyzacją</value>
+    <value>Autokalibracja biegu jałowego z włączoną klimatyzacją</value>
   </data>
   <data name="ANG_PAP0" xml:space="preserve">
     <value>Kąt otwarcia przepustnicy</value>
@@ -181,7 +181,7 @@
     <value>Cewka 2</value>
   </data>
   <data name="CONS_REG" xml:space="preserve">
-    <value>Obroty biegu jałowego</value>
+    <value>Zadane obroty biegu jałowego</value>
   </data>
   <data name="DELREG" xml:space="preserve">
     <value>Korekta silnika krokowego (delta)</value>
@@ -190,7 +190,7 @@
     <value>Zawór odpowietrzania zbiornika paliwa (EVAP)</value>
   </data>
   <data name="ErrACParam" xml:space="preserve">
-    <value>Parametr autokalibracji</value>
+    <value>Parametry autokalibracji</value>
   </data>
   <data name="ErrRAM" xml:space="preserve">
     <value>RAM</value>
@@ -301,7 +301,7 @@
     <value>Silnik pracuje</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Autokalibracja silnika krokowego WŁĄCZONA</value>
+    <value>Autokalibracja biegu jałowego dozwolona</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
     <value>Linia podtrzymania zasilania OK</value>
@@ -310,7 +310,7 @@
     <value>Sygnały z czujników OK</value>
   </data>
   <data name="StaThrMM" xml:space="preserve">
-    <value>Przepustnica w skrajnej pozycji</value>
+    <value>Przepustnica w skrajnym położeniu (min/max)</value>
   </data>
   <data name="StaClLoop" xml:space="preserve">
     <value>Sonda lambda w pętli zamkniętej</value>
@@ -319,13 +319,13 @@
     <value>Klimatyzacja włączona</value>
   </data>
   <data name="StaMixACOK" xml:space="preserve">
-    <value>Autokalibracja mieszanki WŁĄCZONA</value>
+    <value>Autokalibracja mieszanki dozwolona</value>
   </data>
   <data name="steps" xml:space="preserve">
     <value>kroków</value>
   </data>
   <data name="TRIMRAM" xml:space="preserve">
-    <value>Korekta dawki paliwa</value>
+    <value>Trymer CO</value>
   </data>
   <data name="T_INJ_AP" xml:space="preserve">
     <value>Czas wtrysku</value>
@@ -346,10 +346,10 @@
     <value>Poniżej MIN</value>
   </data>
   <data name="MaxLEAN" xml:space="preserve">
-    <value>Max UBOGA</value>
+    <value>Mieszanka uboga na granicy</value>
   </data>
   <data name="MaxRICH" xml:space="preserve">
-    <value>Max BOGATA</value>
+    <value>Mieszanka bogata na granicy</value>
   </data>
   <data name="OpenCircuit" xml:space="preserve">
     <value>Przerwa</value>
@@ -478,25 +478,25 @@
     <value>Za dużo powietrza</value>
   </data>
   <data name="OFFSET1" xml:space="preserve">
-    <value>Offset czasu wtrysku @ STREFA 1</value>
+    <value>Autokalibracja mieszanki, strefa 1</value>
   </data>
   <data name="OFFSET2" xml:space="preserve">
-    <value>Offset czasu wtrysku @ STREFA 2</value>
+    <value>Autokalibracja mieszanki, strefa 2</value>
   </data>
   <data name="OFFSET3" xml:space="preserve">
-    <value>Offset czasu wtrysku @ STREFA 3</value>
+    <value>Autokalibracja mieszanki, strefa 3</value>
   </data>
   <data name="OFFSET4" xml:space="preserve">
-    <value>Offset czasu wtrysku @ STREFA 4</value>
+    <value>Autokalibracja mieszanki, strefa 4</value>
   </data>
   <data name="OFFSET5" xml:space="preserve">
-    <value>Offset czasu wtrysku @ STREFA 5</value>
+    <value>Autokalibracja mieszanki, strefa 5</value>
   </data>
   <data name="OFFSET6" xml:space="preserve">
-    <value>Offset czasu wtrysku @ STREFA 6</value>
+    <value>Autokalibracja mieszanki, strefa 6</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Offset czasu wtrysku @ BIEG JAŁOWY</value>
+    <value>Autokalibracja mieszanki, bieg jałowy</value>
   </data>
   <data name="ErrI2" xml:space="preserve">
     <value>Nieznany błąd wejścia (2)</value>
@@ -553,16 +553,16 @@
     <value>Poprzednio wybrany port {0} jest obecnie niedostępny. Proszę wybrać inny port.</value>
   </data>
   <data name="FABEEAT" xml:space="preserve">
-    <value>Autokalibracja włączona w EEPROM</value>
+    <value>Autokalibracja mieszanki aktywna (EEPROM)</value>
   </data>
   <data name="FABEEATi" xml:space="preserve">
-    <value>Autokalibracja wolnych obrotów włączona w EEPROM</value>
+    <value>Autokalibracja biegu jałowego aktywna (EEPROM)</value>
   </data>
   <data name="FABEPAT" xml:space="preserve">
-    <value>Autokalibracja włączona w EPROM</value>
+    <value>Autokalibracja mieszanki aktywna (EPROM)</value>
   </data>
   <data name="FABEPATi" xml:space="preserve">
-    <value>Autokalibracja wolnych obrotów włączona w EPROM</value>
+    <value>Autokalibracja biegu jałowego aktywna (EPROM)</value>
   </data>
   <data name="FLGSMA" xml:space="preserve">
     <value>Lambda w pętli zamkniętej</value>
@@ -592,7 +592,7 @@
     <value>Wypełnienie sterowania VAE (reg. wolnych obrotów)</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Signal panel OK</value>
+    <value>Zestaw wskaźników (kontrolki) OK</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
     <value>ABS aktywny</value>
@@ -619,19 +619,19 @@
     <value>Sygnał luzu/biegu</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>Czujnik SMOT</value>
+    <value>Silnik krokowy (SMOT)</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Sekwencja signal panel</value>
+    <value>Sekwencja zestawu wskaźników (kontrolki)</value>
   </data>
   <data name="ErrVAE" xml:space="preserve">
     <value>Zawór VAE zablokowany w pozycji otwartej lub zamkniętej</value>
   </data>
   <data name="StepReset" xml:space="preserve">
-    <value>Reset autokalibracji silnika krokowego</value>
+    <value>Kasowanie autokalibracji biegu jałowego</value>
   </data>
   <data name="TrimReset" xml:space="preserve">
-    <value>Reset autokalibracji składu mieszanki</value>
+    <value>Kasowanie autokalibracji mieszanki</value>
   </data>
   <data name="COMopenError" xml:space="preserve">
     <value>Podczas otwierania portu {0} wystąpił błąd.</value>
@@ -640,10 +640,10 @@
     <value>Licznik błędów</value>
   </data>
   <data name="ToggleStepAC" xml:space="preserve">
-    <value>Włącz/wyłącz autokalibrację silnika krokowego</value>
+    <value>Włącz/wyłącz autokalibrację biegu jałowego</value>
   </data>
   <data name="ToggleTrimAC" xml:space="preserve">
-    <value>Włącz/wyłącz autokalibrację składu mieszanki</value>
+    <value>Włącz/wyłącz autokalibrację mieszanki</value>
   </data>
   <data name="InProceed" xml:space="preserve">
     <value>TRWA...</value>
@@ -655,7 +655,7 @@
     <value>Ustaw korektę wolnych obrotów (ALFAFTR)</value>
   </data>
   <data name="TrimSet" xml:space="preserve">
-    <value>Ustaw korektę mieszanki (TRIMRAM)</value>
+    <value>Ustaw trymer CO (TRIMRAM)</value>
   </data>
   <data name="Adjusting" xml:space="preserve">
     <value>USTAWIAM: {0}...</value>

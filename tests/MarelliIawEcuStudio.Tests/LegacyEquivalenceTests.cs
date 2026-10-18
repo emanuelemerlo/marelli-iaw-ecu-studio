@@ -55,6 +55,8 @@ public class LegacyEquivalenceTests
         ("Autocallibration", "Autocalibration"),
         ("Unknkown", "Unknown"),
         ("Decrased", "Decreased"),
+        // Not a typo but a wrong meaning: the PL in ADOFFPL is Partial Load.
+        ("AC Offset Parameter (min. load)", "AC Offset Parameter (partial load)"),
     ];
 
     private static string Corrected(string? legacy) =>

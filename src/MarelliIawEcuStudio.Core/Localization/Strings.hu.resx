@@ -121,16 +121,16 @@
     <value>Klímakompresszor relé</value>
   </data>
   <data name="ADGAIN" xml:space="preserve">
-    <value>Önkalibráció erősítés (közepes terhelés)</value>
+    <value>Keverék önkalibráció: erősítés közepes terhelésnél</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Önkalibráció eltolás (minimális terhelés)</value>
+    <value>Keverék önkalibráció: offset részterhelésnél</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>Önkalibráció eltolás (minimális terhelés, EVAP be)</value>
+    <value>Keverék önkalibráció: offset alapjáraton, aktívszén-szűrő szelep nyitva</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>Önkalibráció eltolás (minimális terhelés, EVAP ki)</value>
+    <value>Keverék önkalibráció: offset alapjáraton, aktívszén-szűrő szelep zárva</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
     <value>Léptetőmotor-korrekció az FLT-ből</value>
@@ -139,10 +139,10 @@
     <value>Alapjárati léptetőmotor pozíciója</value>
   </data>
   <data name="ALFAU" xml:space="preserve">
-    <value>Önkalibrációs korrekció</value>
+    <value>Alapjárati önkalibráció</value>
   </data>
   <data name="ALFAUC" xml:space="preserve">
-    <value>Önkalibrációs korrekció klímával</value>
+    <value>Alapjárati önkalibráció bekapcsolt klímával</value>
   </data>
   <data name="ANG_PAP0" xml:space="preserve">
     <value>Fojtószelep nyitási szöge</value>
@@ -181,7 +181,7 @@
     <value>Gyújtótekercs 2</value>
   </data>
   <data name="CONS_REG" xml:space="preserve">
-    <value>Alapjárati fordulatszám</value>
+    <value>Alapjárati célfordulatszám</value>
   </data>
   <data name="DELREG" xml:space="preserve">
     <value>Léptetőmotor-korrekció (delta)</value>
@@ -190,7 +190,7 @@
     <value>Aktívszén-tartály szelep (EVAP)</value>
   </data>
   <data name="ErrACParam" xml:space="preserve">
-    <value>Önkalibrációs paraméter</value>
+    <value>Önkalibrációs paraméterek</value>
   </data>
   <data name="ErrRAM" xml:space="preserve">
     <value>RAM</value>
@@ -301,7 +301,7 @@
     <value>A motor jár</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Léptetőmotor önkalibráció ENGEDÉLYEZVE</value>
+    <value>Alapjárati önkalibráció engedélyezve</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
     <value>Tápellátás-tartó vonal (power latch) OK</value>
@@ -310,7 +310,7 @@
     <value>Érzékelőjelek OK</value>
   </data>
   <data name="StaThrMM" xml:space="preserve">
-    <value>Fojtószelep min./max. helyzetben</value>
+    <value>Fojtószelep végállásban (min./max.)</value>
   </data>
   <data name="StaClLoop" xml:space="preserve">
     <value>Lambdaszabályozás zárt körben</value>
@@ -319,13 +319,13 @@
     <value>Klíma BEKAPCSOLVA</value>
   </data>
   <data name="StaMixACOK" xml:space="preserve">
-    <value>Keverék önkalibráció ENGEDÉLYEZVE</value>
+    <value>Keverék önkalibráció engedélyezve</value>
   </data>
   <data name="steps" xml:space="preserve">
     <value>lépés</value>
   </data>
   <data name="TRIMRAM" xml:space="preserve">
-    <value>Trimmer pozíció</value>
+    <value>CO-trimmer</value>
   </data>
   <data name="T_INJ_AP" xml:space="preserve">
     <value>Befecskendezési idő</value>
@@ -343,10 +343,10 @@
     <value>MIN alatt</value>
   </data>
   <data name="MaxLEAN" xml:space="preserve">
-    <value>Max. SZEGÉNY</value>
+    <value>Szegény keverék a határon</value>
   </data>
   <data name="MaxRICH" xml:space="preserve">
-    <value>Max. DÚS</value>
+    <value>Dús keverék a határon</value>
   </data>
   <data name="OpenCircuit" xml:space="preserve">
     <value>Szakadás</value>
@@ -484,25 +484,25 @@
     <value>HIBA az interfész portján</value>
   </data>
   <data name="OFFSET1" xml:space="preserve">
-    <value>Befecskendezés önkalibrációs eltolása @ ZÓNA 1</value>
+    <value>Keverék önkalibráció, 1. zóna</value>
   </data>
   <data name="OFFSET2" xml:space="preserve">
-    <value>Befecskendezés önkalibrációs eltolása @ ZÓNA 2</value>
+    <value>Keverék önkalibráció, 2. zóna</value>
   </data>
   <data name="OFFSET3" xml:space="preserve">
-    <value>Befecskendezés önkalibrációs eltolása @ ZÓNA 3</value>
+    <value>Keverék önkalibráció, 3. zóna</value>
   </data>
   <data name="OFFSET4" xml:space="preserve">
-    <value>Befecskendezés önkalibrációs eltolása @ ZÓNA 4</value>
+    <value>Keverék önkalibráció, 4. zóna</value>
   </data>
   <data name="OFFSET5" xml:space="preserve">
-    <value>Befecskendezés önkalibrációs eltolása @ ZÓNA 5</value>
+    <value>Keverék önkalibráció, 5. zóna</value>
   </data>
   <data name="OFFSET6" xml:space="preserve">
-    <value>Befecskendezés önkalibrációs eltolása @ ZÓNA 6</value>
+    <value>Keverék önkalibráció, 6. zóna</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Befecskendezés önkalibrációs eltolása @ ALAPJÁRAT</value>
+    <value>Keverék önkalibráció, alapjárat</value>
   </data>
   <data name="PreviouslySelectedPort" xml:space="preserve">
     <value>A korábban kiválasztott {0} port már nem érhető el. Válasszon másik portot.</value>
@@ -556,16 +556,16 @@
     <value>A motorvezérlő nem ismerhető fel, kapcsolja KI a gyújtást...</value>
   </data>
   <data name="FABEEAT" xml:space="preserve">
-    <value>Öntanulás aktiválva az EEPROM-ban</value>
+    <value>Keverék önkalibráció aktív (EEPROM)</value>
   </data>
   <data name="FABEEATi" xml:space="preserve">
-    <value>Alapjárati öntanulás aktiválva az EEPROM-ban</value>
+    <value>Alapjárati önkalibráció aktív (EEPROM)</value>
   </data>
   <data name="FABEPAT" xml:space="preserve">
-    <value>Öntanulás aktiválva az EPROM-ban</value>
+    <value>Keverék önkalibráció aktív (EPROM)</value>
   </data>
   <data name="FABEPATi" xml:space="preserve">
-    <value>Alapjárati öntanulás aktiválva az EPROM-ban</value>
+    <value>Alapjárati önkalibráció aktív (EPROM)</value>
   </data>
   <data name="FLGSMA" xml:space="preserve">
     <value>Lambdaszabályozás zárt körben</value>
@@ -595,7 +595,7 @@
     <value>VAE kitöltési tényező (alapjárat-szabályozás)</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Signal panel OK</value>
+    <value>Műszerfal (visszajelzők) OK</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
     <value>ABS aktív</value>
@@ -622,16 +622,16 @@
     <value>Üres/menetfokozat jel</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>SMOT érzékelő</value>
+    <value>Léptetőmotor (SMOT)</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Signal panel sorrend</value>
+    <value>Műszerfal (visszajelzők) sorrend</value>
   </data>
   <data name="ErrVAE" xml:space="preserve">
     <value>A VAE nyitva vagy zárva beragadt</value>
   </data>
   <data name="StepReset" xml:space="preserve">
-    <value>Alapjárati léptetőmotor önkalibráció törlése</value>
+    <value>Alapjárati önkalibráció törlése</value>
   </data>
   <data name="TrimReset" xml:space="preserve">
     <value>Keverék önkalibráció törlése</value>
@@ -643,7 +643,7 @@
     <value>Hibaszámláló</value>
   </data>
   <data name="ToggleStepAC" xml:space="preserve">
-    <value>Alapjárati léptetőmotor önkalibráció be/ki</value>
+    <value>Alapjárati önkalibráció be/ki</value>
   </data>
   <data name="ToggleTrimAC" xml:space="preserve">
     <value>Keverék önkalibráció be/ki</value>
@@ -658,7 +658,7 @@
     <value>Léptetőmotor-korrekció beállítása (ALFAFTR)</value>
   </data>
   <data name="TrimSet" xml:space="preserve">
-    <value>Trimmer pozíció beállítása (TRIMRAM)</value>
+    <value>CO-trimmer beállítása (TRIMRAM)</value>
   </data>
   <data name="Adjusting" xml:space="preserve">
     <value>BEÁLLÍTÁS: {0}...</value>
