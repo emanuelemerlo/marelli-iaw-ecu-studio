@@ -130,7 +130,7 @@
     <value>EINSTELLUNG: {0}...</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Gemisch-Autokalibrierung: Offset bei minimaler Last</value>
+    <value>Gemisch-Autokalibrierung: Offset bei Teillast</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
     <value>Gemisch-Autokalibrierung: Offset im Leerlauf, Tankentlüftung offen</value>
@@ -358,10 +358,10 @@
     <value>OT-/Drehzahlsensor</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>SMOT-Sensor</value>
+    <value>Schrittmotor (SMOT)</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Signal-Panel-Sequenz</value>
+    <value>Sequenz Kombiinstrument (Kontrollleuchten)</value>
   </data>
   <data name="ErrStartDis" xml:space="preserve">
     <value>Steuergerät verweigert den Motorstart</value>
@@ -577,7 +577,7 @@
     <value>Sensorsignale OK</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Synchronisation Kontrollleuchten OK</value>
+    <value>Kombiinstrument (Kontrollleuchten) OK</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
     <value>Leerlauf-Autokalibrierung freigegeben</value>

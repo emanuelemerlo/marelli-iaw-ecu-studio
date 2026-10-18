@@ -130,7 +130,7 @@
     <value>A AJUSTAR: {0}...</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Autocalibração da mistura: offset a carga mínima</value>
+    <value>Autocalibração da mistura: offset a carga parcial</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
     <value>Autocalibração da mistura: offset ao ralenti, canister aberto</value>
@@ -358,10 +358,10 @@
     <value>Sensor de PMS/rotação</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>Sensor SMOT</value>
+    <value>Motor passo a passo (SMOT)</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Sequência do signal panel</value>
+    <value>Sequência do painel de instrumentos (luzes avisadoras)</value>
   </data>
   <data name="ErrStartDis" xml:space="preserve">
     <value>A centralina não permite o arranque do motor</value>
@@ -577,7 +577,7 @@
     <value>Sinais dos sensores OK</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Sincronização das luzes avisadoras OK</value>
+    <value>Painel de instrumentos (luzes avisadoras) OK</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
     <value>Autocalibração do ralenti permitida</value>

@@ -124,7 +124,7 @@
     <value>Keverék önkalibráció: erősítés közepes terhelésnél</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Keverék önkalibráció: offset minimális terhelésnél</value>
+    <value>Keverék önkalibráció: offset részterhelésnél</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
     <value>Keverék önkalibráció: offset alapjáraton, aktívszén-szűrő szelep nyitva</value>
@@ -595,7 +595,7 @@
     <value>VAE kitöltési tényező (alapjárat-szabályozás)</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Visszajelzők szinkronizálása OK</value>
+    <value>Műszerfal (visszajelzők) OK</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
     <value>ABS aktív</value>
@@ -622,10 +622,10 @@
     <value>Üres/menetfokozat jel</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>SMOT érzékelő</value>
+    <value>Léptetőmotor (SMOT)</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Signal panel sorrend</value>
+    <value>Műszerfal (visszajelzők) sorrend</value>
   </data>
   <data name="ErrVAE" xml:space="preserve">
     <value>A VAE nyitva vagy zárva beragadt</value>

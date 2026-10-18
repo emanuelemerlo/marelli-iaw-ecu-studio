@@ -121,16 +121,16 @@
     <value>Relè compressore clima</value>
   </data>
   <data name="ADGAIN" xml:space="preserve">
-    <value>Autoadattività miscela: guadagno a carico medio</value>
+    <value>Autoadattivo miscela: guadagno a carico medio</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Autoadattività miscela: offset a carico minimo</value>
+    <value>Autoadattivo miscela: offset ai carichi parziali</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
-    <value>Autoadattività miscela: offset al minimo, canister aperto</value>
+    <value>Autoadattivo miscela: offset al minimo, canister aperto</value>
   </data>
   <data name="ADOFFSET" xml:space="preserve">
-    <value>Autoadattività miscela: offset al minimo, canister chiuso</value>
+    <value>Autoadattivo miscela: offset al minimo, canister chiuso</value>
   </data>
   <data name="ALFAFTR" xml:space="preserve">
     <value>Correzione stepper da FLT</value>
@@ -139,10 +139,10 @@
     <value>Posizione stepper minimo</value>
   </data>
   <data name="ALFAU" xml:space="preserve">
-    <value>Autoadattività minimo</value>
+    <value>Autoadattivo minimo</value>
   </data>
   <data name="ALFAUC" xml:space="preserve">
-    <value>Autoadattività minimo con clima inserito</value>
+    <value>Autoadattivo minimo con clima inserito</value>
   </data>
   <data name="ANG_PAP0" xml:space="preserve">
     <value>Angolo farfalla</value>
@@ -190,7 +190,7 @@
     <value>Elettrovalvola canister</value>
   </data>
   <data name="ErrACParam" xml:space="preserve">
-    <value>Parametri autoadattività</value>
+    <value>Parametri autoadattivi</value>
   </data>
   <data name="ErrRAM" xml:space="preserve">
     <value>RAM</value>
@@ -301,7 +301,7 @@
     <value>Motore in moto</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
-    <value>Autoadattività minimo abilitata</value>
+    <value>Autoadattivo minimo abilitato</value>
   </data>
   <data name="StaPLatchOK" xml:space="preserve">
     <value>Power latch OK</value>
@@ -319,7 +319,7 @@
     <value>Clima inserito</value>
   </data>
   <data name="StaMixACOK" xml:space="preserve">
-    <value>Autoadattività miscela abilitata</value>
+    <value>Autoadattivo miscela abilitato</value>
   </data>
   <data name="steps" xml:space="preserve">
     <value>passi</value>
@@ -484,25 +484,25 @@
     <value>ERRORE sulla porta dell'interfaccia</value>
   </data>
   <data name="OFFSET1" xml:space="preserve">
-    <value>Autoadattività miscela, zona 1</value>
+    <value>Autoadattivo miscela, zona 1</value>
   </data>
   <data name="OFFSET2" xml:space="preserve">
-    <value>Autoadattività miscela, zona 2</value>
+    <value>Autoadattivo miscela, zona 2</value>
   </data>
   <data name="OFFSET3" xml:space="preserve">
-    <value>Autoadattività miscela, zona 3</value>
+    <value>Autoadattivo miscela, zona 3</value>
   </data>
   <data name="OFFSET4" xml:space="preserve">
-    <value>Autoadattività miscela, zona 4</value>
+    <value>Autoadattivo miscela, zona 4</value>
   </data>
   <data name="OFFSET5" xml:space="preserve">
-    <value>Autoadattività miscela, zona 5</value>
+    <value>Autoadattivo miscela, zona 5</value>
   </data>
   <data name="OFFSET6" xml:space="preserve">
-    <value>Autoadattività miscela, zona 6</value>
+    <value>Autoadattivo miscela, zona 6</value>
   </data>
   <data name="OFFSETm" xml:space="preserve">
-    <value>Autoadattività miscela, minimo</value>
+    <value>Autoadattivo miscela, minimo</value>
   </data>
   <data name="PreviouslySelectedPort" xml:space="preserve">
     <value>La porta {0} usata l'ultima volta non è più disponibile. Scegline un'altra.</value>
@@ -556,16 +556,16 @@
     <value>Centralina non riconosciuta, riporta la chiave su STOP...</value>
   </data>
   <data name="FABEEAT" xml:space="preserve">
-    <value>Auto-calibrazione miscela attiva (EEPROM)</value>
+    <value>Autoadattivo miscela attivo (EEPROM)</value>
   </data>
   <data name="FABEEATi" xml:space="preserve">
-    <value>Auto-calibrazione minimo attiva (EEPROM)</value>
+    <value>Autoadattivo minimo attivo (EEPROM)</value>
   </data>
   <data name="FABEPAT" xml:space="preserve">
-    <value>Auto-calibrazione miscela attiva (EPROM)</value>
+    <value>Autoadattivo miscela attivo (EPROM)</value>
   </data>
   <data name="FABEPATi" xml:space="preserve">
-    <value>Auto-calibrazione minimo attiva (EPROM)</value>
+    <value>Autoadattivo minimo attivo (EPROM)</value>
   </data>
   <data name="FLGSMA" xml:space="preserve">
     <value>Lambda in anello chiuso</value>
@@ -595,7 +595,7 @@
     <value>Duty cycle VAE (minimo)</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Sincronizzazione spie OK</value>
+    <value>Quadro strumenti (spie) OK</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
     <value>ABS attivo</value>
@@ -622,19 +622,19 @@
     <value>Segnale folle/marcia inserita</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>Sensore SMOT</value>
+    <value>Motore passo-passo (SMOT)</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Sequenza signal panel</value>
+    <value>Sequenza quadro strumenti (spie)</value>
   </data>
   <data name="ErrVAE" xml:space="preserve">
     <value>VAE bloccata aperta o chiusa</value>
   </data>
   <data name="StepReset" xml:space="preserve">
-    <value>Azzeramento autoadattività minimo</value>
+    <value>Azzeramento autoadattivi minimo</value>
   </data>
   <data name="TrimReset" xml:space="preserve">
-    <value>Azzeramento autoadattività miscela</value>
+    <value>Azzeramento autoadattivi miscela</value>
   </data>
   <data name="COMopenError" xml:space="preserve">
     <value>Errore nell'apertura della porta {0}.</value>
@@ -643,10 +643,10 @@
     <value>Contatore errori</value>
   </data>
   <data name="ToggleStepAC" xml:space="preserve">
-    <value>Abilita/disabilita autoadattività minimo</value>
+    <value>Abilita/disabilita autoadattivo minimo</value>
   </data>
   <data name="ToggleTrimAC" xml:space="preserve">
-    <value>Abilita/disabilita autoadattività miscela</value>
+    <value>Abilita/disabilita autoadattivo miscela</value>
   </data>
   <data name="InProceed" xml:space="preserve">
     <value>IN CORSO...</value>

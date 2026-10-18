@@ -97,7 +97,7 @@ Chiave su MAR e motore spento.</value></data>
   <data name="Group_electrical" xml:space="preserve"><value>Impianto elettrico</value></data>
   <data name="Group_mixture" xml:space="preserve"><value>Miscela e sonda lambda</value></data>
   <data name="Group_idle" xml:space="preserve"><value>Farfalla e minimo</value></data>
-  <data name="Group_adaptation" xml:space="preserve"><value>Autoadattività</value></data>
+  <data name="Group_adaptation" xml:space="preserve"><value>Autoadattivi</value></data>
   <data name="Group_status" xml:space="preserve"><value>Stato</value></data>
   <data name="Group_other" xml:space="preserve"><value>Altro</value></data>
   <data name="VehicleCard" xml:space="preserve"><value>Veicolo e centralina</value></data>

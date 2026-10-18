@@ -130,7 +130,7 @@
     <value>PODEŠAVANJE: {0}...</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Autokalibracija smjese: pomak pri minimalnom opterećenju</value>
+    <value>Autokalibracija smjese: pomak pri djelomičnom opterećenju</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
     <value>Autokalibracija smjese: pomak u praznom hodu, kanister otvoren</value>
@@ -358,10 +358,10 @@
     <value>Senzor GMT/broja okretaja</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>SMOT senzor</value>
+    <value>Koračni motor (SMOT)</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Slijed signal panela</value>
+    <value>Slijed instrument ploče (žaruljice)</value>
   </data>
   <data name="ErrStartDis" xml:space="preserve">
     <value>Upravljačka jedinica ne dopušta pokretanje motora</value>
@@ -577,7 +577,7 @@
     <value>Signali senzora OK</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Sinkronizacija žaruljica OK</value>
+    <value>Instrument ploča (žaruljice) OK</value>
   </data>
   <data name="StaStepACOK" xml:space="preserve">
     <value>Autokalibracija praznog hoda omogućena</value>

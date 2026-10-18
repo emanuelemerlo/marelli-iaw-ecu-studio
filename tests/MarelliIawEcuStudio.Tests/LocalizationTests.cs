@@ -23,7 +23,7 @@ public partial class LocalizationTests
     private static readonly HashSet<string> MayEqualEnglish =
     [
         "Act", "Ver", "Sto", "rpm", "ErrRAM", "ErrROM", "ErrEEPROM", "ErrEPROM", "ErrCPU",
-        "ErrDigimatic", "StaSigPanOK", "Timeout", "Start", "Stop", "Parameters",
+        "ErrDigimatic", "Timeout", "Start", "Stop", "Parameters",
         "Injector", "Injector1", "Injector2", "Injector3", "Injector4", "ErrInj",
     ];
 
@@ -74,8 +74,10 @@ public partial class LocalizationTests
     /// "canister" stay as mechanics say them, but these forms are wrong or confusing.
     /// </summary>
     [Theory]
-    [InlineData("autoadattamento")] // the Fiat tools say "autoadattività"
+    [InlineData("autoadattamento")] // workshops say "autoadattivo" / "autoadattivi"
+    [InlineData("autoadattività")]
     [InlineData("autocalibrazione")]
+    [InlineData("auto-calibrazione")]
     [InlineData("toggle")]
     [InlineData("quadro acceso")]   // "chiave su MAR"
     [InlineData("motorino del minimo")]
@@ -90,7 +92,7 @@ public partial class LocalizationTests
     public void ItalianSelfAdaptationNamesSayWhatAdapts()
     {
         var italian = Strings(CultureInfo.GetCultureInfo("it"));
-        var named = italian.Where(e => e.Value.StartsWith("Autoadattività", StringComparison.Ordinal) || e.Value.Contains(" autoadattività", StringComparison.Ordinal))
+        var named = italian.Where(e => e.Value.Contains("utoadattiv", StringComparison.Ordinal))
             .Where(e => e.Key != "ErrACParam");
         Assert.NotEmpty(named);
         Assert.All(named, e => Assert.True(e.Value.Contains("miscela", StringComparison.Ordinal) || e.Value.Contains("minimo", StringComparison.Ordinal), $"{e.Key}: '{e.Value}'"));
@@ -100,12 +102,15 @@ public partial class LocalizationTests
 
     /// <summary>
     /// Entries that differ only in what adapts (mixture/idle), the memory (EPROM/EEPROM),
-    /// the canister state or the load zone must read differently in every language.
+    /// the canister state or the load zone must not collapse into the same text: only a pair
+    /// that reads differently in English must read differently in the translation too.
+    /// An entry left untranslated (an acronym) is fine; that is checked elsewhere.
     /// </summary>
     [Theory]
     [MemberData(nameof(Cultures))]
     public void AutocalibrationEntriesCanBeToldApart(string code)
     {
+        var english = Strings(CultureInfo.InvariantCulture);
         var translated = Strings(CultureInfo.GetCultureInfo(code));
         string[][] groups =
         [
@@ -117,7 +122,9 @@ public partial class LocalizationTests
             ["StepReset", "TrimReset", "ToggleStepAC", "ToggleTrimAC"],
         ];
         foreach (var group in groups)
-            Assert.Equal(group.Length, group.Select(k => translated[k]).Distinct().Count());
+            foreach (var a in group)
+                foreach (var b in group.Where(b => string.CompareOrdinal(a, b) < 0 && english[a] != english[b]))
+                    Assert.True(translated[a] != translated[b], $"{code}: {a} and {b} both read '{translated[a]}'");
     }
 
     [Fact]

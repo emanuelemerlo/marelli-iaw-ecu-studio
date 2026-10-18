@@ -124,7 +124,7 @@
     <value>Autokalibratie mengsel: versterking bij middelste belasting</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Autokalibratie mengsel: offset bij minimale belasting</value>
+    <value>Autokalibratie mengsel: offset bij deellast</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
     <value>Autokalibratie mengsel: offset stationair, koolfilterklep open</value>
@@ -592,7 +592,7 @@
     <value>Duty cycle VAE (stationairregeling)</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Synchronisatie controlelampjes OK</value>
+    <value>Instrumentenpaneel (controlelampjes) OK</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
     <value>ABS actief</value>
@@ -622,10 +622,10 @@
     <value>Signaal neutraal/rijstand</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>SMOT-sensor</value>
+    <value>Stappenmotor (SMOT)</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Signal-panel-reeks</value>
+    <value>Reeks instrumentenpaneel (controlelampjes)</value>
   </data>
   <data name="ErrVAE" xml:space="preserve">
     <value>VAE vastgelopen open of dicht</value>

@@ -124,7 +124,7 @@
     <value>Autokalibracja mieszanki: wzmocnienie przy średnim obciążeniu</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>Autokalibracja mieszanki: offset przy minimalnym obciążeniu</value>
+    <value>Autokalibracja mieszanki: offset przy obciążeniu częściowym</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
     <value>Autokalibracja mieszanki: offset na biegu jałowym, kanister otwarty</value>
@@ -592,7 +592,7 @@
     <value>Wypełnienie sterowania VAE (reg. wolnych obrotów)</value>
   </data>
   <data name="StaSigPanOK" xml:space="preserve">
-    <value>Synchronizacja kontrolek OK</value>
+    <value>Zestaw wskaźników (kontrolki) OK</value>
   </data>
   <data name="StaABSON" xml:space="preserve">
     <value>ABS aktywny</value>
@@ -619,10 +619,10 @@
     <value>Sygnał luzu/biegu</value>
   </data>
   <data name="ErrSMOT" xml:space="preserve">
-    <value>Czujnik SMOT</value>
+    <value>Silnik krokowy (SMOT)</value>
   </data>
   <data name="ErrSPS" xml:space="preserve">
-    <value>Sekwencja signal panel</value>
+    <value>Sekwencja zestawu wskaźników (kontrolki)</value>
   </data>
   <data name="ErrVAE" xml:space="preserve">
     <value>Zawór VAE zablokowany w pozycji otwartej lub zamkniętej</value>

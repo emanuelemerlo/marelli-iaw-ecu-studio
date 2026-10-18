@@ -124,7 +124,7 @@
     <value>AC Gain Parameter (med. load)</value>
   </data>
   <data name="ADOFFPL" xml:space="preserve">
-    <value>AC Offset Parameter (min. load)</value>
+    <value>AC Offset Parameter (partial load)</value>
   </data>
   <data name="ADOFFPURG" xml:space="preserve">
     <value>AC Offset Parameter (min. load, EVAP on)</value>
