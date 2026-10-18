@@ -44,7 +44,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: Release number (for example 0.2.0-beta.1) or commit hash if built from source.
+      description: Release number (for example 0.3.0-beta.1) or commit hash if built from source.
     validations:
       required: true
   - type: dropdown
