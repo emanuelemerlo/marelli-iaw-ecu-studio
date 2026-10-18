@@ -1,6 +1,6 @@
 name: Release
 
-# Push a tag such as v0.2.0-beta.1, or run this workflow from the Actions tab
+# Push a tag such as v0.3.0-beta.1, or run this workflow from the Actions tab
 # with the tag to create, to build self-contained executables and publish them
 # as a GitHub release. Tags with a suffix (-rc.N, -beta.N, ...) are published
 # as pre-releases.
@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Tag to create and release, for example v0.2.0-beta.1 (created on the selected branch)'
+        description: 'Tag to create and release, for example v0.3.0-beta.1 (created on the selected branch)'
         required: true
 
 permissions:
