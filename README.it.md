@@ -8,6 +8,8 @@ Diagnosi per le centraline motore Magneti Marelli IAW delle FIAT, Lancia e Alfa 
 
 ![Cruscotto IAW-04K.P8 (Fiat Coupé 2.0 Turbo)](docs/screenshots/cruscotto-04k.png)
 
+**[Manuale utente](docs/manual/it/README.md)**: installazione, ogni schermata e azione dell'applicazione, lo strumento a riga di comando, la risoluzione dei problemi e un riferimento di ogni centralina.
+
 ## Funzioni
 
 - Riconoscimento automatico della centralina, codici ISO e CODRIC, modello di veicolo, immobilizzatore
